@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.plugin.user.model.dao.UserMapper">
+
+	<insert id="signUp">
+		<choose>
+			<when test="profile.changeProfileName != null">
+				INSERT ALL
+		  		  INTO
+		      		   PLU_USER
+		       		   (
+				       USER_ID
+				     , USER_PWD
+				     , NICKNAME
+				       )
+				VALUES
+				       (
+				       #{user.userId}
+				     , #{user.userPwd}
+				     , #{user.nickname}
+				       )
+		  		  INTO
+		      		   PROFILE
+		       		   (
+				       USER_ID
+				     , ORIGIN_PROFILE_NAME
+				     , CHANGE_PROFILE_NAME
+				       )
+				VALUES
+				       (
+				       #{profile.userId}
+				     , #{profile.originProfileName}
+				     , #{profile.changeProfileName}
+				       )				       
+				SELECT * FROM DUAL
+			</when>
+			<otherwise>
+				INSERT
+		  		  INTO
+		      		   PLU_USER
+		       		   (
+				       USER_ID
+				     , USER_PWD
+				     , NICKNAME
+				       )
+				VALUES
+				       (
+				       #{user.userId}
+				     , #{user.userPwd}
+				     , #{user.nickname}
+				       )			
+			</otherwise>      
+		</choose>
+	</insert>
+	
+	<select id="validateDuplicateUserId">
+		SELECT
+	           COUNT(*)
+	      FROM 
+	           PLU_USER
+	     WHERE 
+	           USER_ID = #{userId}
+	</select>
+	
+	<select id="validateDuplicateUserNickname">
+		SELECT
+	           COUNT(*)
+	      FROM 
+	           PLU_USER
+	     WHERE 
+	           NICKNAME = #{nickname}
+	</select>
+
+</mapper>
