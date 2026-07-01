@@ -21,5 +21,8 @@ public interface UserMapper {
 
 	// 마이페이지 프로필 가져오기
 	UserDto findProfileByUserId(String username);
+
+	// 회원 정보 수정(별명수정)
+	int updateUserInfo(User user);
 	
 }

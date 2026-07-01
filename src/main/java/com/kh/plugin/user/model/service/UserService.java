@@ -10,11 +10,13 @@ import com.kh.plugin.exception.DuplicatedUserIdException;
 import com.kh.plugin.file.model.service.FileService;
 import com.kh.plugin.file.model.vo.AttachedFile;
 import com.kh.plugin.user.model.dao.UserMapper;
+import com.kh.plugin.user.model.dto.UpdateRequestDto;
 import com.kh.plugin.user.model.dto.UserDto;
 import com.kh.plugin.user.model.dto.UserSignUpDto;
 import com.kh.plugin.user.model.vo.Profile;
 import com.kh.plugin.user.model.vo.User;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,6 +54,18 @@ public class UserService {
 		return userMapper.findProfileByUserId(user.getUsername());
 	}
 	
+	@Transactional
+	public Void updateUserInfo(CustomUserDetails user, @Valid UpdateRequestDto newNickname) {
+
+		User userEntity = User.builder().userId(user.getUsername())
+										.nickname(validateDuplicateNickname(newNickname.getNewNickname()))
+										.build();
+		
+		userMapper.updateUserInfo(userEntity);
+		
+		return null;
+	}
+	
 	// 아이디 중복체크
 	private String validateDuplicateUserId(String userId) {
 		if(userMapper.validateDuplicateUserId(userId) == 1) {
@@ -72,6 +86,7 @@ public class UserService {
 	private String encodePassword(String rawPassword) {
 		return passwordEncoder.encode(rawPassword);
 	}
+
 
 	
 	
