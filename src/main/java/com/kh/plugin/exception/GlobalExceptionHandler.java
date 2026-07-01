@@ -44,4 +44,8 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(400).body(ApiResponse.badRequest("잘못된 파라미터 입력", errors));
 	}
 	
+	@ExceptionHandler(IdMismatchException.class)
+	public ResponseEntity<ApiResponse<Void>> handlerIdMismatch(IdMismatchException e){
+		return ResponseEntity.status(400).body(ApiResponse.badRequest(e.getMessage()));
+	}	
 }

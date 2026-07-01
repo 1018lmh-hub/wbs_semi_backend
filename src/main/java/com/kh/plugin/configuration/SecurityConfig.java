@@ -38,11 +38,11 @@ public class SecurityConfig {
 				   .csrf(AbstractHttpConfigurer::disable)
 				   .cors(Customizer.withDefaults())
 				   .authorizeHttpRequests(requests -> {
-					   requests.requestMatchers(HttpMethod.GET, "/api/reviews/**", "/api/notices/**", "/api/inquerys/**", "/api/inquerycomments/**", "/uploads/**", "/api/auth/logout").permitAll();
+					   requests.requestMatchers(HttpMethod.GET, "/api/stations/**", "/api/notices/**", "/api/inquerys/**", "/api/inquerycomments/**", "/uploads/**", "/api/auth/logout").permitAll();
 					   requests.requestMatchers(HttpMethod.POST, "/api/users", "/api/auth/login", "/api/auth/refresh").permitAll();
-					   requests.requestMatchers(HttpMethod.POST, "/api/reviews", "/api/inquerys", "/api/likes", "/api/bookmarks").authenticated();
-					   requests.requestMatchers(HttpMethod.PATCH, "/api/users/**", "/api/reviews/**", "/api/inquerys/**").authenticated();
-					   requests.requestMatchers(HttpMethod.DELETE, "/api/users", "/api/reviews", "/api/inquerys", "/api/likes", "/api/bookmarks").authenticated();
+					   requests.requestMatchers(HttpMethod.POST, "/api/auth/logout", "/api/stations/*/reviews", "/api/inquerys", "/api/likes", "/api/bookmarks").authenticated();
+					   requests.requestMatchers(HttpMethod.PATCH, "/api/users/**", "/api/stations/*/reviews/**", "/api/reviews/**", "/api/inquerys/**").authenticated();
+					   requests.requestMatchers(HttpMethod.DELETE, "/api/users", "/api/stations/*/reviews/**", "/api/inquerys", "/api/likes", "/api/bookmarks").authenticated();
 					   requests.requestMatchers("/api/admin", "/api/notices/**", "/api/inquerycomments").hasRole("ADMIN");
 					   requests.requestMatchers(HttpMethod.GET).permitAll();
 				   })
