@@ -1,5 +1,7 @@
 package com.kh.plugin.auth.controller;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -42,12 +44,12 @@ public class AuthController {
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(null));
 	}
 	
-//	@PostMapping("/refresh")
-//	public ResponseEntity<ApiResponse<LoginResponseDto>> refresh(@RequestBody Map<String, String>request){
-//		String refreshToken = request.get("refreshToken");
-//		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(authService.refresh(refreshToken)));
-//	}
-//	
+	@PostMapping("/refresh")
+	public ResponseEntity<ApiResponse<Map<String, String>>> refresh(@RequestBody Map<String, String> request){
+		String refreshToken = request.get("refreshToken");
+		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(tokenService.tokenRotation(refreshToken)));
+	}
+	
 	
 
 
