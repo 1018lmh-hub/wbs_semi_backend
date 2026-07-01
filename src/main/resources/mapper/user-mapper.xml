@@ -94,5 +94,17 @@
 		   AND
 		       STATUS = 'Y'             
 	</select>
+	
+	<update id="updateUserInfo">
+		UPDATE
+		       PLU_USER
+		   SET
+		       NICKNAME = #{nickname}
+		     , MODIFY_DATE = SYSTIMESTAMP
+		 WHERE
+		       USER_ID = #{userId}
+		   AND
+		       STATUS = 'Y'            
+	</update>
 
 </mapper>
