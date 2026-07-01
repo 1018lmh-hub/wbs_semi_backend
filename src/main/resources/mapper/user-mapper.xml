@@ -72,5 +72,27 @@
 	     WHERE 
 	           NICKNAME = #{nickname}
 	</select>
+	
+	<select id="findProfileByUserId"
+			resultType="UserDto">
+		SELECT
+		       USER_ID
+		     , NICKNAME
+		     , ORIGIN_PROFILE_NAME
+		     , CHANGE_PROFILE_NAME
+		     , ENROLL_DATE
+		     , MODIFY_DATE
+		     , ROLE
+		     , STATUS  
+		  FROM
+		       PLU_USER
+		  LEFT
+		  JOIN
+		       PROFILE USING(USER_ID)     
+		 WHERE
+		       USER_ID = #{username}
+		   AND
+		       STATUS = 'Y'             
+	</select>
 
 </mapper>
