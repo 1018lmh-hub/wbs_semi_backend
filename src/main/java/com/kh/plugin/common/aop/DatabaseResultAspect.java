@@ -14,7 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class DatabaseResultAspect {
 
-	@Around("execution(* com.kh.plugin..*Mapper.signUp(..))")
+	@Around("execution(* com.kh.plugin..*Mapper.signUp(..)) || "
+		  + "execution(* com.kh.plugin..*Mapper.save*(..)) || "	
+		  + "execution(* com.kh.plugin..*Mapper.update*(..)) || "	
+		  + "execution(* com.kh.plugin..*Mapper.delete*(..)) || "	
+		  + "execution(* com.kh.plugin..*Mapper.logout(..))")
 	public Object validateMapperResult(ProceedingJoinPoint joinPoint) throws Throwable {
 
 		String methodName = joinPoint.getSignature().getName();

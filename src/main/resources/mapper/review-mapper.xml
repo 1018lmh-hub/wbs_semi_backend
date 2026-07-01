@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.plugin.review.model.dao.ReviewMapper">
+
+	<resultMap id="StationResponseDto" type="StationDetailResponse">
+		<result column="AVG_RATING" property="avgRating" />
+		<association property="bookmark" javaType="BookmarksDto">
+			<id column="BOOKMARK_NO" property="bookmarkNo" />
+			<result column="STATION_NO" property="stationNo" />
+		</association>
+		<collection property="reviews" ofType="ReviewResponseDto">
+			<id column="REVIEW_NO" property="reviewNo" />
+			<result column="USER_ID" property="userId" />
+			<result column="NICKNAME" property="nickname" />
+			<result column="CHANGE_PROFILE_NAME" property="changeProfileName" />
+			<result column="STATION_NO" property="stationNo" />
+			<result column="REVIEW_TITLE" property="reviewTitle" />
+			<result column="REVIEW_CONTENT" property="reviewContent" />
+			<result column="RATING" property="rating" />
+			<result column="R_CREATE_DATE" property="createDate" />
+			<result column="MODIFY_DATE" property="modifyDate" />
+			<result column="STATUS" property="status" />
+			<result column="LIKE_COUNT" property="likeCount" />
+			<result column="LIKED" property="liked" />
+		</collection>
+	</resultMap>
+
+	<select id="getReviews"
+			resultMap="StationResponseDto">
+		SELECT DISTINCT
+		       R.REVIEW_NO
+		     , PLU_USER.USER_ID
+		     , NICKNAME
+		     , ORIGIN_PROFILE_NAME
+		     , CHANGE_PROFILE_NAME
+		     , R.STATION_NO
+		     , R.REVIEW_TITLE
+		     , R.REVIEW_CONTENT
+		     , R.RATING
+		     , R.CREATE_DATE AS R_CREATE_DATE
+		     , R.MODIFY_DATE
+		     , R.STATUS
+		     , COUNT(L.REVIEW_NO) OVER(PARTITION BY R.REVIEW_NO) AS LIKE_COUNT
+		     , (SELECT COUNT(*) FROM LIKES WHERE USER_ID = #{user.username} AND R.REVIEW_NO = LIKES.REVIEW_NO)  AS LIKED
+		     , (SELECT BOOKMARK_NO FROM BOOKMARKS WHERE USER_ID = #{user.username} AND STATION_NO = #{stationNo}) AS BOOKMARK_NO
+		     , (SELECT ROUND(AVG(RATING), 2) FROM REVIEW GROUP BY STATION_NO HAVING STATION_NO = #{stationNo}) AS AVG_RATING
+		  FROM
+		       REVIEW R
+		  LEFT
+		  JOIN
+		       PLU_USER ON (R.USER_ID = PLU_USER.USER_ID)
+		  LEFT
+		  JOIN
+		       PROFILE ON (PROFILE.USER_ID = PLU_USER.USER_ID)
+		  LEFT 
+		  JOIN
+		       LIKES L ON (R.REVIEW_NO = L.REVIEW_NO)
+		  LEFT
+		  JOIN 
+		       BOOKMARKS B ON (PLU_USER.USER_ID = B.USER_ID)
+		 WHERE
+		       R.STATUS = 'Y'
+		   AND
+		       R.STATION_NO = #{stationNo}
+		 ORDER 
+		    BY
+		       LIKE_COUNT DESC
+		     , R.CREATE_DATE DESC
+		 FETCH NEXT 3 ROWS ONLY
+	</select>
+	
+	<select id="countReviews"
+			resultType="Integer">
+		SELECT
+		       COUNT(*)
+		  FROM
+		       REVIEW
+		 WHERE
+		       STATION_NO = #{stationNo}
+		   AND
+		       STATUS = 'Y'
+	</select>
+	
+	<select id="findAll"
+			resultMap="StationResponseDto">
+		SELECT
+		       R.REVIEW_NO
+		     , PLU_USER.USER_ID
+		     , NICKNAME
+		     , ORIGIN_PROFILE_NAME
+		     , CHANGE_PROFILE_NAME
+		     , R.STATION_NO
+		     , R.REVIEW_TITLE
+		     , R.REVIEW_CONTENT
+		     , R.RATING
+		     , R.CREATE_DATE AS R_CREATE_DATE
+		     , R.MODIFY_DATE
+		     , R.STATUS
+		     , COUNT(L.REVIEW_NO) OVER(PARTITION BY R.REVIEW_NO) AS LIKE_COUNT
+		     , (SELECT COUNT(*) FROM LIKES WHERE USER_ID = #{user.username} AND R.REVIEW_NO = LIKES.REVIEW_NO)  AS LIKED
+		     , (SELECT BOOKMARK_NO FROM BOOKMARKS WHERE USER_ID = #{user.username} AND STATION_NO = #{stationNo}) AS BOOKMARK_NO
+		     , (SELECT ROUND(AVG(RATING), 2) FROM REVIEW GROUP BY STATION_NO HAVING STATION_NO = #{stationNo}) AS AVG_RATING
+ 		  FROM
+		       REVIEW R
+		  LEFT
+		  JOIN
+		       PLU_USER ON (R.USER_ID = PLU_USER.USER_ID)
+		  LEFT
+		  JOIN
+		       PROFILE ON (PROFILE.USER_ID = PLU_USER.USER_ID)
+		  LEFT 
+		  JOIN
+		       LIKES L ON (R.REVIEW_NO = L.REVIEW_NO)
+		  LEFT
+		  JOIN 
+		       BOOKMARKS B ON (PLU_USER.USER_ID = B.USER_ID)
+		 WHERE
+		       R.STATUS = 'Y'
+		   AND
+		       R.STATION_NO = #{stationNo}
+		 ORDER 
+		    BY
+		       LIKE_COUNT DESC
+		     , R.CREATE_DATE DESC
+	    OFFSET #{pi.offset} ROWS FETCH NEXT #{pi.pageLimit} ROWS ONLY
+	</select>
+	
+	<insert id="saveReview">
+		INSERT
+		  INTO
+		       REVIEW
+		       (
+			   REVIEW_NO
+			 , USER_ID
+			 , STATION_NO
+			 , REVIEW_TITLE
+			 , REVIEW_CONTENT
+			 , RATING
+			   )
+		VALUES
+		       (
+			   SEQ_RVN.NEXTVAL
+			 , #{user.username}
+			 , #{stationNo}
+			 , #{review.reviewTitle}
+			 , #{review.reviewContent}
+			 , #{review.rating}  
+			   )   
+	</insert>
+	
+	<select id="findByReviewNo">
+		SELECT
+		       REVIEW_NO
+		     , USER_ID
+		     , STATION_NO
+		     , REVIEW_TITLE
+		     , REVIEW_CONTENT
+		     , RATING
+		     , CREATE_DATE
+		     , MODIFY_DATE
+		     , STATUS
+          FROM  
+		  	   REVIEW
+		 WHERE
+		       REVIEW_NO = #{reviewNo}
+		   AND
+		       STATUS = 'Y'     	              
+	</select>
+	
+	<update id="updateReview">
+		UPDATE
+		       REVIEW
+		   SET
+		       REVIEW_TITLE = #{review.reviewTitle}
+		     , REVIEW_CONTENT = #{review.reviewContent}
+		     , RATING = #{review.rating}
+		     , MODIFY_DATE = SYSTIMESTAMP
+		 WHERE
+		       STATION_NO = #{stationNo}
+		   AND
+		       STATUS = 'Y'
+	</update>
+	
+	<delete id="deleteReview">
+		UPDATE
+		       REVIEW
+		   SET
+		       STATUS = 'N'
+		 WHERE
+		       STATION_NO = #{stationNo}
+		   AND
+		       REVIEW_NO = #{reviewNo}
+		   AND 
+		       STATUS = 'Y'                  
+	</delete>
+	
+
+</mapper>
