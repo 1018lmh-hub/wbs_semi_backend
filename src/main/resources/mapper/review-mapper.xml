@@ -124,7 +124,7 @@
 		    BY
 		       LIKE_COUNT DESC
 		     , R.CREATE_DATE DESC
-	    OFFSET #{pi.offset} ROWS FETCH NEXT #{pi.pageLimit} ROWS ONLY
+	    DESC  OFFSET #{pi.offset} ROWS FETCH NEXT #{pi.boardLimit} ROWS ONLY
 	</select>
 	
 	<insert id="saveReview">
@@ -179,6 +179,8 @@
 		     , MODIFY_DATE = SYSTIMESTAMP
 		 WHERE
 		       STATION_NO = #{stationNo}
+		   AND
+		       REVIEW_NO = #{review.reviewNo}
 		   AND
 		       STATUS = 'Y'
 	</update>
