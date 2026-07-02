@@ -52,6 +52,11 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(userService.updateUserInfo(user, newNickname)));
 	}
 	
+	@PatchMapping("/profile")
+	public ResponseEntity<ApiResponse<Void>> updateUserProfile(@AuthenticationPrincipal CustomUserDetails user){
+		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(null));
+	}
+	
 	// 비밀번호 변경
 	@PatchMapping("/password")
 	public ResponseEntity<ApiResponse<Void>> updateUserPwd(@AuthenticationPrincipal CustomUserDetails user, @Valid @RequestBody UpdatePwdRequestDto newPwd){
