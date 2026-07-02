@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.common.model.vo.ApiResponse;
+import com.kh.plugin.user.model.dto.UpdatePwdRequestDto;
 import com.kh.plugin.user.model.dto.UpdateRequestDto;
 import com.kh.plugin.user.model.dto.UserDto;
 import com.kh.plugin.user.model.dto.UserSignUpDto;
@@ -50,7 +51,9 @@ public class UserController {
 	}
 	
 	// 비밀번호 변경
-	@PatchMapping
-	public ResponseEntity<ApiResponse<Void>> updateUserPwd(@AuthenticationPrincipal CustomUserDetails user,)
+	@PatchMapping("/password")
+	public ResponseEntity<ApiResponse<Void>> updateUserPwd(@AuthenticationPrincipal CustomUserDetails user, @Valid @RequestBody UpdatePwdRequestDto newPwd){
+		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(userService.updateUserPwd(user, newPwd)));
+	}
 	
 }
