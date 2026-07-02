@@ -41,13 +41,15 @@ public class NoticeBoardService {
 	@Transactional
 	public NoticeBoardResponseDto findByNoticeNo(Long noticeNo) {
 		
-		if(noticeBoardMapper.increaseCount(noticeNo) < 1) {
-			throw new InvalidParameterException ("존재하지 않는 게시글 요청입니다");
-		};
-//		increaseCount(noticeNo);
-		
+		increaseCount(noticeNo);		
 		return noticeBoardMapper.findByBoardNo(noticeNo);
 		
+	}
+	
+	private void increaseCount(Long noticeNo) {
+	if(noticeBoardMapper.increaseCount(noticeNo) < 1) {
+		throw new InvalidParameterException ("존재하지 않는 게시글 요청입니다");
+		}
 	}
 
 
