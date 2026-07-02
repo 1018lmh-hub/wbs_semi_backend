@@ -24,5 +24,11 @@ public interface UserMapper {
 
 	// 회원 정보 수정(별명수정)
 	int updateUserInfo(User user);
+
+	// 유저 아이디로 유저 정보 조회
+	UserDto findUserByUserId(String userId);
+
+	// 비밀번호 변경
+	int updateUserPwd(User userEntity);
 	
 }

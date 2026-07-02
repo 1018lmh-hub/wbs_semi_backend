@@ -106,5 +106,35 @@
 		   AND
 		       STATUS = 'Y'            
 	</update>
+	
+	<select id="findUserByUserId"
+			resultType="UserDto">
+		SELECT
+		       USER_ID
+		     , USER_PWD
+		     , NICKNAME
+		     , ENROLL_DATE
+		     , MODIFY_DATE
+		     , ROLE
+		     , STATUS
+		  FROM
+		       PLU_USER
+		 WHERE
+		       USER_ID = #{userId}
+		   AND
+		       STATUS = 'Y'               
+	</select>
+	
+	<update id="updateUserPwd">
+		UPDATE
+		       PLU_USER
+		   SET
+		       USER_PWD = #{userPwd}
+		     , MODIFY_DATE = SYSTIMESTAMP
+		 WHERE
+		       USER_ID = #{userId}
+		   AND
+		       STATUS = 'Y'              
+	</update>
 
 </mapper>

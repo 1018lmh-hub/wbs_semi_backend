@@ -7,16 +7,17 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.exception.DuplicatedUserIdException;
+import com.kh.plugin.exception.PasswordMismatchException;
 import com.kh.plugin.file.model.service.FileService;
 import com.kh.plugin.file.model.vo.AttachedFile;
 import com.kh.plugin.user.model.dao.UserMapper;
+import com.kh.plugin.user.model.dto.UpdatePwdRequestDto;
 import com.kh.plugin.user.model.dto.UpdateRequestDto;
 import com.kh.plugin.user.model.dto.UserDto;
 import com.kh.plugin.user.model.dto.UserSignUpDto;
 import com.kh.plugin.user.model.vo.Profile;
 import com.kh.plugin.user.model.vo.User;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,8 +55,9 @@ public class UserService {
 		return userMapper.findProfileByUserId(user.getUsername());
 	}
 	
+	// 회원정보 수정
 	@Transactional
-	public Void updateUserInfo(CustomUserDetails user, @Valid UpdateRequestDto newNickname) {
+	public Void updateUserInfo(CustomUserDetails user, UpdateRequestDto newNickname) {
 
 		User userEntity = User.builder().userId(user.getUsername())
 										.nickname(validateDuplicateNickname(newNickname.getNewNickname()))
@@ -63,6 +65,20 @@ public class UserService {
 		
 		userMapper.updateUserInfo(userEntity);
 		
+		return null;
+	}
+	
+	// 비밀번호 변경
+	@Transactional
+	public Void updateUserPwd(CustomUserDetails user, UpdatePwdRequestDto newPwd) {
+
+		// 유저 아이디로 비밀번호를 가져와서 기존의 비밀번호와 매칭
+		UserDto dbUser = findUserByUserId(user.getUsername());
+		checkPassword(newPwd.getUserPwd(), dbUser.getUserPwd());
+		User userEntity = User.builder().userId(dbUser.getUserId())
+										.userPwd(encodePassword(newPwd.getNewPwd()))
+										.build();
+		userMapper.updateUserPwd(userEntity);
 		return null;
 	}
 	
@@ -85,6 +101,19 @@ public class UserService {
 	// 비밀번호 인코딩
 	private String encodePassword(String rawPassword) {
 		return passwordEncoder.encode(rawPassword);
+	}
+	
+	// 유저 아이디로 유저 정보 가져오기
+	private UserDto findUserByUserId(String userId) {
+		return userMapper.findUserByUserId(userId);
+	}
+	
+	// 인코딩 비밀번호 확인하는 메서드
+	private void checkPassword(String rawPassword, String encodedPassword) {
+		if(!passwordEncoder.matches(rawPassword, encodedPassword)) {
+			throw new PasswordMismatchException("기존 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
+		}
+		
 	}
 
 
