@@ -14,6 +14,7 @@ import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.exception.DuplicatedUserIdException;
 import com.kh.plugin.exception.FileDeleteFailedException;
 import com.kh.plugin.exception.PasswordMismatchException;
+import com.kh.plugin.exception.ProfileFileNotFoundException;
 import com.kh.plugin.file.model.service.FileService;
 import com.kh.plugin.file.model.vo.AttachedFile;
 import com.kh.plugin.user.model.dao.UserMapper;
@@ -90,6 +91,17 @@ public class UserService {
 		return null;
 	}
 	
+	// 프로필 삭제
+	@Transactional
+	public void deleteProfile(CustomUserDetails user) {
+		UserDto dbUser = findUserByUserId(user.getUsername());
+		if(dbUser.getChangeProfileName() == null) {
+			throw new ProfileFileNotFoundException("프로필 파일이 존재하지 않습니다.");
+		}
+		userMapper.deleteProfile(user.getUsername());
+		deleteProfileFile(dbUser.getChangeProfileName());
+	}
+	
 	// 비밀번호 변경
 	@Transactional
 	public Void updateUserPwd(CustomUserDetails user, UpdatePwdRequestDto newPwd) {
@@ -159,6 +171,7 @@ public class UserService {
 			throw new FileDeleteFailedException("파일 삭제중 오류가 발생했습니다.");
 		}
 	}
+
 	
 
 }
