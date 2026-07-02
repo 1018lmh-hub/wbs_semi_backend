@@ -12,8 +12,8 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class DeleteUserRequestDto {
 
 	@NotBlank(message="비밀번호를 입력해주세요.")

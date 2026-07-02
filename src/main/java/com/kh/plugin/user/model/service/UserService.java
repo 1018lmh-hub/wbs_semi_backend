@@ -19,7 +19,6 @@ import com.kh.plugin.user.model.dto.UserSignUpDto;
 import com.kh.plugin.user.model.vo.Profile;
 import com.kh.plugin.user.model.vo.User;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -86,7 +85,7 @@ public class UserService {
 	
 	// 회원탈퇴
 	@Transactional
-	public void deleteUser(CustomUserDetails user, @Valid DeleteUserRequestDto deleteUserRequest) {
+	public void deleteUser(CustomUserDetails user, DeleteUserRequestDto deleteUserRequest) {
 		
 		// 유저 아이디로 비밀번호를 가져와서 기존의 비밀번호와 매칭
 		UserDto dbUser = findUserByUserId(user.getUsername());
