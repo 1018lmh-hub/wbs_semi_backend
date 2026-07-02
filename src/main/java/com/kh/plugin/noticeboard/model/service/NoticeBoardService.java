@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.plugin.common.model.dto.PageInfo;
 import com.kh.plugin.common.util.Pagination;
+import com.kh.plugin.common.util.PagingRequestValidator;
 import com.kh.plugin.noticeboard.model.dao.NoticeBoardMapper;
 import com.kh.plugin.noticeboard.model.dto.NoticeBoardResponseDto;
 
@@ -23,7 +24,13 @@ public class NoticeBoardService {
 	
 	@Transactional
 	public List<NoticeBoardResponseDto> findAll(int page) {
+		
+		
 		PageInfo pi = pagination.getPageInfo(countNotices(), page, 5, 5);
+		
+		PagingRequestValidator.validatePage(pi);
+		
+
 		List<NoticeBoardResponseDto> notices = noticeBoardMapper.findAll(pi);
 		return notices;
 	}

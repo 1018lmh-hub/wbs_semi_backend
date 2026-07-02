@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,9 +26,16 @@ public class NoticeBoardController {
 	private final NoticeBoardService noticeBoardService;
 	
 	@GetMapping
-	public ResponseEntity<ApiResponse<List<NoticeBoardResponseDto>>> findAll(@RequestParam(value="page", defaultValue = "1") int page){
+	public ResponseEntity<ApiResponse<List<NoticeBoardResponseDto>>> findAll(@RequestParam(name="page", defaultValue = "1") int page){
 		List<NoticeBoardResponseDto> notices = noticeBoardService.findAll(page);
-		return notices.isEmpty() ? ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.badRequest("존재하지 않는 페이지 입니다.")) : ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(notices));
+		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(notices));
 	}
+	
+//	@GetMapping("/{noticeNo}")
+//	public ResponseEntity<ApiResponse<NoticeBoardResponseDto>> findByNoticeNo(@PathVariable(value="noticeNo") Long noticeNo)){
+//		NoticeBoardResponseDto notices = noticeBoardService.findByNoticeNo();
+//		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(notices));
+//	}
+	
 
 }
