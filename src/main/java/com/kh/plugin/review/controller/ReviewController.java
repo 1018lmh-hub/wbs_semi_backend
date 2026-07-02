@@ -32,7 +32,7 @@ public class ReviewController {
 	private final ReviewService reviewService;
 	
 	@GetMapping
-	public ResponseEntity<ApiResponse<StationDetailResponse>> findAll(@RequestParam(value="page", defaultValue = "0") int page, @PathVariable(value="stationNo") String stationNo, @AuthenticationPrincipal CustomUserDetails user){
+	public ResponseEntity<ApiResponse<StationDetailResponse>> findAll(@RequestParam(value="page", defaultValue = "1") int page, @PathVariable(value="stationNo") String stationNo, @AuthenticationPrincipal CustomUserDetails user){
 		StationDetailResponse reviews = reviewService.findAll(page, stationNo, user);
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(reviews));
 	}
