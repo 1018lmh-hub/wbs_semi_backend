@@ -49,4 +49,8 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(userService.updateUserInfo(user, newNickname)));
 	}
 	
+	// 비밀번호 변경
+	@PatchMapping
+	public ResponseEntity<ApiResponse<Void>> updateUserPwd(@AuthenticationPrincipal CustomUserDetails user,)
+	
 }
