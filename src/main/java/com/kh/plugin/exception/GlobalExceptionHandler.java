@@ -57,4 +57,9 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ApiResponse<Void>> handlerPasswordMismatch(PasswordMismatchException e){
 		return ResponseEntity.status(400).body(ApiResponse.badRequest(e.getMessage()));
 	}
+	
+	@ExceptionHandler(ProfileFileNotFoundException.class)
+	public ResponseEntity<ApiResponse<Void>> handlerProfileFileNotFound(ProfileFileNotFoundException e){
+		return ResponseEntity.status(404).body(ApiResponse.notFound(e.getMessage()));
+	}
 }
