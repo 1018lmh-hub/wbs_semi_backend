@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.common.model.dto.PageInfo;
 import com.kh.plugin.common.util.Pagination;
+import com.kh.plugin.common.util.PagingRequestValidator;
 import com.kh.plugin.exception.IdMismatchException;
 import com.kh.plugin.review.model.dao.ReviewMapper;
 import com.kh.plugin.review.model.dto.ReviewResponseDto;
@@ -33,6 +34,7 @@ public class ReviewService {
 	@Transactional
 	public StationDetailResponse findAll(int page, String stationNo, CustomUserDetails user) {
 		PageInfo pi = pagination.getPageInfo(countReviews(stationNo), page, 5, 5);
+		PagingRequestValidator.validatePage(pi);
 		StationDetailResponse reviews = reviewMapper.findAll(stationNo, user, pi);
 		return reviews;
 	}
