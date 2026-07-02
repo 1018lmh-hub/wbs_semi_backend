@@ -31,11 +31,11 @@ public class NoticeBoardController {
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(notices));
 	}
 	
-//	@GetMapping("/{noticeNo}")
-//	public ResponseEntity<ApiResponse<NoticeBoardResponseDto>> findByNoticeNo(@PathVariable(value="noticeNo") Long noticeNo)){
-//		NoticeBoardResponseDto notices = noticeBoardService.findByNoticeNo();
-//		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(notices));
-//	}
+	@GetMapping("/{noticeNo}")
+	public ResponseEntity<ApiResponse<NoticeBoardResponseDto>> findByNoticeNo(@PathVariable(value="noticeNo") Long noticeNo){
+		NoticeBoardResponseDto notices = noticeBoardService.findByNoticeNo(noticeNo);
+		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(notices));
+	}
 	
 
 }
