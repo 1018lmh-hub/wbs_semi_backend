@@ -26,7 +26,7 @@ public class NoticeBoardController {
 	
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<NoticeBoardResponseDto>>> findAll(@RequestParam(value="page", defaultValue = "1") int page){
-		NoticeBoardResponseDto notices = noticeBoardService.findAll(page);
+		List<NoticeBoardResponseDto> notices = noticeBoardService.findAll(page);
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(notices));
 	}
 

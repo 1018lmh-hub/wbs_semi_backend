@@ -1,5 +1,7 @@
 package com.kh.plugin.noticeboard.model.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,9 +22,9 @@ public class NoticeBoardService {
 	private final Pagination pagination;
 	
 	@Transactional
-	public NoticeBoardResponseDto findAll(int page) {
+	public List<NoticeBoardResponseDto> findAll(int page) {
 		PageInfo pi = pagination.getPageInfo(countNotices(), page, 5, 5);
-		NoticeBoardResponseDto notices = noticeBoardMapper.findAll(pi);
+		List<NoticeBoardResponseDto> notices = noticeBoardMapper.findAll(pi);
 		return notices;
 	}
 	
