@@ -3,6 +3,7 @@ package com.kh.plugin.user.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.common.model.vo.ApiResponse;
+import com.kh.plugin.user.model.dto.DeleteUserRequestDto;
 import com.kh.plugin.user.model.dto.UpdatePwdRequestDto;
 import com.kh.plugin.user.model.dto.UpdateRequestDto;
 import com.kh.plugin.user.model.dto.UserDto;
@@ -54,6 +56,13 @@ public class UserController {
 	@PatchMapping("/password")
 	public ResponseEntity<ApiResponse<Void>> updateUserPwd(@AuthenticationPrincipal CustomUserDetails user, @Valid @RequestBody UpdatePwdRequestDto newPwd){
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(userService.updateUserPwd(user, newPwd)));
+	}
+	
+	// 회원탈퇴
+	@DeleteMapping
+	public ResponseEntity<ApiResponse<Void>> deleteUser(@AuthenticationPrincipal CustomUserDetails user, @Valid @RequestBody DeleteUserRequestDto deleteUserRequest){
+		userService.deleteUser(user, deleteUserRequest);
+		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.noContent());
 	}
 	
 }
