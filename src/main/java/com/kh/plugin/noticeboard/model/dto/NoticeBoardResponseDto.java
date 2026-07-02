@@ -22,5 +22,4 @@ public class NoticeBoardResponseDto {
 	private Integer count;
 	private LocalDateTime createDate;
 	private LocalDateTime modifyDate;
-	private String status;
 }

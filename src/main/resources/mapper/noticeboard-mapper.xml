@@ -2,15 +2,30 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kh.plugin.NoticeBoard.model.dao.NoticeBoardMapper">
+<mapper namespace="com.kh.plugin.noticeboard.model.dao.NoticeBoardMapper">
 
 <select id="findAll"
         resultType="NoticeBoardResponseDto">
-
+		SELECT 
+		       NOTICE_NO
+		     , USER_ID
+		     , NOTICE_TITLE
+		     , NOTICE_CONTENT
+		     , COUNT
+		     , CREATE_DATE
+		     , MODIFY_DATE
+		  FROM 
+		       NOTICE_BOARD
+		 WHERE 
+		       STATUS = 'Y'
+		 ORDER
+		    BY
+		       CREATE_DATE DESC
+		OFFSET #{pi.offset} ROWS FETCH NEXT #{pi.boardLimit} ROWS ONLY
 </select>
 
-<select id="countReviews"
-			resultType="Integer">
+<select id="countNotices"
+		resultType="Integer">
 		SELECT
 		       COUNT(*)
 		  FROM
