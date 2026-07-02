@@ -27,7 +27,7 @@ public class NoticeBoardController {
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<NoticeBoardResponseDto>>> findAll(@RequestParam(value="page", defaultValue = "1") int page){
 		List<NoticeBoardResponseDto> notices = noticeBoardService.findAll(page);
-		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(notices));
+		return notices.isEmpty() ? ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.badRequest("존재하지 않는 페이지 입니다.")) : ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(notices));
 	}
 
 }
