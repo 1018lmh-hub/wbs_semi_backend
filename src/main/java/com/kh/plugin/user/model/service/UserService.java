@@ -69,6 +69,14 @@ public class UserService {
 		return null;
 	}
 	
+	// 프로필 수정
+	@Transactional
+	public void updateUserProfile(CustomUserDetails user, MultipartFile file) {
+		// file null 검사, rename, 파일 형식
+		// case 1 - 기존의 파일이 있을 경우
+		// case 2 - 기존의 파일이 없을 경우
+	}
+	
 	// 비밀번호 변경
 	@Transactional
 	public Void updateUserPwd(CustomUserDetails user, UpdatePwdRequestDto newPwd) {
@@ -91,7 +99,6 @@ public class UserService {
 		UserDto dbUser = findUserByUserId(user.getUsername());
 		checkPassword(deleteUserRequest.getUserPwd(), dbUser.getUserPwd());
 		userMapper.deleteUser(dbUser);
-		
 	}
 	
 	// 아이디 중복체크
@@ -126,6 +133,7 @@ public class UserService {
 			throw new PasswordMismatchException("기존 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
 		}
 	}
+
 
 
 }
