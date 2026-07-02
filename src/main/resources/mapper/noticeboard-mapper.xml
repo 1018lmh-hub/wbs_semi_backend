@@ -68,4 +68,23 @@
 		   AND
 		       NOTICE_NO = #{noticeNo}
 	</select>
+	
+	<insert id="saveNotice">
+	INSERT
+	  INTO
+	       NOTICE_BOARD
+	       (
+		   NOTICE_NO
+		 , USER_ID
+	     , NOTICE_TITLE
+	     , NOTICE_CONTENT
+		   )
+	VALUES
+	       (
+		   SEQ_NBN.NEXTVAL
+		 , #{board.userId}
+		 , #{board.noticeTitle}
+		 , #{board.noticeContent}
+		   )
+	</insert>
 </mapper>
