@@ -11,6 +11,7 @@ import com.kh.plugin.exception.PasswordMismatchException;
 import com.kh.plugin.file.model.service.FileService;
 import com.kh.plugin.file.model.vo.AttachedFile;
 import com.kh.plugin.user.model.dao.UserMapper;
+import com.kh.plugin.user.model.dto.DeleteUserRequestDto;
 import com.kh.plugin.user.model.dto.UpdatePwdRequestDto;
 import com.kh.plugin.user.model.dto.UpdateRequestDto;
 import com.kh.plugin.user.model.dto.UserDto;
@@ -18,6 +19,7 @@ import com.kh.plugin.user.model.dto.UserSignUpDto;
 import com.kh.plugin.user.model.vo.Profile;
 import com.kh.plugin.user.model.vo.User;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -82,6 +84,17 @@ public class UserService {
 		return null;
 	}
 	
+	// 회원탈퇴
+	@Transactional
+	public void deleteUser(CustomUserDetails user, @Valid DeleteUserRequestDto deleteUserRequest) {
+		
+		// 유저 아이디로 비밀번호를 가져와서 기존의 비밀번호와 매칭
+		UserDto dbUser = findUserByUserId(user.getUsername());
+		checkPassword(deleteUserRequest.getUserPwd(), dbUser.getUserPwd());
+		userMapper.deleteUser(dbUser);
+		
+	}
+	
 	// 아이디 중복체크
 	private String validateDuplicateUserId(String userId) {
 		if(userMapper.validateDuplicateUserId(userId) == 1) {
@@ -113,11 +126,7 @@ public class UserService {
 		if(!passwordEncoder.matches(rawPassword, encodedPassword)) {
 			throw new PasswordMismatchException("기존 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
 		}
-		
 	}
 
-
-	
-	
 
 }

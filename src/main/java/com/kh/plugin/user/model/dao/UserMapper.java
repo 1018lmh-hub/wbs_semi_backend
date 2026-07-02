@@ -30,5 +30,8 @@ public interface UserMapper {
 
 	// 비밀번호 변경
 	int updateUserPwd(User userEntity);
+
+	// 회원 탈퇴
+	int deleteUser(UserDto dbUser);
 	
 }
