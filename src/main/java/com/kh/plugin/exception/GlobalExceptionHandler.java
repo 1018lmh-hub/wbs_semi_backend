@@ -47,5 +47,10 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(IdMismatchException.class)
 	public ResponseEntity<ApiResponse<Void>> handlerIdMismatch(IdMismatchException e){
 		return ResponseEntity.status(400).body(ApiResponse.badRequest(e.getMessage()));
-	}	
+	}
+	
+	@ExceptionHandler(PasswordMismatchException.class)
+	public ResponseEntity<ApiResponse<Void>> handlerPasswordMismatch(PasswordMismatchException e){
+		return ResponseEntity.status(400).body(ApiResponse.badRequest(e.getMessage()));
+	}
 }
