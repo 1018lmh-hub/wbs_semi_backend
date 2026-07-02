@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.bookmarks.model.dao.BookmarksMapper;
+import com.kh.plugin.bookmarks.model.dto.BookmarksDto;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
