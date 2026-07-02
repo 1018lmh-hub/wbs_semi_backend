@@ -33,5 +33,8 @@ public interface UserMapper {
 
 	// 회원 탈퇴
 	int deleteUser(UserDto dbUser);
+
+	// 프로필 수정
+	int updateUserProfile(Profile profileEntity);
 	
 }
