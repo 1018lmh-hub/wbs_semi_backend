@@ -25,7 +25,11 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ApiResponse<Void>> handlerInvalidFileFormat(InvalidFileFormatException e){
 		return ResponseEntity.status(400).body(ApiResponse.badRequest(e.getMessage()));
 	}
-
+	
+	@ExceptionHandler(InvalidParameterException.class)
+	public ResponseEntity<ApiResponse<Void>> handlerInvalidParameter(InvalidParameterException e){
+		return ResponseEntity.status(400).body(ApiResponse.badRequest(e.getMessage()));
+	}
 	
 	@ExceptionHandler(DuplicatedUserIdException.class)
 	public ResponseEntity<ApiResponse<Void>> handlerDuplicatedUserId(DuplicatedUserIdException e){
