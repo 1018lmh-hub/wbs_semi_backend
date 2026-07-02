@@ -36,5 +36,7 @@ public interface UserMapper {
 
 	// 프로필 수정
 	int updateUserProfile(Profile profileEntity);
+
+	int deleteProfile(String username);
 	
 }

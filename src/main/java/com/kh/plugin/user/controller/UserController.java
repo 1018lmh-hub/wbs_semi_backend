@@ -72,7 +72,11 @@ public class UserController {
 	}
 	
 	// 프로필 삭제
-	@DeleteMapping
+	@DeleteMapping("/profile")
+	public ResponseEntity<ApiResponse<Void>> deleteProfile(@AuthenticationPrincipal CustomUserDetails user){
+		userService.deleteProfile(user);
+		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.noContent());
+	}
 	
 	
 }
