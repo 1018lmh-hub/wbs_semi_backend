@@ -152,7 +152,7 @@ public class UserService {
 		if(profileName == null) {
 			return;
 		} 
-		Path filePath = Paths.get(profileName.substring(profileName.lastIndexOf("/") + 1));
+		Path filePath = Paths.get("uploads", profileName.substring(profileName.lastIndexOf("/") + 1));
 		try {
 			Files.delete(filePath);
 		} catch(IOException e) {
