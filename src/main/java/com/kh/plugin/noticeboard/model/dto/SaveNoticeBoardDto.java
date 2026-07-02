@@ -1,26 +1,21 @@
 package com.kh.plugin.noticeboard.model.dto;
 
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
 @Setter
-@ToString
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class NoticeBoardResponseDto {
+@ToString
+public class SaveNoticeBoardDto {
 
-	private Long noticeNo;
-	private String nickname;
+	
+	private String userId;
 	private String noticeTitle;
 	private String noticeContent;
-	private Integer count;
-	private LocalDateTime createDate;
-	private LocalDateTime modifyDate;
-	private String status;
+	
 }

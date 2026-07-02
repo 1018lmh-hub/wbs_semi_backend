@@ -24,7 +24,7 @@ public class AdminController {
 	
 	@PostMapping("/{noticeNo}")
 	public ResponseEntity<ApiResponse<Void>> save(@PathVariable(value="noticeNo") Long noticeNo){
-		NoticeBoardResponseDto notices = noticeBoardService.findByNoticeNo(noticeNo);
-		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(notices));
+		noticeBoardService.findByNoticeNo(noticeNo);
+		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(null));
 	}
 }
