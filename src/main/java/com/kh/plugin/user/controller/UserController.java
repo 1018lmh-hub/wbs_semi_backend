@@ -52,6 +52,12 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(userService.updateUserInfo(user, newNickname)));
 	}
 	
+	// 프로필 수정
+	@PatchMapping("/profile")
+	public ResponseEntity<ApiResponse<Void>> updateUserProfile(@AuthenticationPrincipal CustomUserDetails user, @RequestParam(name="file", required=false) MultipartFile file){
+		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(userService.updateUserProfile(user, file)));
+	}
+	
 	// 비밀번호 변경
 	@PatchMapping("/password")
 	public ResponseEntity<ApiResponse<Void>> updateUserPwd(@AuthenticationPrincipal CustomUserDetails user, @Valid @RequestBody UpdatePwdRequestDto newPwd){
