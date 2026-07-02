@@ -15,6 +15,10 @@ public interface NoticeBoardMapper {
 
 	int countNotices();
 
+	int increaseCount(@Param(value = "noticeNo")Long noticeNo);
+
+	NoticeBoardResponseDto findByBoardNo(@Param(value = "noticeNo")Long noticeNo);
+
 	
 	
 }
