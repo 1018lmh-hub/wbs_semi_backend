@@ -43,7 +43,7 @@ public class SecurityConfig {
 					   requests.requestMatchers(HttpMethod.GET, "/api/users").authenticated();
 					   requests.requestMatchers(HttpMethod.POST, "/api/auth/logout", "/api/stations/*/reviews", "/api/inquerys", "/api/likes", "/api/bookmarks").authenticated();
 					   requests.requestMatchers(HttpMethod.PATCH, "/api/users/**", "/api/stations/*/reviews/**", "/api/reviews/**", "/api/inquerys/**").authenticated();
-					   requests.requestMatchers(HttpMethod.DELETE, "/api/users", "/api/stations/*/reviews/**", "/api/inquerys", "/api/likes", "/api/bookmarks").authenticated();
+					   requests.requestMatchers(HttpMethod.DELETE, "/api/users/**", "/api/stations/*/reviews/**", "/api/inquerys", "/api/likes", "/api/bookmarks").authenticated();
 					   requests.requestMatchers("/api/admin", "/api/notices/**", "/api/inquerycomments").hasRole("ADMIN");
 					   requests.requestMatchers(HttpMethod.GET).permitAll();
 				   })
