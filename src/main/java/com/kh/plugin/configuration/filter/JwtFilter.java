@@ -54,6 +54,7 @@ public class JwtFilter extends OncePerRequestFilter {
 		}
 
 		String token = authorization.substring(7);
+		
 		try {
 			Claims claims = jwtUtil.parseJwt(token);
 			String username = claims.getSubject();

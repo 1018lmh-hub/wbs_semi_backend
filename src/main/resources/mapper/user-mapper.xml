@@ -136,5 +136,17 @@
 		   AND
 		       STATUS = 'Y'              
 	</update>
+	
+	<update id="deleteUser">
+		UPDATE
+		       PLU_USER
+		   SET
+		       STATUS = 'N'
+		     , MODIFY_DATE = SYSTIMESTAMP
+		 WHERE
+		       USER_ID = #{userId}
+		   AND
+		       STATUS = 'Y'             
+	</update>
 
 </mapper>
