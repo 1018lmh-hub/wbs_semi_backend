@@ -41,7 +41,7 @@ public class SecurityConfig {
 					   requests.requestMatchers(HttpMethod.GET, "/api/stations/**", "/api/notices/**", "/api/inquirys/**", "/api/inquirycomments/**", "/uploads/**", "/api/auth/logout").permitAll();
 					   requests.requestMatchers(HttpMethod.POST, "/api/users", "/api/auth/login", "/api/auth/refresh").permitAll();
 					   requests.requestMatchers(HttpMethod.GET, "/api/users").authenticated();
-					   requests.requestMatchers(HttpMethod.POST, "/api/auth/logout", "/api/stations/*/reviews", "/api/inquirys/*", "/api/stations/*/reviews/*/likes", "/api/stations/*/bookmarks").authenticated();
+					   requests.requestMatchers(HttpMethod.POST, "/api/auth/logout", "/api/stations/*/reviews", "/api/inquirys", "/api/stations/*/reviews/*/likes", "/api/stations/*/bookmarks").authenticated();
 					   requests.requestMatchers(HttpMethod.PATCH, "/api/users/**", "/api/stations/*/reviews/**", "/api/inquirys/*").authenticated();
 					   requests.requestMatchers(HttpMethod.DELETE, "/api/users/**", "/api/stations/*/reviews/**", "/api/inquirys/*", "/api/stations/*/reviews/*/likes", "/api/stations/*/bookmarks").authenticated();
 					   requests.requestMatchers(HttpMethod.POST, "/api/notices/**", "/api/inquirys/*/inquirycomments").hasRole("ADMIN");

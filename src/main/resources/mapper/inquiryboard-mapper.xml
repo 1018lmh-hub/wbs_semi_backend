@@ -81,5 +81,24 @@
 		       INQUIRY_NO = #{inquiryNo}
 	</select>
 	
+	<insert id="saveInquiry">
+		INSERT
+		  INTO
+		       INQUIRY_BOARD
+		       (
+			   INQUIRY_NO
+			 , USER_ID
+		     , INQUIRY_TITLE
+		     , INQUIRY_CONTENT
+			   )
+		VALUES
+		       (
+			   SEQ_IBN.NEXTVAL
+			 , #{userId}
+			 , #{inquiryTitle}
+			 , #{inquiryContent}
+			   )
+	</insert>
+	
 
 </mapper>
