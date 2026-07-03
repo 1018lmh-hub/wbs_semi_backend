@@ -174,15 +174,13 @@
 		UPDATE
 		       REVIEW
 		   SET
-		       REVIEW_TITLE = #{review.reviewTitle}
-		     , REVIEW_CONTENT = #{review.reviewContent}
-		     , RATING = #{review.rating}
+		       REVIEW_TITLE = #{reviewTitle}
+		     , REVIEW_CONTENT = #{reviewContent}
+		     , RATING = #{rating}
 		     , MODIFY_DATE = SYSTIMESTAMP
 		 WHERE
-		       STATION_NO = #{stationNo}
-		   AND
-		       REVIEW_NO = #{review.reviewNo}
-		   AND
+		       REVIEW_NO = #{reviewNo}
+		   AND    
 		       STATUS = 'Y'
 	</update>
 	

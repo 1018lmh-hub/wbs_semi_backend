@@ -31,6 +31,7 @@ public class ReviewService {
 		return reviewMapper.getReviews(stationNo, user);
 	}
 
+	// 후기 전체보기
 	@Transactional
 	public StationDetailResponse findAll(int page, String stationNo, CustomUserDetails user) {
 		PageInfo pi = pagination.getPageInfo(countReviews(stationNo), page, 5, 5);
@@ -39,6 +40,7 @@ public class ReviewService {
 		return reviews;
 	}
 	
+	// 후기 작성하기
 	@Transactional
 	public void saveReview(String stationNo, CustomUserDetails user, ReviewSaveDto review) {
 		
@@ -51,29 +53,42 @@ public class ReviewService {
 		reviewMapper.saveReview(reviewEntity);
 	}
 	
+	// 후기 수정하기
 	@Transactional
 	public void updateReview(String stationNo, CustomUserDetails user, ReviewSaveDto review) {
 		checkId(user, review.getReviewNo());
-		reviewMapper.updateReview(stationNo, review);
+		
+		Review reviewEntity = Review.builder().reviewNo(review.getReviewNo())
+											  .userId(user.getUsername())
+											  .stationNo(stationNo)
+											  .reviewTitle(review.getReviewTitle())
+											  .reviewContent(review.getReviewContent())
+											  .rating(review.getRating())
+											  .build();
+		reviewMapper.updateReview(reviewEntity);
 			
 	}
 	
+	// 후기 삭제하기
 	@Transactional
 	public void deleteReview(String stationNo, Long reviewNo, CustomUserDetails user) {
 		checkId(user, reviewNo);
 		reviewMapper.deleteReview(stationNo, reviewNo);
 	}
 	
+	// 충전소 후기 갯수 확인
 	private int countReviews(String stationNo) {
 		return reviewMapper.countReviews(stationNo);
 	}
 	
+	// 후기번호로 후기 조회하기
 	private ReviewResponseDto findByReviewNo(Long reviewNo) {
 		return reviewMapper.findByReviewNo(reviewNo);
 	}
 	
+	// 후기 번호와 유저아이디로 작성자 확인
 	private void checkId(CustomUserDetails user, Long reviewNo) {
-		if(findByReviewNo(reviewNo).getUserId() == user.getUsername()) {
+		if(findByReviewNo(reviewNo).getUserId() != user.getUsername()) {
 			throw new IdMismatchException("작성자와 일치하지 않습니다.");
 		}		
 	}

@@ -13,21 +13,23 @@ import com.kh.plugin.station.model.dto.StationDetailResponse;
 @Mapper
 public interface ReviewMapper {
 
-	// 충전소 상세보기 리뷰 가져오기
+	// 충전소 상세보기 후기 조회
 	StationDetailResponse getReviews(@Param(value = "stationNo") String stationNo, @Param(value = "user")CustomUserDetails user);
 
-	// 충전소 리뷰 갯수 확인
+	// 충전소 후기 갯수 확인
 	int countReviews(String stationNo);
 
-	// 리뷰 전체보기
+	// 후기 전체보기
 	StationDetailResponse findAll(@Param(value = "stationNo")String stationNo, @Param(value = "user")CustomUserDetails user, @Param(value = "pi")PageInfo pi);
 
-	// 리뷰 작성하기
+	// 후기 작성하기
 	int saveReview(Review reviewEntity);
 
+	// 후기 번호로 후기 가져오기
 	ReviewResponseDto findByReviewNo(Long reviewNo);
 
-	int updateReview(@Param(value = "stationNo")String stationNo, @Param(value = "review")ReviewSaveDto review);
+	// 후기 수정하기
+	int updateReview(Review reviewEntity);
 
 	int deleteReview(@Param(value = "stationNo")String stationNo, @Param(value = "reviewNo")Long reviewNo);
 
