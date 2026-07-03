@@ -76,12 +76,13 @@ public class NoticeBoardService {
 	@Transactional
 	public void updateNotice(Long noticeNo, SaveNoticeBoardDto board, CustomUserDetails user) {
 		
+		existsByNoticeNo(noticeNo);
 		checkId(user, noticeNo);
-		
-        NoticeBoard boardEntity = NoticeBoard.builder().noticeTitle(board.getNoticeTitle())
+        NoticeBoard boardEntity = NoticeBoard.builder().noticeNo(noticeNo)
+        											   .userId(user.getUsername())
+        											   .noticeTitle(board.getNoticeTitle())
 													   .noticeContent(board.getNoticeContent())
 													   .build();
-        
         noticeBoardMapper.updateNotice(boardEntity);
 	}
 	

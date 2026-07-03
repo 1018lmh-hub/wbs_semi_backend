@@ -37,6 +37,17 @@
 		       STATUS = 'Y'
 	</select>
 	
+	<select id="existsByNoticeNo">
+	SELECT 
+	       COUNT(*)
+	  FROM
+	       NOTICE_BOARD
+	 WHERE
+	       NOTICE_NO = #{noticeNo}
+  	   AND
+  	       STATUS = 'Y'
+	</select>
+	
 	<update id="increaseCount">
         UPDATE
 		       NOTICE_BOARD
@@ -96,6 +107,10 @@
 	     , NOTICE_TITLE = #{board.noticeTitle}
 	     , NOTICE_CONTENT = #{board.noticeContent}
   	 WHERE
-  	       
+  	       NOTICE_NO = #{board.noticeNo}
+  	   AND
+  	       USER_ID = #{board.userId}
+  	   AND 
+  	       STATUS = 'Y'
 	</update>
 </mapper>
