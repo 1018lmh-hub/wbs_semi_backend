@@ -27,7 +27,10 @@ public class LikesService {
 		if(dbLike != null) {
 			throw new InvalidLikeException("이미 좋아요한 후기입니다.");
 		}
-		Like likeEntity = Like.builder().
+		Like likeEntity = Like.builder().reviewNo(reviewNo)
+				                        .userId(user.getUsername())
+				                        .build();
+		likesMapper.saveLike(likeEntity);
 		return null;
 	}
 
@@ -35,8 +38,15 @@ public class LikesService {
 	@Transactional
 	public void deleteLike(CustomUserDetails user, Long reviewNo) {
 		
+		LikeDto dbLike = findLike(user.getUsername(), reviewNo);
+		if(dbLike == null) {
+			throw new InvalidLikeException("잘못된 요청입니다.");
+		}
+		likesMapper.deleteLike(reviewNo, user.getUsername());
+		
 	}
 	
+	// 좋아요 가져오기
 	private LikeDto findLike(String userId, Long reviewNo) {
 		return likesMapper.findLike(userId, reviewNo);
 	}
