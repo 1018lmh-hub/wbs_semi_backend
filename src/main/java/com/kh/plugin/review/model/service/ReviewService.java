@@ -11,9 +11,9 @@ import com.kh.plugin.exception.IdMismatchException;
 import com.kh.plugin.review.model.dao.ReviewMapper;
 import com.kh.plugin.review.model.dto.ReviewResponseDto;
 import com.kh.plugin.review.model.dto.ReviewSaveDto;
+import com.kh.plugin.review.model.vo.Review;
 import com.kh.plugin.station.model.dto.StationDetailResponse;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,7 +41,14 @@ public class ReviewService {
 	
 	@Transactional
 	public void saveReview(String stationNo, CustomUserDetails user, ReviewSaveDto review) {
-		reviewMapper.saveReview(stationNo, user, review);
+		
+		Review reviewEntity = Review.builder().userId(user.getUsername())
+											  .stationNo(stationNo)
+											  .reviewTitle(review.getReviewTitle())
+											  .reviewContent(review.getReviewContent())
+											  .rating(review.getRating())
+											  .build();
+		reviewMapper.saveReview(reviewEntity);
 	}
 	
 	@Transactional

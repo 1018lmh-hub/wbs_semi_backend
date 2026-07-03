@@ -143,11 +143,11 @@
 		VALUES
 		       (
 			   SEQ_RVN.NEXTVAL
-			 , #{user.username}
+			 , #{userId}
 			 , #{stationNo}
-			 , #{review.reviewTitle}
-			 , #{review.reviewContent}
-			 , #{review.rating}  
+			 , #{reviewTitle}
+			 , #{reviewContent}
+			 , #{rating}  
 			   )   
 	</insert>
 	
