@@ -52,7 +52,7 @@
   	       STATUS = 'Y'
 	</update>
 	
-	<update id="deleteNotice">
+	<update id="deleteInquiryComment">
 	UPDATE
 	       INQUIRY_COMMENT
 	   SET
