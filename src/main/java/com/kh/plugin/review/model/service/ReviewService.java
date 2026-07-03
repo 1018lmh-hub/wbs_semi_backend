@@ -13,7 +13,6 @@ import com.kh.plugin.review.model.dto.ReviewResponseDto;
 import com.kh.plugin.review.model.dto.ReviewSaveDto;
 import com.kh.plugin.station.model.dto.StationDetailResponse;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -65,8 +64,9 @@ public class ReviewService {
 		return reviewMapper.findByReviewNo(reviewNo);
 	}
 	
+	// 메서드 수정
 	private void checkId(CustomUserDetails user, Long reviewNo) {
-		if(findByReviewNo(reviewNo).getUserId() == user.getUsername()) {
+		if(user.getUsername().equals(findByReviewNo(reviewNo).getUserId())) {
 			throw new IdMismatchException("작성자와 일치하지 않습니다.");
 		}		
 	}

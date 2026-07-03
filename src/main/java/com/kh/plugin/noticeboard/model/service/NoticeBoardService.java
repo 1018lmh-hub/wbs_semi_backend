@@ -9,6 +9,7 @@ import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.common.model.dto.PageInfo;
 import com.kh.plugin.common.util.Pagination;
 import com.kh.plugin.common.util.PagingRequestValidator;
+import com.kh.plugin.exception.IdMismatchException;
 import com.kh.plugin.exception.InvalidParameterException;
 import com.kh.plugin.noticeboard.model.dao.NoticeBoardMapper;
 import com.kh.plugin.noticeboard.model.dto.NoticeBoardResponseDto;
@@ -44,19 +45,21 @@ public class NoticeBoardService {
 	@Transactional
 	public NoticeBoardResponseDto findByNoticeNo(Long noticeNo) {
 		
-		increaseCount(noticeNo);		
-		return noticeBoardMapper.findByBoardNo(noticeNo);
+		existsByNoticeNo(noticeNo);
+		noticeBoardMapper.increaseCount(noticeNo);		
+		return noticeBoardMapper.findByNoticeNo(noticeNo);
 		
 	}
 	
-	// 조회수 증가시키는 메서드
-	private void increaseCount(Long noticeNo) {
-	if(noticeBoardMapper.increaseCount(noticeNo) < 1) {
-		throw new InvalidParameterException ("존재하지 않는 게시글 요청입니다");
+	// 게시글 존재여부를 확인하는 메서드
+	private void existsByNoticeNo(Long noticeNo) {
+		if(!(noticeBoardMapper.existsByNoticeNo(noticeNo))) {
+			throw new InvalidParameterException ("존재하지 않는 게시글 요청입니다");
 		}
 	}
+	
 
-	// 공지사항 게시글 저장하는 메서드
+	// 공지사항 게시글 저장
 	@Transactional
 	public void saveNotice(SaveNoticeBoardDto board, CustomUserDetails user) {
 		
@@ -67,6 +70,28 @@ public class NoticeBoardService {
 		noticeBoardMapper.saveNotice(boardEntity);
 		
 	}
+	
+	// 공지사항 게시글 수정
+	@Transactional
+	public void updateNotice(Long noticeNo, SaveNoticeBoardDto board, CustomUserDetails user) {
+		
+		existsByNoticeNo(noticeNo);
+		checkId(user, noticeNo);
+        NoticeBoard boardEntity = NoticeBoard.builder().noticeNo(noticeNo)
+        											   .userId(user.getUsername())
+        											   .noticeTitle(board.getNoticeTitle())
+													   .noticeContent(board.getNoticeContent())
+													   .build();
+        noticeBoardMapper.updateNotice(boardEntity);
+	}
+	
+	// 아이디 검증 내부 메서드(작성자 일치)
+	private void checkId(CustomUserDetails user, Long noticeNo) {
+		if (!(user.getUsername()).equals((noticeBoardMapper.findByNoticeNo(noticeNo)).getUserId())) {
+			throw new IdMismatchException("작성자와 일치하지 않습니다.");
+		}
+	}
+
 
 
 }
