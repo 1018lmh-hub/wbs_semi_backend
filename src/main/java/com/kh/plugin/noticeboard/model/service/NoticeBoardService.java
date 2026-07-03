@@ -92,8 +92,11 @@ public class NoticeBoardService {
 		}
 	}
 
+	//공지사항 게시글 삭제
 	public void deleteNotice(Long noticeNo, CustomUserDetails user) {
-		
+		existsByNoticeNo(noticeNo);
+		checkId(user, noticeNo);
+		noticeBoardMapper.deleteNotice(noticeNo);
 		
 	}
 

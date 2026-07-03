@@ -25,6 +25,8 @@ public interface NoticeBoardMapper {
 
 	int updateNotice(NoticeBoard noticeBoard);
 
+	int deleteNotice(Long noticeNo);
+
 	
 
 	
