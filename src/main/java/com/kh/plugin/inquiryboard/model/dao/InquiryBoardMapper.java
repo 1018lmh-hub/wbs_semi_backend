@@ -14,4 +14,14 @@ public interface InquiryBoardMapper {
 
 	int countInquiry();
 
+	boolean existsByInquiryNo(Long inquiryNo);
+
+	int increaseCount(Long inquiryNo);
+
+	InquiryBoardResponseDto findByInquiryNo(Long inquiryNo);
+	
+
+
+	
+
 }
