@@ -113,4 +113,15 @@
   	   AND 
   	       STATUS = 'Y'
 	</update>
+	
+	<update id="deleteNotice">
+	UPDATE
+	       NOTICE_BOARD
+	   SET
+	       STATUS = 'N'
+	 WHERE
+	       NOTICE_NO = #{noticeNo}
+	   AND
+	       STATUS = 'Y'
+	</update>
 </mapper>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,6 +56,12 @@ public class NoticeBoardController {
 		noticeBoardService.updateNotice(noticeNo, board, user);
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(null));
 	} 
+	
+	@DeleteMapping("/{noticeNo}")
+	public ResponseEntity<ApiResponse<Void>> deleteNotice(@PathVariable(value="noticeNo") Long noticeNo, @AuthenticationPrincipal CustomUserDetails user){
+		noticeBoardService.deleteNotice(noticeNo, user);
+		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.noContent());
+	}
 	
 
 	
