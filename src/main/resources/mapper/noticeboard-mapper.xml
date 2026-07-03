@@ -94,9 +94,9 @@
 	VALUES
 	       (
 		   SEQ_NBN.NEXTVAL
-		 , #{board.userId}
-		 , #{board.noticeTitle}
-		 , #{board.noticeContent}
+		 , #{noticeBoard.userId}
+		 , #{noticeBoard.noticeTitle}
+		 , #{noticeBoard.noticeContent}
 		   )
 	</insert>
 	
@@ -104,12 +104,12 @@
 	UPDATE
 	       NOTICE_BOARD
 	   SET    
-	       NOTICE_TITLE = #{board.noticeTitle}
-	     , NOTICE_CONTENT = #{board.noticeContent}
+	       NOTICE_TITLE = #{noticeBoard.noticeTitle}
+	     , NOTICE_CONTENT = #{noticeBoard.noticeContent}
   	 WHERE
-  	       NOTICE_NO = #{board.noticeNo}
+  	       NOTICE_NO = #{noticeBoard.noticeNo}
   	   AND
-  	       USER_ID = #{board.userId}
+  	       USER_ID = #{noticeBoard.userId}
   	   AND 
   	       STATUS = 'Y'
 	</update>

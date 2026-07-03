@@ -3,6 +3,7 @@ package com.kh.plugin.noticeboard.model.vo;
 import java.time.LocalDateTime;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Value;
 @Value
 @Builder

@@ -12,19 +12,19 @@ import com.kh.plugin.noticeboard.model.vo.NoticeBoard;
 @Mapper
 public interface NoticeBoardMapper {
 
-	List<NoticeBoardResponseDto> findAll(@Param(value = "pi")PageInfo pi);
+	List<NoticeBoardResponseDto> findAll(PageInfo pi);
 
 	int countNotices();
 	
-	boolean existsByNoticeNo(@Param(value = "noticeNo")Long noticeNo);
+	boolean existsByNoticeNo(Long noticeNo);
 
-	int increaseCount(@Param(value = "noticeNo")Long noticeNo);
+	int increaseCount(Long noticeNo);
 
-	NoticeBoardResponseDto findByBoardNo(@Param(value = "noticeNo")Long noticeNo);
+	NoticeBoardResponseDto findByNoticeNo(Long noticeNo);
 
-	int saveNotice(@Param(value = "board")NoticeBoard boardEntity);
+	int saveNotice(NoticeBoard noticeBoard);
 
-	int updateNotice(@Param(value = "board")NoticeBoard boardEntity);
+	int updateNotice(NoticeBoard noticeBoard);
 
 	
 

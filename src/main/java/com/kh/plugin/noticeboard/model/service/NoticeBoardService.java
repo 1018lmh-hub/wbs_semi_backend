@@ -48,7 +48,7 @@ public class NoticeBoardService {
 		
 		existsByNoticeNo(noticeNo);
 		noticeBoardMapper.increaseCount(noticeNo);		
-		return noticeBoardMapper.findByBoardNo(noticeNo);
+		return noticeBoardMapper.findByNoticeNo(noticeNo);
 		
 	}
 	
@@ -88,7 +88,7 @@ public class NoticeBoardService {
 	
 	// 아이디 검증 내부 메서드(작성자 일치)
 	private void checkId(CustomUserDetails user, Long noticeNo) {
-		if (!(user.getUsername()).equals((noticeBoardMapper.findByBoardNo(noticeNo)).getUserId())) {
+		if (!(user.getUsername()).equals((noticeBoardMapper.findByNoticeNo(noticeNo)).getUserId())) {
 			throw new IdMismatchException("작성자와 일치하지 않습니다.");
 		}
 	}
