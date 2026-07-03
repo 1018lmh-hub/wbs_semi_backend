@@ -100,5 +100,20 @@
 			   )
 	</insert>
 	
+	<update id="updateInquiry">
+		UPDATE
+		       INQUIRY_BOARD
+		   SET    
+		       INQUIRY_TITLE = #{inquiryTitle}
+		     , INQUIRY_CONTENT = #{inquiryContent}
+		     , MODIFY_DATE = SYSTIMESTAMP
+	  	 WHERE
+	  	       INQUIRY_NO = #{inquiryNo}
+	  	   AND
+	  	       USER_ID = #{userId}
+	  	   AND 
+	  	       STATUS = 'Y'
+	</update>
+	
 
 </mapper>
