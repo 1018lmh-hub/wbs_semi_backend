@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.kh.plugin.common.model.dto.PageInfo;
 import com.kh.plugin.inquiryboard.model.dto.InquiryBoardResponseDto;
+import com.kh.plugin.inquiryboard.model.vo.InquiryBoard;
 
 @Mapper
 public interface InquiryBoardMapper {
@@ -19,6 +20,8 @@ public interface InquiryBoardMapper {
 	int increaseCount(Long inquiryNo);
 
 	InquiryBoardResponseDto findByInquiryNo(Long inquiryNo);
+
+	int saveInquiry(InquiryBoard boardEntity);
 	
 
 
