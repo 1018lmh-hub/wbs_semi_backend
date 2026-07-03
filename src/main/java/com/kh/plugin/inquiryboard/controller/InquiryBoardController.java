@@ -27,8 +27,8 @@ public class InquiryBoardController {
 	
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<InquiryBoardResponseDto>>> findAll(@RequestParam(name="page", defaultValue = "1") int page){
-		List<InquiryBoardResponseDto> notices = inquiryBoardService.findAll(page);
-		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(notices));
+		List<InquiryBoardResponseDto> inquirys = inquiryBoardService.findAll(page);
+		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(inquirys));
 	}
 
 }
