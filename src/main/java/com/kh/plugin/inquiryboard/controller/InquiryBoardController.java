@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +29,12 @@ public class InquiryBoardController {
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<InquiryBoardResponseDto>>> findAll(@RequestParam(name="page", defaultValue = "1") int page){
 		List<InquiryBoardResponseDto> inquirys = inquiryBoardService.findAll(page);
+		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(inquirys));
+	}
+	
+	@GetMapping("/{inquiryNo}")
+	public ResponseEntity<ApiResponse<InquiryBoardResponseDto>> findByInquiryNo(@PathVariable(value="inquiryNo") Long inquiryNo){
+		InquiryBoardResponseDto inquirys = inquiryBoardService.findByInquiryNo(inquiryNo);
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(inquirys));
 	}
 
