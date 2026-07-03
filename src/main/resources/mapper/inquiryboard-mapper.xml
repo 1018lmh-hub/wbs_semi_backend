@@ -106,6 +106,7 @@
 		   SET    
 		       INQUIRY_TITLE = #{inquiryTitle}
 		     , INQUIRY_CONTENT = #{inquiryContent}
+		     , MODIFY_DATE = SYSTIMESTAMP
 	  	 WHERE
 	  	       INQUIRY_NO = #{inquiryNo}
 	  	   AND
