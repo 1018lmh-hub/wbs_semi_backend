@@ -42,7 +42,7 @@ public class ReviewService {
 	
 	// 후기 작성하기
 	@Transactional
-	public void saveReview(String stationNo, CustomUserDetails user, ReviewSaveDto review) {
+	public Void saveReview(String stationNo, CustomUserDetails user, ReviewSaveDto review) {
 		
 		Review reviewEntity = Review.builder().userId(user.getUsername())
 											  .stationNo(stationNo)
@@ -51,11 +51,12 @@ public class ReviewService {
 											  .rating(review.getRating())
 											  .build();
 		reviewMapper.saveReview(reviewEntity);
+		return null;
 	}
 	
 	// 후기 수정하기
 	@Transactional
-	public void updateReview(String stationNo, CustomUserDetails user, ReviewSaveDto review) {
+	public Void updateReview(String stationNo, CustomUserDetails user, ReviewSaveDto review) {
 		checkId(user, review.getReviewNo());
 		
 		Review reviewEntity = Review.builder().reviewNo(review.getReviewNo())
@@ -66,7 +67,7 @@ public class ReviewService {
 											  .rating(review.getRating())
 											  .build();
 		reviewMapper.updateReview(reviewEntity);
-			
+		return null;
 	}
 	
 	// 후기 삭제하기

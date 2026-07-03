@@ -31,29 +31,27 @@ public class ReviewController {
 
 	private final ReviewService reviewService;
 	
-	// 리뷰 전체조회
+	// 후기 전체조회
 	@GetMapping
 	public ResponseEntity<ApiResponse<StationDetailResponse>> findAll(@RequestParam(value="page", defaultValue = "1") int page, @PathVariable(value="stationNo") String stationNo, @AuthenticationPrincipal CustomUserDetails user){
 		StationDetailResponse reviews = reviewService.findAll(page, stationNo, user);
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(reviews));
 	}
 	
-	// 리뷰 작성
+	// 후기 작성
 	@PostMapping
 	public ResponseEntity<ApiResponse<Void>> saveReview(@PathVariable(value="stationNo") String stationNo, @AuthenticationPrincipal CustomUserDetails user, @Valid @RequestBody ReviewSaveDto review){
-		reviewService.saveReview(stationNo, user, review);
-		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(null));
+		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(reviewService.saveReview(stationNo, user, review)));
 	}
 	
-	// 리뷰 수정
+	// 후기 수정
 	@PatchMapping("/{reviewNo}")
 	public ResponseEntity<ApiResponse<Void>> updateReview(@PathVariable(value="stationNo") String stationNo, @PathVariable(value="reviewNo") Long reviewNo, @AuthenticationPrincipal CustomUserDetails user, @Valid @RequestBody ReviewSaveDto review){
 		review.setReviewNo(reviewNo);
-		reviewService.updateReview(stationNo, user, review);
-		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(null));
+		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(reviewService.updateReview(stationNo, user, review)));
 	}
 	
-	// 리뷰 삭제
+	// 후기 삭제
 	@DeleteMapping("/{reviewNo}")
 	public ResponseEntity<ApiResponse<Void>> deleteReview(@PathVariable(value="stationNo") String stationNo, @PathVariable(value="reviewNo") Long reviewNo, @AuthenticationPrincipal CustomUserDetails user){
 		reviewService.deleteReview(stationNo, reviewNo, user);
