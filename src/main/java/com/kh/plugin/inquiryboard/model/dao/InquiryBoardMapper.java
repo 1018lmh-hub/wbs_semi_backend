@@ -24,6 +24,8 @@ public interface InquiryBoardMapper {
 	int saveInquiry(InquiryBoard inquiryBoard);
 
 	int updateInquiry(InquiryBoard inquiryBoard);
+
+	int deleteInquiry(Long inquiryNo);
 	
 
 
