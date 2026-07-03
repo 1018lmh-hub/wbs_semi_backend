@@ -34,13 +34,13 @@ public class NoticeBoardController {
 	private final NoticeBoardService noticeBoardService;
 	
 	@GetMapping
-	public ResponseEntity<ApiResponse<List<NoticeBoardResponseDto>>> findAll(@RequestParam(defaultValue = "1") int page){
+	public ResponseEntity<ApiResponse<List<NoticeBoardResponseDto>>> findAll(@RequestParam(name="page", defaultValue = "1") int page){
 		List<NoticeBoardResponseDto> notices = noticeBoardService.findAll(page);
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(notices));
 	}
 	
 	@GetMapping("/{noticeNo}")
-	public ResponseEntity<ApiResponse<NoticeBoardResponseDto>> findByNoticeNo(@PathVariable Long noticeNo){
+	public ResponseEntity<ApiResponse<NoticeBoardResponseDto>> findByNoticeNo(@PathVariable(value="noticeNo") Long noticeNo){
 		NoticeBoardResponseDto notices = noticeBoardService.findByNoticeNo(noticeNo);
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(notices));
 	}
@@ -52,13 +52,13 @@ public class NoticeBoardController {
 	}
 	
 	@PatchMapping("/{noticeNo}")
-	public ResponseEntity<ApiResponse<Void>> updateNotice(@PathVariable Long noticeNo, @Valid @RequestBody SaveNoticeBoardDto board, @AuthenticationPrincipal CustomUserDetails user){
+	public ResponseEntity<ApiResponse<Void>> updateNotice(@PathVariable(value="noticeNo") Long noticeNo, @Valid @RequestBody SaveNoticeBoardDto board, @AuthenticationPrincipal CustomUserDetails user){
 		noticeBoardService.updateNotice(noticeNo, board, user);
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(null));
 	} 
 	
 	@DeleteMapping("/{noticeNo}")
-	public ResponseEntity<ApiResponse<Void>> deleteNotice(@PathVariable Long noticeNo, @AuthenticationPrincipal CustomUserDetails user){
+	public ResponseEntity<ApiResponse<Void>> deleteNotice(@PathVariable(value="noticeNo") Long noticeNo, @AuthenticationPrincipal CustomUserDetails user){
 		noticeBoardService.deleteNotice(noticeNo, user);
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.noContent());
 	}
