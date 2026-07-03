@@ -14,4 +14,7 @@ public interface InquiryCommentMapper {
 	// 댓글 번호로 댓글 조회하기
 	InquiryCommentDto findCommentByCommentNo(Long commentNo);
 
+	// 댓글 수정
+	int updateInquiryComment(InquiryComment commentEntity);
+
 }

@@ -40,17 +40,15 @@
 		       STATUS = 'Y'                
 	</select>
 	
-	<update id="updateNotice">
+	<update id="updateInquiryComment">
 	UPDATE
-	       NOTICE_BOARD
+	       INQUIRY_COMMENT
 	   SET    
-	       NOTICE_TITLE = #{noticeTitle}
-	     , NOTICE_CONTENT = #{noticeContent}
+	       COMMENT_CONTENT = #{commentContent}
+	     , MODIFY_DATE = SYSTIMESTAMP
   	 WHERE
-  	       NOTICE_NO = #{noticeNo}
+  	       COMMENT_NO = #{commentNo}
   	   AND
-  	       USER_ID = #{userId}
-  	   AND 
   	       STATUS = 'Y'
 	</update>
 	

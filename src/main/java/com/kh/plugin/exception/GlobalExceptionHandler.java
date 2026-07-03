@@ -78,4 +78,9 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ApiResponse<Void>> handlerInvalidLike(InvalidLikeException e){
 		return ResponseEntity.status(400).body(ApiResponse.badRequest(e.getMessage()));
 	}
+	
+	@ExceptionHandler(BoardNotFoundException.class)
+	public ResponseEntity<ApiResponse<Void>> handlerBoardNotFoundException(BoardNotFoundException e){
+		return ResponseEntity.status(400).body(ApiResponse.badRequest(e.getMessage()));
+	}
 }
