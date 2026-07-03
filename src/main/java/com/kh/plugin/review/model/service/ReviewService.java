@@ -73,7 +73,7 @@ public class ReviewService {
 	@Transactional
 	public void deleteReview(String stationNo, Long reviewNo, CustomUserDetails user) {
 		checkId(user, reviewNo);
-		reviewMapper.deleteReview(stationNo, reviewNo);
+		reviewMapper.deleteReview(reviewNo);
 	}
 	
 	// 충전소 후기 갯수 확인

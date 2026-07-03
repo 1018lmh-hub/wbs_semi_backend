@@ -31,6 +31,7 @@ public interface ReviewMapper {
 	// 후기 수정하기
 	int updateReview(Review reviewEntity);
 
-	int deleteReview(@Param(value = "stationNo")String stationNo, @Param(value = "reviewNo")Long reviewNo);
+	// 후기 삭제하기
+	int deleteReview(Long reviewNo);
 
 }

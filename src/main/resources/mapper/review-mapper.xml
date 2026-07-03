@@ -190,8 +190,6 @@
 		   SET
 		       STATUS = 'N'
 		 WHERE
-		       STATION_NO = #{stationNo}
-		   AND
 		       REVIEW_NO = #{reviewNo}
 		   AND 
 		       STATUS = 'Y'                  
