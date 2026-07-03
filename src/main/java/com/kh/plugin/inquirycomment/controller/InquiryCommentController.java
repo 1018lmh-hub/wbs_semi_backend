@@ -44,7 +44,7 @@ public class InquiryCommentController {
 	@DeleteMapping("/{commentNo}")
 	public ResponseEntity<ApiResponse<Void>> deleteInquiryComment(@AuthenticationPrincipal CustomUserDetails user, @PathVariable(value = "inquiryNo") Long inquiryNo, @PathVariable(value = "commentNo") Long commentNo){
 		inquiryCommentService.deleteInquiryComment(user, inquiryNo, commentNo);
-		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.noContent()); 
+		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.noContent());
 	}
 	
 }
