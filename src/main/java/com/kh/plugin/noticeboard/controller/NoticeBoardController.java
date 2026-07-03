@@ -19,6 +19,7 @@ import com.kh.plugin.common.model.vo.ApiResponse;
 import com.kh.plugin.noticeboard.model.dto.NoticeBoardResponseDto;
 import com.kh.plugin.noticeboard.model.dto.SaveNoticeBoardDto;
 import com.kh.plugin.noticeboard.model.service.NoticeBoardService;
+import com.kh.plugin.noticeboard.model.vo.NoticeBoard;
 import com.kh.plugin.review.model.dto.ReviewSaveDto;
 
 import jakarta.validation.Valid;
@@ -57,7 +58,15 @@ public class NoticeBoardController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(null));
 	} 
 	
-
+	public void updateNotice(Long noticeNo, SaveNoticeBoardDto board, CustomUserDetails user) {
+		
+		
+        NoticeBoard boardEntity = NoticeBoard.builder().noticeTitle(board.getNoticeTitle())
+													   .noticeContent(board.getNoticeContent())
+													   .build();
+        
+        noticeBoardMapper.updateNotice(boardEntity);
+	}
 	
 	
 

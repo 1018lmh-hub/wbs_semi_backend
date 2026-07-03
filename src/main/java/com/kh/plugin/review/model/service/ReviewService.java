@@ -64,8 +64,9 @@ public class ReviewService {
 		return reviewMapper.findByReviewNo(reviewNo);
 	}
 	
+	// 메서드 수정
 	private void checkId(CustomUserDetails user, Long reviewNo) {
-		if(findByReviewNo(reviewNo).getUserId() == user.getUsername()) {
+		if(findByReviewNo(reviewNo).getUserId() != user.getUsername()) {
 			throw new IdMismatchException("작성자와 일치하지 않습니다.");
 		}		
 	}

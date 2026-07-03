@@ -69,7 +69,19 @@ public class NoticeBoardService {
 		
 	}
 
-
+	public void updateNotice(Long noticeNo, SaveNoticeBoardDto board, CustomUserDetails user) {
+		
+		// 아이디 검증
+		if (user.getUsername() != (noticeBoardMapper.findByBoardNo(noticeNo).getUserId())) {
+			
+		}
+		
+        NoticeBoard boardEntity = NoticeBoard.builder().noticeTitle(board.getNoticeTitle())
+													   .noticeContent(board.getNoticeContent())
+													   .build();
+        
+        noticeBoardMapper.updateNotice(boardEntity);
+	}
 
 
 }
