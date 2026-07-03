@@ -18,6 +18,7 @@ public class DatabaseResultAspect {
 		  + "execution(* com.kh.plugin..*Mapper.save*(..)) || "	
 		  + "execution(* com.kh.plugin..*Mapper.update*(..)) || "	
 		  + "execution(* com.kh.plugin..*Mapper.delete*(..)) || "	
+		  + "execution(* com.kh.plugin..*Mapper.increaseCount(..)) || "	
 		  + "execution(* com.kh.plugin..*Mapper.logout(..))")
 	public Object validateMapperResult(ProceedingJoinPoint joinPoint) throws Throwable {
 
@@ -29,6 +30,7 @@ public class DatabaseResultAspect {
                 throw new DataPersistenceException("잠시후 다시 시도해주세요.");
             }
         }
+		
 		return result;
 	}
 	

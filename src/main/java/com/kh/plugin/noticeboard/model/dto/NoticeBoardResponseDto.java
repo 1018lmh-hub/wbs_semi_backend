@@ -16,6 +16,7 @@ import lombok.ToString;
 public class NoticeBoardResponseDto {
 
 	private Long noticeNo;
+	private String userId;
 	private String nickname;
 	private String noticeTitle;
 	private String noticeContent;
