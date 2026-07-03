@@ -23,6 +23,23 @@
 		   )
 	</insert>
 	
+	<select id="findCommentByCommentNo">
+		SELECT
+		       COMMENT_NO
+		     , USER_ID
+		     , INQUIRY_NO
+		     , COMMENT_CONTENT
+		     , CREATE_DATE
+		     , MODIFY_DATE
+		     , STATUS
+		  FROM
+		       INQUIRY_COMMENT
+		 WHERE
+		       COMMENT_NO = #{commentNo}
+		   AND
+		       STATUS = 'Y'                
+	</select>
+	
 	<update id="updateNotice">
 	UPDATE
 	       NOTICE_BOARD

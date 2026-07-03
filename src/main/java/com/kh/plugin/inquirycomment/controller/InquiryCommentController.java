@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/inquiries/{inquiryNo}/inquirycomments")
+@RequestMapping("/api/inquirys/{inquiryNo}/inquirycomments")
 @RequiredArgsConstructor
 public class InquiryCommentController {
 
@@ -36,6 +36,7 @@ public class InquiryCommentController {
 	// 댓글 수정
 	@PatchMapping("/{commentNo}")
 	public ResponseEntity<ApiResponse<Void>> updateInquiryComment(@AuthenticationPrincipal CustomUserDetails user, @PathVariable(value = "inquiryNo") Long inquiryNo, @Valid @RequestBody InquiryCommentRequestDto inquiry, @PathVariable(value = "commentNo") Long commentNo){
+		inquiryCommentService.updateInquiryComment(user, inquiryNo, inquiry, commentNo);
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(null));
 				
 	}

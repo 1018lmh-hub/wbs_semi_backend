@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.plugin.inquiryboard.model.dao.InquiryBoardMapper">
+
+<select id="findAll"
+	        resultType="InquiryBoardResponseDto">
+		SELECT 
+		       INQUIRY_NO
+		     , NICKNAME 
+		     , INQUIRY_TITLE
+		     , INQUIRY_CONTENT
+		     , COUNT
+		     , IB.CREATE_DATE
+		     , IB.MODIFY_DATE
+		  FROM 
+		       INQUIRY_BOARD IB
+		  LEFT
+          JOIN 
+               PLU_USER PU ON(IB.USER_ID = PU.USER_ID)
+		 WHERE 
+		       IB.STATUS = 'Y'
+		 ORDER
+		    BY
+		       IB.CREATE_DATE DESC
+		OFFSET #{offset} ROWS FETCH NEXT #{boardLimit} ROWS ONLY
+	</select>
+	
+	<select id="countInquiry"
+			resultType="Integer">
+		SELECT
+		       COUNT(*)
+		  FROM
+		       INQUIRY_BOARD
+		 WHERE
+		       STATUS = 'Y'
+	</select>
+
+</mapper>
