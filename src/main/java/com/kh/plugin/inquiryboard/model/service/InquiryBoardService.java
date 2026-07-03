@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.plugin.common.model.dto.PageInfo;
 import com.kh.plugin.common.util.Pagination;
 import com.kh.plugin.common.util.PagingRequestValidator;
+import com.kh.plugin.exception.InvalidParameterException;
 import com.kh.plugin.inquiryboard.model.dao.InquiryBoardMapper;
 import com.kh.plugin.inquiryboard.model.dto.InquiryBoardResponseDto;
 
@@ -26,12 +27,25 @@ public class InquiryBoardService {
 	public List<InquiryBoardResponseDto> findAll(int page) {
 		PageInfo pi = pagination.getPageInfo(countInquiry(), page, 5, 5);
 		PagingRequestValidator.validatePage(pi);
-		List<InquiryBoardResponseDto> inquirys = inquiryBoardMapper.findAll(pi);
-		return inquirys;
+		return inquiryBoardMapper.findAll(pi);
 	}
 	
 	private int countInquiry() {
 		return inquiryBoardMapper.countInquiry();
+	}
+
+	@Transactional
+	public InquiryBoardResponseDto findByInquiryNo(Long inquiryNo) {
+		existsByInquiryNo(inquiryNo);
+		inquiryBoardMapper.increaseCount(inquiryNo);		
+		return inquiryBoardMapper.findByInquiryNo(inquiryNo);
+		
+	}
+	
+	private void existsByInquiryNo(Long inquiryNo) {
+		if(!(inquiryBoardMapper.existsByInquiryNo(inquiryNo))) {
+			throw new InvalidParameterException ("존재하지 않는 게시글 요청입니다");
+		}
 	}
 
 }
