@@ -93,6 +93,7 @@ public class NoticeBoardService {
 	}
 
 	//공지사항 게시글 삭제
+	@Transactional
 	public void deleteNotice(Long noticeNo, CustomUserDetails user) {
 		existsByNoticeNo(noticeNo);
 		checkId(user, noticeNo);

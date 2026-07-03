@@ -120,8 +120,8 @@
 	   SET
 	       STATUS = 'N'
 	 WHERE
-	       STATUS = 'Y'
-	   AND
 	       NOTICE_NO = #{noticeNo}
+	   AND
+	       STATUS = 'Y'
 	</update>
 </mapper>
