@@ -1,4 +1,4 @@
-package com.kh.plugin.inquerycomment.model.vo;
+package com.kh.plugin.inquirycomment.model.vo;
 
 import java.time.LocalDateTime;
 

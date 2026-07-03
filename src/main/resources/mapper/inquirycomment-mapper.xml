@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.plugin.inquirycomment.model.dao.InquiryCommentMapper">
+
+	<insert id="saveInquiryComment">
+	INSERT
+	  INTO
+	       INQUIRY_COMMENT
+	       (
+		   COMMENT_NO
+		 , USER_ID
+	     , INQUIRY_NO
+	     , COMMENT_CONTENT
+		   )
+	VALUES
+	       (
+		   SEQ_ICN.NEXTVAL
+		 , #{userId}
+		 , #{inquiryNo}
+		 , #{commentContent}
+		   )
+	</insert>
+	
+	<update id="updateNotice">
+	UPDATE
+	       NOTICE_BOARD
+	   SET    
+	       NOTICE_TITLE = #{noticeTitle}
+	     , NOTICE_CONTENT = #{noticeContent}
+  	 WHERE
+  	       NOTICE_NO = #{noticeNo}
+  	   AND
+  	       USER_ID = #{userId}
+  	   AND 
+  	       STATUS = 'Y'
+	</update>
+	
+	<update id="deleteNotice">
+	UPDATE
+	       NOTICE_BOARD
+	   SET
+	       STATUS = 'N'
+	 WHERE
+	       NOTICE_NO = #{noticeNo}
+	   AND
+	       STATUS = 'Y'
+	</update>
+	
+</mapper>

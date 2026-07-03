@@ -1,4 +1,4 @@
-package com.kh.plugin.inquerycomment.model.dto;
+package com.kh.plugin.inquirycomment.model.dto;
 
 import java.time.LocalDateTime;
 
