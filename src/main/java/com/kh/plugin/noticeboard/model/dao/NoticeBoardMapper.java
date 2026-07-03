@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.kh.plugin.common.model.dto.PageInfo;
 import com.kh.plugin.noticeboard.model.dto.NoticeBoardResponseDto;
+import com.kh.plugin.noticeboard.model.vo.NoticeBoard;
 
 @Mapper
 public interface NoticeBoardMapper {
@@ -18,6 +19,8 @@ public interface NoticeBoardMapper {
 	int increaseCount(@Param(value = "noticeNo")Long noticeNo);
 
 	NoticeBoardResponseDto findByBoardNo(@Param(value = "noticeNo")Long noticeNo);
+
+	int saveNotice(@Param(value = "board")NoticeBoard boardEntity);
 
 	
 	
