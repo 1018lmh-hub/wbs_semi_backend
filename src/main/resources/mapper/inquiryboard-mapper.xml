@@ -93,7 +93,7 @@
 			   )
 		VALUES
 		       (
-			   SEQ_NBN.NEXTVAL
+			   SEQ_IBN.NEXTVAL
 			 , #{userId}
 			 , #{inquiryTitle}
 			 , #{inquiryContent}

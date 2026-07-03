@@ -21,7 +21,7 @@ public interface InquiryBoardMapper {
 
 	InquiryBoardResponseDto findByInquiryNo(Long inquiryNo);
 
-	int saveInquiry(InquiryBoard boardEntity);
+	int saveInquiry(InquiryBoard inquiryBoard);
 	
 
 
