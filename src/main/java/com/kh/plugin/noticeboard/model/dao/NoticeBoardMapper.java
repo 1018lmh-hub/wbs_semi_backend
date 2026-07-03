@@ -15,6 +15,8 @@ public interface NoticeBoardMapper {
 	List<NoticeBoardResponseDto> findAll(@Param(value = "pi")PageInfo pi);
 
 	int countNotices();
+	
+	boolean existsByNoticeNo(@Param(value = "noticeNo")Long noticeNo);
 
 	int increaseCount(@Param(value = "noticeNo")Long noticeNo);
 
@@ -23,6 +25,8 @@ public interface NoticeBoardMapper {
 	int saveNotice(@Param(value = "board")NoticeBoard boardEntity);
 
 	int updateNotice(@Param(value = "board")NoticeBoard boardEntity);
+
+	
 
 	
 	

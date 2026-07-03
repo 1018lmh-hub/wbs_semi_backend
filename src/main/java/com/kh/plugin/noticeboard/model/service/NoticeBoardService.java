@@ -47,7 +47,7 @@ public class NoticeBoardService {
 	public NoticeBoardResponseDto findByNoticeNo(Long noticeNo) {
 		
 		existsByNoticeNo(noticeNo);
-		noticeBoardMapper.increaseCount(noticeNo)		
+		noticeBoardMapper.increaseCount(noticeNo);		
 		return noticeBoardMapper.findByBoardNo(noticeNo);
 		
 	}
@@ -78,8 +78,7 @@ public class NoticeBoardService {
 		
 		checkId(user, noticeNo);
 		
-        NoticeBoard boardEntity = NoticeBoard.builder().
-        											   .noticeTitle(board.getNoticeTitle())
+        NoticeBoard boardEntity = NoticeBoard.builder().noticeTitle(board.getNoticeTitle())
 													   .noticeContent(board.getNoticeContent())
 													   .build();
         
