@@ -51,7 +51,7 @@ public class NoticeBoardController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(null));
 	}
 	
-	@GetMapping("/{noticeNo}")
+	@PatchMapping("/{noticeNo}")
 	public ResponseEntity<ApiResponse<Void>> updateNotice(@PathVariable(value="noticeNo") Long noticeNo, @Valid @RequestBody SaveNoticeBoardDto board, @AuthenticationPrincipal CustomUserDetails user){
 		noticeBoardService.updateNotice(noticeNo, board, user);
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(null));

@@ -54,7 +54,7 @@ public class NoticeBoardService {
 	
 	// 게시글 존재여부를 확인하는 메서드
 	private void existsByNoticeNo(Long noticeNo) {
-		if(noticeBoardMapper.existsByNoticeNo(noticeNo)) {
+		if(!(noticeBoardMapper.existsByNoticeNo(noticeNo))) {
 			throw new InvalidParameterException ("존재하지 않는 게시글 요청입니다");
 		}
 	}
@@ -86,9 +86,9 @@ public class NoticeBoardService {
         noticeBoardMapper.updateNotice(boardEntity);
 	}
 	
-	// 아이디 검증 내부 메서드
+	// 아이디 검증 내부 메서드(작성자 일치)
 	private void checkId(CustomUserDetails user, Long noticeNo) {
-		if (user.getUsername() != (noticeBoardMapper.findByBoardNo(noticeNo).getUserId())) {
+		if (!(user.getUsername()).equals((noticeBoardMapper.findByBoardNo(noticeNo)).getUserId())) {
 			throw new IdMismatchException("작성자와 일치하지 않습니다.");
 		}
 	}

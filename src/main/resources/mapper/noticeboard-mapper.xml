@@ -63,7 +63,7 @@
 	        resultType="NoticeBoardResponseDto">
 		SELECT 
 		       NOTICE_NO
-		     , USER_ID
+		     , NB.USER_ID
 		     , NICKNAME 
 		     , NOTICE_TITLE
 		     , NOTICE_CONTENT
@@ -71,7 +71,7 @@
 		     , NB.CREATE_DATE
 		     , NB.MODIFY_DATE
 		  FROM 
-		       NOTICE_BOARD
+		       NOTICE_BOARD NB
 		  LEFT
           JOIN 
                PLU_USER PU ON(NB.USER_ID = PU.USER_ID)
@@ -104,7 +104,7 @@
 	UPDATE
 	       NOTICE_BOARD
 	   SET    
-	     , NOTICE_TITLE = #{board.noticeTitle}
+	       NOTICE_TITLE = #{board.noticeTitle}
 	     , NOTICE_CONTENT = #{board.noticeContent}
   	 WHERE
   	       NOTICE_NO = #{board.noticeNo}

@@ -68,4 +68,10 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(400).body(ApiResponse.badRequest(e.getMessage()));
 	}
 	
+	@ExceptionHandler(InvalidParameterException.class)
+	public ResponseEntity<ApiResponse<Void>> handlerInvalidParameter(InvalidParameterException e){
+		return ResponseEntity.status(400).body(ApiResponse.badRequest(e.getMessage()));
+	}
+	
+	
 }

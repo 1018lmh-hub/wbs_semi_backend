@@ -66,7 +66,7 @@ public class ReviewService {
 	
 	// 메서드 수정
 	private void checkId(CustomUserDetails user, Long reviewNo) {
-		if(findByReviewNo(reviewNo).getUserId() != user.getUsername()) {
+		if(user.getUsername().equals(findByReviewNo(reviewNo).getUserId())) {
 			throw new IdMismatchException("작성자와 일치하지 않습니다.");
 		}		
 	}
