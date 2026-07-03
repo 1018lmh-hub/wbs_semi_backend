@@ -1,9 +1,12 @@
 package com.kh.plugin.inquirycomment.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.common.model.vo.ApiResponse;
+import com.kh.plugin.inquirycomment.model.dto.InquiryCommentDto;
 import com.kh.plugin.inquirycomment.model.dto.InquiryCommentRequestDto;
 import com.kh.plugin.inquirycomment.model.service.InquiryCommentService;
 
@@ -27,6 +31,11 @@ import lombok.extern.slf4j.Slf4j;
 public class InquiryCommentController {
 
 	private final InquiryCommentService inquiryCommentService;
+	
+	@GetMapping
+	public ResponseEntity<ApiResponse<List<InquiryCommentDto>>> findInquiryComment(@PathVariable(value = "inquiryNo") Long inquiryNo){
+		return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
 	
 	// 댓글 작성
 	@PostMapping
