@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.plugin.likes.model.dao.LikesMapper">
+
+	<select id="findLike">
+		SELECT
+		       REVIEW_NO
+		     , USER_ID
+		     , CREATE_DATE
+		  FROM
+		       LIKES
+		 WHERE
+		       REVIEW_NO = #{reviewNo}                
+		   AND
+		       USER_ID = #{userId}
+	</select>
+
+	<insert id="saveLike">
+		INSERT
+		  INTO
+		       LIKES
+		VALUES
+		       (
+			   #{reviewNo}
+			 , #{userId}
+			 , SYSTIMESTAMP  	
+			   )         
+	</insert>
+	
+	<delete id="deleteLike">
+		DELETE
+		  FROM
+		       LIKES
+		 WHERE
+		       REVIEW_NO = #{reviewNo}
+		   AND
+		       USER_ID = #{userId}          
+	</delete>
+
+
+</mapper>
