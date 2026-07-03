@@ -92,6 +92,11 @@ public class NoticeBoardService {
 		}
 	}
 
+	public void deleteNotice(Long noticeNo, CustomUserDetails user) {
+		
+		
+	}
+
 
 
 }

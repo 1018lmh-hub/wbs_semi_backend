@@ -14,6 +14,5 @@ import lombok.ToString;
 public class DeleteNoticeBoardDto {
 	
 	private String userId;
-	private String noticeTitle;
-	private String noticeContent;
+	private Long noticeNo;
 }
