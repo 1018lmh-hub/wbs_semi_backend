@@ -22,6 +22,8 @@ public interface NoticeBoardMapper {
 
 	int saveNotice(@Param(value = "board")NoticeBoard boardEntity);
 
+	int updateNotice(@Param(value = "board")NoticeBoard boardEntity);
+
 	
 	
 }

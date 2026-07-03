@@ -88,4 +88,14 @@
 		 , #{board.noticeContent}
 		   )
 	</insert>
+	
+	<update id="updateNotice">
+	UPDATE
+	       NOTICE_BOARD
+	   SET    
+	     , NOTICE_TITLE = #{board.noticeTitle}
+	     , NOTICE_CONTENT = #{board.noticeContent}
+  	 WHERE
+  	       
+	</update>
 </mapper>
