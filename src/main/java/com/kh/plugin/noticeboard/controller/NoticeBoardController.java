@@ -19,7 +19,6 @@ import com.kh.plugin.common.model.vo.ApiResponse;
 import com.kh.plugin.noticeboard.model.dto.NoticeBoardResponseDto;
 import com.kh.plugin.noticeboard.model.dto.SaveNoticeBoardDto;
 import com.kh.plugin.noticeboard.model.service.NoticeBoardService;
-import com.kh.plugin.review.model.dto.ReviewSaveDto;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

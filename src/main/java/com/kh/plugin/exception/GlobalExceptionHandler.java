@@ -74,4 +74,8 @@ public class GlobalExceptionHandler {
 	}
 	
 	
+	@ExceptionHandler(InvalidLikeException.class)
+	public ResponseEntity<ApiResponse<Void>> handlerInvalidLike(InvalidLikeException e){
+		return ResponseEntity.status(400).body(ApiResponse.badRequest(e.getMessage()));
+	}
 }
