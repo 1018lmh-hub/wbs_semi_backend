@@ -106,6 +106,7 @@
 	   SET    
 	       NOTICE_TITLE = #{noticeTitle}
 	     , NOTICE_CONTENT = #{noticeContent}
+	     , MODIFY_DATE = SYSTIMESTAMP
   	 WHERE
   	       NOTICE_NO = #{noticeNo}
   	   AND
@@ -119,6 +120,7 @@
 	       NOTICE_BOARD
 	   SET
 	       STATUS = 'N'
+	     , MODIFY_DATE = SYSTIMESTAMP
 	 WHERE
 	       NOTICE_NO = #{noticeNo}
 	   AND

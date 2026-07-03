@@ -82,5 +82,14 @@ public class InquiryBoardService {
 			throw new IdMismatchException("작성자와 일치하지 않습니다.");
 		}
 	}
+	
+	@Transactional
+	public void deleteInquiry(Long inquiryNo, CustomUserDetails user) {
+		existsByInquiryNo(inquiryNo);
+		checkId(user, inquiryNo);
+		inquiryBoardMapper.deleteInquiry(inquiryNo);
+		
+	}	
+
 
 }
