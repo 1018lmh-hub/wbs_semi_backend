@@ -54,11 +54,12 @@
 	
 	<update id="deleteNotice">
 	UPDATE
-	       NOTICE_BOARD
+	       INQUIRY_COMMENT
 	   SET
 	       STATUS = 'N'
+	     , MODIFY_DATE = SYSTIMESTAMP  
 	 WHERE
-	       NOTICE_NO = #{noticeNo}
+	       COMMENT_NO = #{commentNo}
 	   AND
 	       STATUS = 'Y'
 	</update>

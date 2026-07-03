@@ -58,6 +58,20 @@ public class InquiryCommentService {
 		return null;
 	}
 	
+	// 댓글 삭제
+	@Transactional
+	public void deleteInquiryComment(CustomUserDetails user, Long inquiryNo, Long commentNo) {
+		
+		// InqueiryNo으로 Inquery가 있는지 확인
+//		InquiryDto dbInquiry = inquiryMapper.findInquiryByInquiryNo(inquiryNo);
+//		if(dbInquiry == null) {
+//			throw new BoardNotFoundException("존재하지 않는 게시물입니다.");
+//		}		
+		InquiryCommentDto dbComment = findCommentByCommentNo(commentNo);
+		checkWriter(commentNo, user.getUsername(), dbComment.getUserId());
+		inquiryCommentMapper.deleteInquiryComment(commentNo);
+	}
+	
 	// 댓글 번호로 댓글 조회
 	private InquiryCommentDto findCommentByCommentNo(Long commentNo) {
 		InquiryCommentDto dbComment = inquiryCommentMapper.findCommentByCommentNo(commentNo);
@@ -72,5 +86,7 @@ public class InquiryCommentService {
 			throw new IdMismatchException("작성자가 일치하지 않습니다.");
 		}
 	}
+
+	
 
 }

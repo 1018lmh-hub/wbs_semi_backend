@@ -17,4 +17,7 @@ public interface InquiryCommentMapper {
 	// 댓글 수정
 	int updateInquiryComment(InquiryComment commentEntity);
 
+	// 댓글 삭제
+	int deleteInquiryComment(Long commentNo);
+
 }
