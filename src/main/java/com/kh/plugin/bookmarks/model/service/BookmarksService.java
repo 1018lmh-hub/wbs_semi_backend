@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.bookmarks.model.dao.BookmarksMapper;
 import com.kh.plugin.bookmarks.model.dto.BookmarksDto;
+import com.kh.plugin.bookmarks.model.vo.Bookmark;
+import com.kh.plugin.exception.InvalidBookmarkException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,29 +21,29 @@ public class BookmarksService {
 	
 	// 북마크(즐겨찾기) 추가
 	@Transactional
-	public Void addBookmark(CustomUserDetails user, String stationNo) {
+	public Void saveBookmark(CustomUserDetails user, String stationNo) {
 		
-		
-		
-		// user 아이디와 stationNo으로 북마크 땡겨오기
-		// 있으면 이미 즐겨찾기한 충전소입니다 예외발생.
-		
-		// 없으면 북마크 추가 --
-		
-		
+		BookmarksDto bookmark = findBookmark(user.getUsername(), stationNo);
+		if(bookmark != null) {
+			throw new InvalidBookmarkException("이미 즐겨찾기가 된 충전소입니다.");
+		}
+		Bookmark bookmarkEntity = Bookmark.builder().userId(user.getUsername())
+										  .stationNo(stationNo)
+										  .build();
+		bookmarksMapper.saveBookmark(bookmarkEntity);
 		return null;
 		
 	}
 	
 	// 북마크(즐겨찾기) 취소
 	@Transactional
-	public Void cancelBookmark(CustomUserDetails user, String stationNo) {
+	public Void deleteBookmark(CustomUserDetails user, String stationNo) {
 		
-		// user 아이디와 stationNo 으로 북마크 땡겨오기
-		// 있으면 즐겨찾기 삭제 - 물리삭제
-		
-		// 없으면 잘못된 요청입니다. 예외 발생
-		
+		BookmarksDto bookmark = findBookmark(user.getUsername(), stationNo);
+		if(bookmark == null) {
+			throw new InvalidBookmarkException("잘못된 요청입니다.");
+		}
+		bookmarksMapper.deleteBookmark(bookmark.getBookmarkNo());
 		return null;
 	}
 	

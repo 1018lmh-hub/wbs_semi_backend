@@ -8,16 +8,19 @@
 	        resultType="NoticeBoardResponseDto">
 		SELECT 
 		       NOTICE_NO
-		     , USER_ID
+		     , NICKNAME 
 		     , NOTICE_TITLE
 		     , NOTICE_CONTENT
 		     , COUNT
-		     , CREATE_DATE
-		     , MODIFY_DATE
+		     , NB.CREATE_DATE
+		     , NB.MODIFY_DATE
 		  FROM 
 		       NOTICE_BOARD
+		  LEFT
+          JOIN 
+               PLU_USER PU ON(NB.USER_ID = PU.USER_ID)
 		 WHERE 
-		       STATUS = 'Y'
+		       NB.STATUS = 'Y'
 		 ORDER
 		    BY
 		       CREATE_DATE DESC
@@ -49,17 +52,39 @@
 	        resultType="NoticeBoardResponseDto">
 		SELECT 
 		       NOTICE_NO
-		     , USER_ID
+		     , NICKNAME 
 		     , NOTICE_TITLE
 		     , NOTICE_CONTENT
 		     , COUNT
-		     , CREATE_DATE
-		     , MODIFY_DATE
+		     , NB.CREATE_DATE
+		     , NB.MODIFY_DATE
 		  FROM 
 		       NOTICE_BOARD
+		  LEFT
+          JOIN 
+               PLU_USER PU ON(NB.USER_ID = PU.USER_ID)
 		 WHERE 
-		       STATUS = 'Y'
+		       NB.STATUS = 'Y'
 		   AND
 		       NOTICE_NO = #{noticeNo}
 	</select>
+	
+	<insert id="saveNotice">
+	INSERT
+	  INTO
+	       NOTICE_BOARD
+	       (
+		   NOTICE_NO
+		 , USER_ID
+	     , NOTICE_TITLE
+	     , NOTICE_CONTENT
+		   )
+	VALUES
+	       (
+		   SEQ_NBN.NEXTVAL
+		 , #{board.userId}
+		 , #{board.noticeTitle}
+		 , #{board.noticeContent}
+		   )
+	</insert>
 </mapper>
