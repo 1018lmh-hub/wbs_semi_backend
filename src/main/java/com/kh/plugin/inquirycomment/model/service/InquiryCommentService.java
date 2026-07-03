@@ -21,6 +21,13 @@ public class InquiryCommentService {
 
 	private final InquiryCommentMapper inquiryCommentMapper;
 //	private final InquiryBoardMapper inquiryMapper;
+
+	
+	// 댓글 조회
+	@Transactional
+	public void findInquiryComment(Long inquiryNo) {
+		
+	}
 	
 	//댓글 작성
 	@Transactional
@@ -86,7 +93,6 @@ public class InquiryCommentService {
 			throw new IdMismatchException("작성자가 일치하지 않습니다.");
 		}
 	}
-
 	
 
 }

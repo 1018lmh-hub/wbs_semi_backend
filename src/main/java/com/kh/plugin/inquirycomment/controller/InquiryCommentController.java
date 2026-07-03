@@ -34,7 +34,8 @@ public class InquiryCommentController {
 	
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<InquiryCommentDto>>> findInquiryComment(@PathVariable(value = "inquiryNo") Long inquiryNo){
-		return ResponseEntity.status(HttpStatus.OK).body(null);
+		inquiryCommentService.findInquiryComment(inquiryNo);
+		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(null));
 	}
 	
 	// 댓글 작성
