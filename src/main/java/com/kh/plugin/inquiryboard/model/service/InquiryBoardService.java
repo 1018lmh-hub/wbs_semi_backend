@@ -27,7 +27,7 @@ public class InquiryBoardService {
 		PageInfo pi = pagination.getPageInfo(countInquiry(), page, 5, 5);
 		PagingRequestValidator.validatePage(pi);
 		List<InquiryBoardResponseDto> inquirys = inquiryBoardMapper.findAll(pi);
-		return null;
+		return inquirys;
 	}
 	
 	private int countInquiry() {
