@@ -9,6 +9,7 @@ import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.common.model.dto.PageInfo;
 import com.kh.plugin.common.util.Pagination;
 import com.kh.plugin.common.util.PagingRequestValidator;
+import com.kh.plugin.exception.IdMismatchException;
 import com.kh.plugin.exception.InvalidParameterException;
 import com.kh.plugin.inquiryboard.model.dao.InquiryBoardMapper;
 import com.kh.plugin.inquiryboard.model.dto.InquiryBoardResponseDto;
@@ -60,6 +61,26 @@ public class InquiryBoardService {
 													     .build();
 		inquiryBoardMapper.saveInquiry(boardEntity);
 		
+	}
+	
+	@Transactional
+	public void updateInquiry(Long inquiryNo, SaveInquiryBoardDto board, CustomUserDetails user) {
+		
+		existsByInquiryNo(inquiryNo);
+		checkId(user, inquiryNo);
+        InquiryBoard boardEntity = InquiryBoard.builder().inquiryNo(inquiryNo)
+        											     .userId(user.getUsername())
+        											     .inquiryTitle(board.getInquiryTitle())
+													     .inquiryContent(board.getInquiryContent())
+													     .build();
+        inquiryBoardMapper.updateInquiry(boardEntity);
+	}
+	
+	
+	private void checkId(CustomUserDetails user, Long inquiryNo) {
+		if (!(user.getUsername()).equals((inquiryBoardMapper.findByInquiryNo(inquiryNo)).getUserId())) {
+			throw new IdMismatchException("작성자와 일치하지 않습니다.");
+		}
 	}
 
 }
