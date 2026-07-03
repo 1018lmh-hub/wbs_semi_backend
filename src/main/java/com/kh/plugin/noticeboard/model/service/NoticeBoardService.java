@@ -15,6 +15,7 @@ import com.kh.plugin.noticeboard.model.dto.NoticeBoardResponseDto;
 import com.kh.plugin.noticeboard.model.dto.SaveNoticeBoardDto;
 import com.kh.plugin.noticeboard.model.vo.NoticeBoard;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -67,6 +68,8 @@ public class NoticeBoardService {
 		noticeBoardMapper.saveNotice(boardEntity);
 		
 	}
+
+
 
 
 }

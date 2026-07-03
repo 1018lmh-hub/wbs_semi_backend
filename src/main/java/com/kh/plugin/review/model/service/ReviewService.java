@@ -13,7 +13,6 @@ import com.kh.plugin.review.model.dto.ReviewResponseDto;
 import com.kh.plugin.review.model.dto.ReviewSaveDto;
 import com.kh.plugin.station.model.dto.StationDetailResponse;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
