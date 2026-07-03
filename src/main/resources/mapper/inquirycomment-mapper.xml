@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.plugin.inquirycomment.model.dao.InquiryCommentMapper">
+
+	<insert id="saveInquiryComment">
+	INSERT
+	  INTO
+	       INQUIRY_COMMENT
+	       (
+		   COMMENT_NO
+		 , USER_ID
+	     , INQUIRY_NO
+	     , COMMENT_CONTENT
+		   )
+	VALUES
+	       (
+		   SEQ_ICN.NEXTVAL
+		 , #{userId}
+		 , #{inquiryNo}
+		 , #{commentContent}
+		   )
+	</insert>
+	
+	<select id="findCommentByCommentNo">
+		SELECT
+		       COMMENT_NO
+		     , USER_ID
+		     , INQUIRY_NO
+		     , COMMENT_CONTENT
+		     , CREATE_DATE
+		     , MODIFY_DATE
+		     , STATUS
+		  FROM
+		       INQUIRY_COMMENT
+		 WHERE
+		       COMMENT_NO = #{commentNo}
+		   AND
+		       STATUS = 'Y'                
+	</select>
+	
+	<update id="updateInquiryComment">
+	UPDATE
+	       INQUIRY_COMMENT
+	   SET    
+	       COMMENT_CONTENT = #{commentContent}
+	     , MODIFY_DATE = SYSTIMESTAMP
+  	 WHERE
+  	       COMMENT_NO = #{commentNo}
+  	   AND
+  	       STATUS = 'Y'
+	</update>
+	
+	<update id="deleteInquiryComment">
+	UPDATE
+	       INQUIRY_COMMENT
+	   SET
+	       STATUS = 'N'
+	     , MODIFY_DATE = SYSTIMESTAMP  
+	 WHERE
+	       COMMENT_NO = #{commentNo}
+	   AND
+	       STATUS = 'Y'
+	</update>
+	
+</mapper>
