@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.common.model.vo.ApiResponse;
+import com.kh.plugin.inquiryboard.model.service.InquiryBoardService;
 import com.kh.plugin.inquirycomment.model.dto.InquiryCommentDto;
 import com.kh.plugin.inquirycomment.model.dto.InquiryCommentRequestDto;
 import com.kh.plugin.inquirycomment.model.service.InquiryCommentService;
@@ -32,10 +33,10 @@ public class InquiryCommentController {
 
 	private final InquiryCommentService inquiryCommentService;
 	
+	// 댓글 조회
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<InquiryCommentDto>>> findInquiryComment(@PathVariable(value = "inquiryNo") Long inquiryNo){
-		inquiryCommentService.findInquiryComment(inquiryNo);
-		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(null));
+		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(inquiryCommentService.findInquiryComment(inquiryNo)));
 	}
 	
 	// 댓글 작성

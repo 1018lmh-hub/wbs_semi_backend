@@ -64,4 +64,25 @@
 	       STATUS = 'Y'
 	</update>
 	
+	<select id="findInquiryComment"
+			resultType="InquiryCommentDto">
+		SELECT
+		       I.COMMENT_NO
+		     , I.USER_ID
+		     , P.NICKNAME
+		     , I.INQUIRY_NO
+		     , I.COMMENT_CONTENT
+		     , I.CREATE_DATE
+		     , I.MODIFY_DATE
+		     , I.STATUS
+		  FROM     
+		       INQUIRY_COMMENT I
+		  JOIN
+		       PLU_USER P ON(I.USER_ID = P.USER_ID)
+		 WHERE
+		       I.INQUIRY_NO = #{inquiryNo}
+		   AND
+		       I.STATUS = 'Y'
+	</select>
+	
 </mapper>

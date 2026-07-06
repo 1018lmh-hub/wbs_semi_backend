@@ -1,5 +1,7 @@
 package com.kh.plugin.inquirycomment.model.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kh.plugin.inquirycomment.model.dto.InquiryCommentDto;
@@ -19,5 +21,8 @@ public interface InquiryCommentMapper {
 
 	// 댓글 삭제
 	int deleteInquiryComment(Long commentNo);
+
+	// 댓글 조회
+	List<InquiryCommentDto> findInquiryComment(Long inquiryNo);
 
 }
