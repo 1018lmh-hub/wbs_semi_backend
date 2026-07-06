@@ -17,6 +17,7 @@ public class InquiryCommentDto {
 
 	private Long commentNo;
 	private String userId;
+	private String nickname;
 	private Long inquiryNo;
 	private String commentContent;
 	private LocalDateTime createDate;

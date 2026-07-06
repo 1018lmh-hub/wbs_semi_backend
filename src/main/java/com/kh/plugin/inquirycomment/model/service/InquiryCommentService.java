@@ -1,11 +1,15 @@
 package com.kh.plugin.inquirycomment.model.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.exception.BoardNotFoundException;
 import com.kh.plugin.exception.IdMismatchException;
+import com.kh.plugin.inquiryboard.model.dto.InquiryBoardResponseDto;
+import com.kh.plugin.inquiryboard.model.service.InquiryBoardService;
 import com.kh.plugin.inquirycomment.model.dao.InquiryCommentMapper;
 import com.kh.plugin.inquirycomment.model.dto.InquiryCommentDto;
 import com.kh.plugin.inquirycomment.model.dto.InquiryCommentRequestDto;
@@ -20,17 +24,21 @@ import lombok.extern.slf4j.Slf4j;
 public class InquiryCommentService {
 
 	private final InquiryCommentMapper inquiryCommentMapper;
-//	private final InquiryBoardMapper inquiryMapper;
+	private final InquiryBoardService inquiryBoardService;
+
+	
+	// 댓글 조회
+	@Transactional
+	public List<InquiryCommentDto> findInquiryComment(Long inquiryNo) {
+		checkInquiry(inquiryNo);
+		return inquiryCommentMapper.findInquiryComment(inquiryNo);
+	}
 	
 	//댓글 작성
 	@Transactional
 	public Void saveInquiryComment(CustomUserDetails user, Long inquiryNo, InquiryCommentRequestDto inquiry) {
 		
-		// InqueiryNo으로 Inquery가 있는지 확인
-//		InquiryDto dbInquiry = inquiryMapper.findInquiryByInquiryNo(inquiryNo);
-//		if(dbInquiry == null) {
-//			throw new BoardNotFoundException("존재하지 않는 게시물입니다.");
-//		}
+		checkInquiry(inquiryNo);
 		InquiryComment inquiryCommentEntity = InquiryComment.builder().userId(user.getUsername())
 																	  .inquiryNo(inquiryNo)
 																	  .commentContent(inquiry.getCommentContent())
@@ -43,11 +51,7 @@ public class InquiryCommentService {
 	@Transactional
 	public Void updateInquiryComment(CustomUserDetails user, Long inquiryNo, InquiryCommentRequestDto inquiry, Long commentNo) {
 		
-		// InqueiryNo으로 Inquery가 있는지 확인
-//		InquiryDto dbInquiry = inquiryMapper.findInquiryByInquiryNo(inquiryNo);
-//		if(dbInquiry == null) {
-//			throw new BoardNotFoundException("존재하지 않는 게시물입니다.");
-//		}
+		checkInquiry(inquiryNo);
 		InquiryCommentDto dbComment = findCommentByCommentNo(commentNo);
 		checkWriter(commentNo, user.getUsername(), dbComment.getUserId());
 		
@@ -62,11 +66,7 @@ public class InquiryCommentService {
 	@Transactional
 	public void deleteInquiryComment(CustomUserDetails user, Long inquiryNo, Long commentNo) {
 		
-		// InqueiryNo으로 Inquery가 있는지 확인
-//		InquiryDto dbInquiry = inquiryMapper.findInquiryByInquiryNo(inquiryNo);
-//		if(dbInquiry == null) {
-//			throw new BoardNotFoundException("존재하지 않는 게시물입니다.");
-//		}		
+		checkInquiry(inquiryNo);		
 		InquiryCommentDto dbComment = findCommentByCommentNo(commentNo);
 		checkWriter(commentNo, user.getUsername(), dbComment.getUserId());
 		inquiryCommentMapper.deleteInquiryComment(commentNo);
@@ -81,12 +81,19 @@ public class InquiryCommentService {
 		return dbComment;
 	}
 	
+	// 작성자 검증
 	private void checkWriter(Long commentNo, String userId, String writer) {
 		if(!userId.equals(writer)) {
 			throw new IdMismatchException("작성자가 일치하지 않습니다.");
 		}
 	}
-
 	
+	// 문의글 존재여부 확인
+	private void checkInquiry(Long inquiryNo) {
+		InquiryBoardResponseDto inquiry = inquiryBoardService.findByInquiryNo(inquiryNo);
+		if(inquiry == null) {
+			throw new BoardNotFoundException("게시글이 존재하지 않습니다");
+		}
+	}
 
 }
