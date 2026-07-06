@@ -7,6 +7,7 @@ import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.common.model.dto.PageInfo;
 import com.kh.plugin.common.util.Pagination;
 import com.kh.plugin.common.util.PagingRequestValidator;
+import com.kh.plugin.exception.BoardNotFoundException;
 import com.kh.plugin.exception.IdMismatchException;
 import com.kh.plugin.review.model.dao.ReviewMapper;
 import com.kh.plugin.review.model.dto.ReviewResponseDto;
@@ -28,7 +29,11 @@ public class ReviewService {
 	// 충전소 상세보기 리뷰조회
 	@Transactional
 	public StationDetailResponse getReviews(String stationNo, CustomUserDetails user) {
-		return reviewMapper.getReviews(stationNo, user);
+		StationDetailResponse stations = reviewMapper.getReviews(stationNo, user);
+		if(stations == null) {
+			throw new BoardNotFoundException("후기가 존재하지 않습니다.");
+		}
+		return stations;
 	}
 
 	// 후기 전체보기
