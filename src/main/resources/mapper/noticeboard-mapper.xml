@@ -8,6 +8,7 @@
 	        resultType="NoticeBoardResponseDto">
 		SELECT 
 		       NOTICE_NO
+		     , NB.USER_ID
 		     , NICKNAME 
 		     , NOTICE_TITLE
 		     , NOTICE_CONTENT
