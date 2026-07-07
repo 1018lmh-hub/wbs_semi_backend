@@ -1,10 +1,8 @@
-package com.kh.plugin.station.model.dto;
+package com.kh.plugin.inquiryboard.model.dto;
 
 import java.util.List;
 
-import com.kh.plugin.bookmarks.model.dto.BookmarksDto;
 import com.kh.plugin.common.model.dto.PageInfo;
-import com.kh.plugin.review.model.dto.ReviewResponseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,10 +15,9 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class StationDetailResponse {
-
-	private List<ReviewResponseDto> reviews;
-	private Double avgRating;
-	private BookmarksDto bookmark;
+public class InquiryBoardResponseAndPageInfo {
+	
+	private List<InquiryBoardResponseDto> inquirys;
 	private PageInfo pageInfo;
+
 }

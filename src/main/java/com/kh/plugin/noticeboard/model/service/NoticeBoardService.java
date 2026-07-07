@@ -12,6 +12,7 @@ import com.kh.plugin.common.util.PagingRequestValidator;
 import com.kh.plugin.exception.IdMismatchException;
 import com.kh.plugin.exception.InvalidParameterException;
 import com.kh.plugin.noticeboard.model.dao.NoticeBoardMapper;
+import com.kh.plugin.noticeboard.model.dto.NoticeBoardResponseAndPageInfo;
 import com.kh.plugin.noticeboard.model.dto.NoticeBoardResponseDto;
 import com.kh.plugin.noticeboard.model.dto.SaveNoticeBoardDto;
 import com.kh.plugin.noticeboard.model.vo.NoticeBoard;
@@ -29,11 +30,14 @@ public class NoticeBoardService {
 	
 	// 공지사항 게시글 전체조회
 	@Transactional
-	public List<NoticeBoardResponseDto> findAll(int page) {
+	public NoticeBoardResponseAndPageInfo findAll(int page) {
 		PageInfo pi = pagination.getPageInfo(countNotices(), page, 5, 5);
 		PagingRequestValidator.validatePage(pi);
 		List<NoticeBoardResponseDto> notices = noticeBoardMapper.findAll(pi);
-		return notices;
+		
+		
+		
+		return new NoticeBoardResponseAndPageInfo(notices, pi);
 	}
 	
 	//공지사항 게시글 수 확인

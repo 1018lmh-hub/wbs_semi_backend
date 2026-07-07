@@ -8,6 +8,7 @@
 	        resultType="InquiryBoardResponseDto">
 		SELECT 
 		       INQUIRY_NO
+		     , IB.USER_ID
 		     , NICKNAME 
 		     , INQUIRY_TITLE
 		     , INQUIRY_CONTENT

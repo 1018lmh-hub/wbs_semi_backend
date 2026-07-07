@@ -25,4 +25,5 @@ public class InquiryBoardResponseDto {
 	private LocalDateTime modifyDate;
 	private String status;
 
+
 }

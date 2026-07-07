@@ -54,7 +54,7 @@ public class UserController {
 	
 	// 프로필 수정
 	@PatchMapping("/profile")
-	public ResponseEntity<ApiResponse<Void>> updateUserProfile(@AuthenticationPrincipal CustomUserDetails user, @RequestParam(name="file", required=false) MultipartFile file){
+	public ResponseEntity<ApiResponse<Void>> updateUserProfile(@AuthenticationPrincipal CustomUserDetails user, @RequestParam(name="file") MultipartFile file){
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(userService.updateUserProfile(user, file)));
 	}
 	

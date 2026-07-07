@@ -1,7 +1,5 @@
 package com.kh.plugin.noticeboard.controller;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.common.model.vo.ApiResponse;
+import com.kh.plugin.noticeboard.model.dto.NoticeBoardResponseAndPageInfo;
 import com.kh.plugin.noticeboard.model.dto.NoticeBoardResponseDto;
 import com.kh.plugin.noticeboard.model.dto.SaveNoticeBoardDto;
 import com.kh.plugin.noticeboard.model.service.NoticeBoardService;
@@ -34,9 +33,9 @@ public class NoticeBoardController {
 	private final NoticeBoardService noticeBoardService;
 	
 	@GetMapping
-	public ResponseEntity<ApiResponse<List<NoticeBoardResponseDto>>> findAll(@RequestParam(name="page", defaultValue = "1") int page){
-		List<NoticeBoardResponseDto> notices = noticeBoardService.findAll(page);
-		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(notices));
+	public ResponseEntity<ApiResponse<NoticeBoardResponseAndPageInfo>> findAll(@RequestParam(name="page", defaultValue = "1") int page){
+		NoticeBoardResponseAndPageInfo pagingNotices = noticeBoardService.findAll(page);
+		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(pagingNotices));
 	}
 	
 	@GetMapping("/{noticeNo}")
