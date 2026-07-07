@@ -1,7 +1,5 @@
 package com.kh.plugin.inquiryboard.controller;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.common.model.vo.ApiResponse;
+import com.kh.plugin.inquiryboard.model.dto.InquiryBoardResponseAndPageInfo;
 import com.kh.plugin.inquiryboard.model.dto.InquiryBoardResponseDto;
 import com.kh.plugin.inquiryboard.model.dto.SaveInquiryBoardDto;
 import com.kh.plugin.inquiryboard.model.service.InquiryBoardService;
@@ -35,9 +34,9 @@ public class InquiryBoardController {
 	
 	
 	@GetMapping
-	public ResponseEntity<ApiResponse<List<InquiryBoardResponseDto>>> findAll(@RequestParam(name="page", defaultValue = "1") int page){
-		List<InquiryBoardResponseDto> inquirys = inquiryBoardService.findAll(page);
-		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(inquirys));
+	public ResponseEntity<ApiResponse<InquiryBoardResponseAndPageInfo>> findAll(@RequestParam(name="page", defaultValue = "1") int page){
+		InquiryBoardResponseAndPageInfo pagingInquirys = inquiryBoardService.findAll(page);
+		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(pagingInquirys));
 	}
 	
 	@GetMapping("/{inquiryNo}")

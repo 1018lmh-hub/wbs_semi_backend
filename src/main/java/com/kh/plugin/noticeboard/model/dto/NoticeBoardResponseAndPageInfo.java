@@ -1,12 +1,11 @@
-package com.kh.plugin.station.model.dto;
+package com.kh.plugin.noticeboard.model.dto;
 
 import java.util.List;
 
-import com.kh.plugin.bookmarks.model.dto.BookmarksDto;
 import com.kh.plugin.common.model.dto.PageInfo;
-import com.kh.plugin.review.model.dto.ReviewResponseDto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,10 +16,8 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class StationDetailResponse {
+public class NoticeBoardResponseAndPageInfo {
 
-	private List<ReviewResponseDto> reviews;
-	private Double avgRating;
-	private BookmarksDto bookmark;
+	private List<NoticeBoardResponseDto> notices;
 	private PageInfo pageInfo;
 }

@@ -42,6 +42,7 @@ public class ReviewService {
 		PageInfo pi = pagination.getPageInfo(countReviews(stationNo), page, 5, 5);
 		PagingRequestValidator.validatePage(pi);
 		StationDetailResponse reviews = reviewMapper.findAll(stationNo, user, pi);
+		reviews.setPageInfo(pi);
 		return reviews;
 	}
 	

@@ -12,6 +12,7 @@ import com.kh.plugin.common.util.PagingRequestValidator;
 import com.kh.plugin.exception.IdMismatchException;
 import com.kh.plugin.exception.InvalidParameterException;
 import com.kh.plugin.inquiryboard.model.dao.InquiryBoardMapper;
+import com.kh.plugin.inquiryboard.model.dto.InquiryBoardResponseAndPageInfo;
 import com.kh.plugin.inquiryboard.model.dto.InquiryBoardResponseDto;
 import com.kh.plugin.inquiryboard.model.dto.SaveInquiryBoardDto;
 import com.kh.plugin.inquiryboard.model.vo.InquiryBoard;
@@ -28,10 +29,17 @@ public class InquiryBoardService {
 	private final Pagination pagination;
 	
 	@Transactional
-	public List<InquiryBoardResponseDto> findAll(int page) {
+	public InquiryBoardResponseAndPageInfo findAll(int page) {
 		PageInfo pi = pagination.getPageInfo(countInquiry(), page, 5, 5);
 		PagingRequestValidator.validatePage(pi);
-		return inquiryBoardMapper.findAll(pi);
+		List<InquiryBoardResponseDto> inquirys = inquiryBoardMapper.findAll(pi);
+		
+		
+		
+		
+		return new InquiryBoardResponseAndPageInfo(inquirys, pi);
+		
+		
 	}
 	
 	private int countInquiry() {
