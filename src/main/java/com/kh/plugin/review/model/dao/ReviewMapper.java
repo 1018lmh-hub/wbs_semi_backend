@@ -22,6 +22,9 @@ public interface ReviewMapper {
 	// 후기 전체보기
 	StationDetailResponse findAll(@Param(value = "stationNo")String stationNo, @Param(value = "user")CustomUserDetails user, @Param(value = "pi")PageInfo pi);
 
+	// 후기 전체보기(최신순)
+	StationDetailResponse findAllLatest(@Param(value = "stationNo")String stationNo, @Param(value = "user")CustomUserDetails user, @Param(value = "pi")PageInfo pi);
+	
 	// 후기 작성하기
 	int saveReview(Review reviewEntity);
 

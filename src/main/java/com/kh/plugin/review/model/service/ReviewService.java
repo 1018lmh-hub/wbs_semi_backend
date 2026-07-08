@@ -46,6 +46,16 @@ public class ReviewService {
 		return reviews;
 	}
 	
+	// 후기 전체보기(최신순)
+	@Transactional
+	public StationDetailResponse findAllLatest(int page, String stationNo, CustomUserDetails user) {
+		PageInfo pi = pagination.getPageInfo(countReviews(stationNo), page, 5, 5);
+		PagingRequestValidator.validatePage(pi);
+		StationDetailResponse reviews = reviewMapper.findAllLatest(stationNo, user, pi);
+		reviews.setPageInfo(pi);
+		return reviews;
+	}
+	
 	// 후기 작성하기
 	@Transactional
 	public Void saveReview(String stationNo, CustomUserDetails user, ReviewSaveDto review) {
