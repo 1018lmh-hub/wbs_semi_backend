@@ -15,11 +15,16 @@
 		     , COUNT
 		     , IB.CREATE_DATE
 		     , IB.MODIFY_DATE
-		     , CASE 
-              	   WHEN EXISTS (SELECT 1 FROM INQUIRY_COMMENT IC WHERE IC.INQUIRY_NO = IB.INQUIRY_NO) THEN 1
-	               ELSE 0
-           	   END AS HAS_COMMENT
-		  FROM 
+		     , CASE
+				    WHEN EXISTS (
+				        SELECT 1
+				        FROM INQUIRY_COMMENT IC
+				        WHERE IC.INQUIRY_NO = IB.INQUIRY_NO
+				          AND IC.STATUS = 'Y'
+				    ) THEN 1
+				    ELSE 0
+				END AS HAS_COMMENT
+		  FROM
 		       INQUIRY_BOARD IB
 		  LEFT
           JOIN 
