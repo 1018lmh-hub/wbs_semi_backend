@@ -1,5 +1,7 @@
 package com.kh.plugin.bookmarks.model.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,9 +49,16 @@ public class BookmarksService {
 		return null;
 	}
 	
+	// 북마크(즐겨찾기) 조회하기
+	@Transactional
+	public List<BookmarksDto> findBookmarksList(CustomUserDetails user) {
+		return bookmarksMapper.findBookmarksList(user.getUsername());
+	}
+	
 	// user 아이디와 stationNo으로 북마크 땡켜오기
 	private BookmarksDto findBookmark(String userId, String stationNo) {
 		return bookmarksMapper.findBookmark(userId, stationNo);
 	}
+
 
 }

@@ -1,8 +1,11 @@
 package com.kh.plugin.bookmarks.model.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.bookmarks.model.dto.BookmarksDto;
 import com.kh.plugin.bookmarks.model.vo.Bookmark;
 
@@ -17,5 +20,8 @@ public interface BookmarksMapper {
 
 	// 북마크(즐겨찾기) 취소
 	int deleteBookmark(Long bookmarkNo);
+
+	// 북마크(즐겨찾기) 조회하기
+	List<BookmarksDto> findBookmarksList(String userId);
 
 }
