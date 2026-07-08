@@ -24,6 +24,7 @@ public class InquiryBoardResponseDto {
 	private LocalDateTime createDate;
 	private LocalDateTime modifyDate;
 	private String status;
+	private boolean hasComment;
 
 
 }

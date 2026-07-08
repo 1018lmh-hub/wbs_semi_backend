@@ -7,7 +7,7 @@
 	<select id="findAll"
 	        resultType="InquiryBoardResponseDto">
 		SELECT 
-		       INQUIRY_NO
+		       IB.INQUIRY_NO
 		     , IB.USER_ID
 		     , NICKNAME 
 		     , INQUIRY_TITLE
@@ -15,6 +15,10 @@
 		     , COUNT
 		     , IB.CREATE_DATE
 		     , IB.MODIFY_DATE
+		     , CASE 
+              	   WHEN EXISTS (SELECT 1 FROM INQUIRY_COMMENT IC WHERE IC.INQUIRY_NO = IB.INQUIRY_NO) THEN 1
+	               ELSE 0
+           	   END AS HAS_COMMENT
 		  FROM 
 		       INQUIRY_BOARD IB
 		  LEFT
