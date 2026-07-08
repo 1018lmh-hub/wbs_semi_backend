@@ -40,7 +40,7 @@ public class SecurityConfig {
 				   .authorizeHttpRequests(requests -> {
 					   requests.requestMatchers(HttpMethod.GET, "/api/stations/**", "/api/notices/**", "/api/inquirys/**", "/uploads/**", "/api/auth/logout").permitAll();
 					   requests.requestMatchers(HttpMethod.POST, "/api/users", "/api/auth/login", "/api/auth/refresh").permitAll();
-					   requests.requestMatchers(HttpMethod.GET, "/api/users").authenticated();
+					   requests.requestMatchers(HttpMethod.GET, "/api/users", "/api/stations/*/bookmarks").authenticated();
 					   requests.requestMatchers(HttpMethod.POST, "/api/auth/logout", "/api/stations/*/reviews", "/api/inquirys", "/api/stations/*/reviews/*/likes", "/api/stations/*/bookmarks").authenticated();
 					   requests.requestMatchers(HttpMethod.PATCH, "/api/users/**", "/api/stations/*/reviews/**", "/api/inquirys/*").authenticated();
 					   requests.requestMatchers(HttpMethod.DELETE, "/api/users/**", "/api/stations/*/reviews/**", "/api/inquirys/*", "/api/stations/*/reviews/*/likes", "/api/stations/*/bookmarks").authenticated();

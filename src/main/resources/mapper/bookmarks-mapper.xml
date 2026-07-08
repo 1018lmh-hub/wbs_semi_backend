@@ -39,5 +39,19 @@
 		       BOOKMARK_NO = #{bookmarkNo}      
 	</delete>
 
+	<select id="findBookmarksList">
+		SELECT
+		       BOOKMARK_NO
+		     , USER_ID
+		     , STATION_NO
+		     , CREATE_DATE
+		  FROM
+		       BOOKMARKS
+		 WHERE
+		       USER_ID = #{userId}
+		 ORDER
+		    BY
+		       CREATE_DATE DESC                 
+	</select>
 
 </mapper>
