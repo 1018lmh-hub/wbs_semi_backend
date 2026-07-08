@@ -24,6 +24,8 @@
 				    ) THEN 1
 				    ELSE 0
 				END AS HAS_COMMENT
+		  FROM
+		       INQUIRY_BOARD IB
 		  LEFT
           JOIN 
                PLU_USER PU ON(IB.USER_ID = PU.USER_ID)
