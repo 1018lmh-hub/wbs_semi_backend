@@ -57,9 +57,6 @@
 		  LEFT 
 		  JOIN
 		       LIKES L ON (R.REVIEW_NO = L.REVIEW_NO)
-		  LEFT
-		  JOIN 
-		       BOOKMARKS B ON (PLU_USER.USER_ID = B.USER_ID)
 		 WHERE
 		       R.STATUS = 'Y'
 		   AND
@@ -113,9 +110,6 @@
 		  LEFT 
 		  JOIN
 		       LIKES L ON (R.REVIEW_NO = L.REVIEW_NO)
-		  LEFT
-		  JOIN 
-		       BOOKMARKS B ON (PLU_USER.USER_ID = B.USER_ID)
 		 WHERE
 		       R.STATUS = 'Y'
 		   AND
@@ -158,9 +152,6 @@
 		  LEFT 
 		  JOIN
 		       LIKES L ON (R.REVIEW_NO = L.REVIEW_NO)
-		  LEFT
-		  JOIN 
-		       BOOKMARKS B ON (PLU_USER.USER_ID = B.USER_ID)
 		 WHERE
 		       R.STATUS = 'Y'
 		   AND
