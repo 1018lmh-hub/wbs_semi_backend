@@ -38,6 +38,13 @@ public class ReviewController {
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(reviews));
 	}
 	
+	// 후기 전체조회(최신순)
+	@GetMapping("/latest")
+	public ResponseEntity<ApiResponse<StationDetailResponse>> findAllLatest(@RequestParam(value="page", defaultValue = "1") int page, @PathVariable(value="stationNo") String stationNo, @AuthenticationPrincipal CustomUserDetails user){
+		StationDetailResponse reviews = reviewService.findAllLatest(page, stationNo, user);
+		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(reviews));
+	}
+	
 	// 후기 작성
 	@PostMapping
 	public ResponseEntity<ApiResponse<Void>> saveReview(@PathVariable(value="stationNo") String stationNo, @AuthenticationPrincipal CustomUserDetails user, @Valid @RequestBody ReviewSaveDto review){

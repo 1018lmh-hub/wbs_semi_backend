@@ -128,6 +128,51 @@
 	    
 	</select>
 	
+		<select id="findAllLatest"
+			resultMap="StationResponseDto">
+		SELECT DISTINCT 
+		       R.REVIEW_NO
+		     , PLU_USER.USER_ID
+		     , NICKNAME
+		     , ORIGIN_PROFILE_NAME
+		     , CHANGE_PROFILE_NAME
+		     , R.STATION_NO
+		     , R.REVIEW_TITLE
+		     , R.REVIEW_CONTENT
+		     , R.RATING
+		     , R.CREATE_DATE AS R_CREATE_DATE
+		     , R.MODIFY_DATE
+		     , R.STATUS
+		     , COUNT(L.REVIEW_NO) OVER(PARTITION BY R.REVIEW_NO) AS LIKE_COUNT
+		     , (SELECT COUNT(*) FROM LIKES WHERE USER_ID = #{user.username} AND R.REVIEW_NO = LIKES.REVIEW_NO)  AS LIKED
+		     , (SELECT BOOKMARK_NO FROM BOOKMARKS WHERE USER_ID = #{user.username} AND STATION_NO = #{stationNo}) AS BOOKMARK_NO
+		     , (SELECT ROUND(AVG(RATING), 2) FROM REVIEW GROUP BY STATION_NO HAVING STATION_NO = #{stationNo}) AS AVG_RATING
+ 		  FROM
+		       REVIEW R
+		  LEFT
+		  JOIN
+		       PLU_USER ON (R.USER_ID = PLU_USER.USER_ID)
+		  LEFT
+		  JOIN
+		       PROFILE ON (PROFILE.USER_ID = PLU_USER.USER_ID)
+		  LEFT 
+		  JOIN
+		       LIKES L ON (R.REVIEW_NO = L.REVIEW_NO)
+		  LEFT
+		  JOIN 
+		       BOOKMARKS B ON (PLU_USER.USER_ID = B.USER_ID)
+		 WHERE
+		       R.STATUS = 'Y'
+		   AND
+		       R.STATION_NO = #{stationNo}
+		 ORDER 
+		    BY
+		       R.CREATE_DATE DESC
+		     , LIKE_COUNT DESC
+	    OFFSET #{pi.offset} ROWS FETCH NEXT #{pi.boardLimit} ROWS ONLY
+	    
+	</select>
+	
 	<insert id="saveReview">
 		INSERT
 		  INTO
