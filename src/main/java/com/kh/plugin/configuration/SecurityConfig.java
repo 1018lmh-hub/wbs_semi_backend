@@ -39,15 +39,15 @@ public class SecurityConfig {
 				   .csrf(AbstractHttpConfigurer::disable)
 				   .cors(Customizer.withDefaults())
 				   .authorizeHttpRequests(requests -> {
-					   requests.requestMatchers(HttpMethod.GET, "/api/stations/**", "/api/notices/**", "/api/inquirys/**", "/uploads/**", "/api/auth/logout").permitAll();
-					   requests.requestMatchers(HttpMethod.POST, "/api/users", "/api/auth/login", "/api/auth/refresh", "/api/rasp").permitAll();
-					   requests.requestMatchers(HttpMethod.GET, "/api/users", "/api/stations/*/bookmarks").authenticated();
+					   requests.requestMatchers(HttpMethod.GET, "/api/users", "/api/stations/bookmarks").authenticated();
 					   requests.requestMatchers(HttpMethod.POST, "/api/auth/logout", "/api/stations/*/reviews", "/api/inquirys", "/api/stations/*/reviews/*/likes", "/api/stations/*/bookmarks").authenticated();
 					   requests.requestMatchers(HttpMethod.PATCH, "/api/users/**", "/api/stations/*/reviews/**", "/api/inquirys/*").authenticated();
 					   requests.requestMatchers(HttpMethod.DELETE, "/api/users/**", "/api/stations/*/reviews/**", "/api/inquirys/*", "/api/stations/*/reviews/*/likes", "/api/stations/*/bookmarks").authenticated();
 					   requests.requestMatchers(HttpMethod.POST, "/api/notices/**", "/api/inquirys/*/inquirycomments").hasRole("ADMIN");
 					   requests.requestMatchers(HttpMethod.PATCH, "/api/notices/**", "/api/inquirys/*/inquirycomments/**").hasRole("ADMIN");
 					   requests.requestMatchers(HttpMethod.DELETE, "/api/notices/**", "/api/inquirys/*/inquirycomments/**").hasRole("ADMIN");
+					   requests.requestMatchers(HttpMethod.GET, "/api/stations/**", "/api/notices/**", "/api/inquirys/**", "/uploads/**", "/api/auth/logout").permitAll();
+					   requests.requestMatchers(HttpMethod.POST, "/api/users", "/api/auth/login", "/api/auth/refresh", "/api/rasp").permitAll();
 					   requests.requestMatchers(HttpMethod.GET).permitAll();
 				   })
 				   .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
