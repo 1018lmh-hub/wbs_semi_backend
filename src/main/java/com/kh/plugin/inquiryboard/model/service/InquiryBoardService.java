@@ -9,8 +9,8 @@ import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.common.model.dto.PageInfo;
 import com.kh.plugin.common.util.Pagination;
 import com.kh.plugin.common.util.PagingRequestValidator;
+import com.kh.plugin.exception.BoardNotFoundException;
 import com.kh.plugin.exception.IdMismatchException;
-import com.kh.plugin.exception.InvalidParameterException;
 import com.kh.plugin.inquiryboard.model.dao.InquiryBoardMapper;
 import com.kh.plugin.inquiryboard.model.dto.InquiryBoardResponseAndPageInfo;
 import com.kh.plugin.inquiryboard.model.dto.InquiryBoardResponseDto;
@@ -56,7 +56,7 @@ public class InquiryBoardService {
 	
 	private void existsByInquiryNo(Long inquiryNo) {
 		if(!(inquiryBoardMapper.existsByInquiryNo(inquiryNo))) {
-			throw new InvalidParameterException ("존재하지 않는 게시글 요청입니다");
+			throw new BoardNotFoundException ("게시글이 존재하지 않습니다");
 		}
 	}
 	

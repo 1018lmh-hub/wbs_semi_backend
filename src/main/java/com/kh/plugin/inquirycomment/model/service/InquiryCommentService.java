@@ -8,8 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.exception.BoardNotFoundException;
 import com.kh.plugin.exception.IdMismatchException;
+import com.kh.plugin.exception.InvalidParameterException;
+import com.kh.plugin.inquiryboard.model.dao.InquiryBoardMapper;
 import com.kh.plugin.inquiryboard.model.dto.InquiryBoardResponseDto;
-import com.kh.plugin.inquiryboard.model.service.InquiryBoardService;
 import com.kh.plugin.inquirycomment.model.dao.InquiryCommentMapper;
 import com.kh.plugin.inquirycomment.model.dto.InquiryCommentDto;
 import com.kh.plugin.inquirycomment.model.dto.InquiryCommentRequestDto;
@@ -24,13 +25,13 @@ import lombok.extern.slf4j.Slf4j;
 public class InquiryCommentService {
 
 	private final InquiryCommentMapper inquiryCommentMapper;
-	private final InquiryBoardService inquiryBoardService;
+	private final InquiryBoardMapper inquiryBoardMapper;
 
 	
 	// 댓글 조회
 	@Transactional
 	public List<InquiryCommentDto> findInquiryComment(Long inquiryNo) {
-		checkInquiry(inquiryNo);
+		existsByInquiryNo(inquiryNo);
 		return inquiryCommentMapper.findInquiryComment(inquiryNo);
 	}
 	
@@ -38,7 +39,7 @@ public class InquiryCommentService {
 	@Transactional
 	public Void saveInquiryComment(CustomUserDetails user, Long inquiryNo, InquiryCommentRequestDto inquiry) {
 		
-		checkInquiry(inquiryNo);
+		existsByInquiryNo(inquiryNo);
 		InquiryComment inquiryCommentEntity = InquiryComment.builder().userId(user.getUsername())
 																	  .inquiryNo(inquiryNo)
 																	  .commentContent(inquiry.getCommentContent())
@@ -51,7 +52,7 @@ public class InquiryCommentService {
 	@Transactional
 	public Void updateInquiryComment(CustomUserDetails user, Long inquiryNo, InquiryCommentRequestDto inquiry, Long commentNo) {
 		
-		checkInquiry(inquiryNo);
+		existsByInquiryNo(inquiryNo);
 		InquiryCommentDto dbComment = findCommentByCommentNo(commentNo);
 		checkWriter(commentNo, user.getUsername(), dbComment.getUserId());
 		
@@ -66,7 +67,7 @@ public class InquiryCommentService {
 	@Transactional
 	public void deleteInquiryComment(CustomUserDetails user, Long inquiryNo, Long commentNo) {
 		
-		checkInquiry(inquiryNo);		
+		existsByInquiryNo(inquiryNo);	
 		InquiryCommentDto dbComment = findCommentByCommentNo(commentNo);
 		checkWriter(commentNo, user.getUsername(), dbComment.getUserId());
 		inquiryCommentMapper.deleteInquiryComment(commentNo);
@@ -88,11 +89,10 @@ public class InquiryCommentService {
 		}
 	}
 	
-	// 문의글 존재여부 확인
-	private void checkInquiry(Long inquiryNo) {
-		InquiryBoardResponseDto inquiry = inquiryBoardService.findByInquiryNo(inquiryNo);
-		if(inquiry == null) {
-			throw new BoardNotFoundException("게시글이 존재하지 않습니다");
+	// 문의글 존재여부 확인	
+	private void existsByInquiryNo(Long inquiryNo) {
+		if(!(inquiryBoardMapper.existsByInquiryNo(inquiryNo))) {
+			throw new BoardNotFoundException ("게시글이 존재하지 않습니다");
 		}
 	}
 
