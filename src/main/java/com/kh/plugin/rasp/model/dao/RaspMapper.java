@@ -54,7 +54,7 @@ public interface RaspMapper {
 			  FROM
 			       RASP_DATA
 			 WHERE
-			       (SYSTIMESTAMP - INTERVAL '7' DAY) < CREATED_AT      
+			       (SYSTIMESTAMP - INTERVAL '14' MINUTE) <= CREATED_AT      
 			""")
 	List<Device> findSerial();
 
