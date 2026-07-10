@@ -17,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 	
-	
 	private final HandlerExceptionResolver handlerExceptionResolver;
 
 	public CustomAuthenticationEntryPoint(@Qualifier("handlerExceptionResolver") HandlerExceptionResolver handlerExceptionResolver) {
