@@ -1,0 +1,317 @@
+# 프로젝트 컨텍스트 (WBS Semi Frontend)
+
+> 이 문서를 새로운 AI 세션의 첫 프롬프트에 항상 첨부하세요.
+> 컴포넌트/스타일 생성 요청 시 이 컨벤션을 그대로 따르도록 지시하면 일관성이 유지됩니다.
+
+---
+
+## 1. 기술 스택
+
+### 프론트엔드
+
+| 항목          | 값                        |
+| ------------- | ------------------------- |
+| Framework     | React `19.2.7`            |
+| 언어          | JavaScript (JSX)          |
+| 빌드 도구     | Vite `8.1.0`              |
+| Node.js       | v22.x                     |
+| 스타일링      | styled-components `6.4.3` |
+| HTTP          | axios `1.18.1`            |
+| 라우팅        | react-router-dom `7.18.0` |
+| 패키지 매니저 | npm                       |
+
+### 백엔드
+
+| 항목      | 값                                                                                                    |
+| --------- | ----------------------------------------------------------------------------------------------------- |
+| Framework | Spring Boot `3.5.16`                                                                                  |
+| 보안      | Spring Security                                                                                       |
+| 인증      | JWT (Access + Refresh Token)                                                                          |
+| 응답 포맷 | `ResponseEntity<ApiResponse<T>>` (공통 래퍼)                                                          |
+| 페이징    | 자체 `PageInfo` / `Pagination` 클래스 (백엔드에서 계산), 프론트는 React 페이징 라이브러리로 UI만 렌더 |
+
+---
+
+## 2. 폴더 구조 (실제)
+
+```
+src/
+  api/
+    axios.js              # axios 인스턴스 + 인터셉터 (토큰 첨부, 401 갱신)
+  assets/                 # 이미지 리소스
+  components/
+    common/
+      Toast/
+        Toast.jsx
+        Toast.style.js
+    layout/
+      Header/
+        Header.jsx
+        Header.style.js
+      MainLayout/
+        MainLayout.jsx
+        MainLayout.style.js
+  context/
+    AuthContext.jsx
+    ToastContext.jsx
+  features/
+    map/                  # 도메인/기능 단위 폴더 (예: map, inquiryboard 등)
+      Map.jsx
+      Map.style.js
+    review/
+      ReviewForm.jsx       # 후기 작성 + 수정 겸용 (reviewId 유무로 모드 분기)
+      ReviewForm.style.js
+      ReviewItem.jsx       # 후기 카드 공통 컴포넌트 (list/preview variant, 본인 글이면 수정 버튼 노출)
+      ReviewItem.style.js
+      ReviewList.jsx       # 후기 전체보기
+      ReviewList.style.js
+      useReviewDeletion.js
+    station/
+      ReviewPreview.jsx
+      ReviewPreview.style.js
+      StationDetail.jsx
+      StationDetail.style.js
+    user/
+      Login.jsx
+      Login.style.js
+      SignUp.jsx
+      SignUp.style.js
+  lib/                    # 순수 유틸 함수 (chargeStatus.js, stationApi.js 등)
+    chargeStatus.js
+    MarkerClustering.js
+    stationApi.js
+  styles/
+    theme.js              # 디자인 토큰
+    GlobalStyle.js         # 전역 리셋 스타일
+  App.jsx
+  main.jsx
+```
+
+**새 컴포넌트를 추가할 때 규칙**
+
+- 공통 레이아웃 요소 → `components/layout/`
+- 특정 기능/도메인 단위 → `features/{도메인명}/`
+- 폴더명 = 컴포넌트명 (PascalCase), 내부에 `ComponentName.jsx` + `ComponentName.style.js` 쌍으로 생성
+- 작성/수정처럼 같은 폼을 재사용하는 기능은 **별도 컴포넌트로 분리하지 않고, URL 파라미터(예: `reviewId`) 유무로 모드를 분기**하는 패턴을 우선 검토 (예: `ReviewForm`)
+
+---
+
+## 3. 네이밍 & 코드 컨벤션
+
+- 컴포넌트 파일: `PascalCase.jsx` / 스타일 파일: `PascalCase.style.js`
+- 함수형 컴포넌트만 사용, `export default`
+- 파일 최상단에 경로 주석 표시: `// src/components/layout/Header/Header.jsx`
+- styled-components에서 컴포넌트에 전달하는 커스텀 boolean/제어용 prop은 `$` 접두사 사용
+  (예: `$isOpen`, `$isActive`) — DOM에 그대로 전달되어 콘솔 경고 나는 것 방지
+- 스타일 값은 하드코딩 금지, 반드시 `theme.js`의 토큰 사용 (`theme.color.xxx`, `theme.space.xxx`, `theme.fontSize.xxx`)
+- 한글 주석 다수 사용 (설계 의도, 임시 처리 표시 등)
+- 본인 작성 여부 판별: `useAuth().user.userId === data.userId` 형태로 비교 (아래 4번 참고)
+
+### theme.js 토큰 구조
+
+```js
+theme.color.{primary, primarySoft, accent, headerBg, headerText, text, sub, border, bg, bgSoft, danger, success}
+theme.fontSize.{xs, sm, md, lg, xl}
+theme.space.{xs, sm, md, lg, xl}
+theme.size.{headerHeight}
+```
+
+---
+
+## 4. API 연동 규칙
+
+- 모든 API 요청은 `src/api/axios.js`의 `api` 인스턴스를 통해서만 호출
+- 요청 시 `Authorization: Bearer {token}` 자동 첨부 (인터셉터 처리됨)
+- `localStorage`에 `token`, `refreshToken`, `userId`, `memberName`, `role` 저장
+  > ⚠️ 기존 `memberId` 키는 `userId`로 변경됨 (2026-07 기준). 백엔드 응답/후기 데이터의 `userId` 필드와 이름을 통일해 본인 글 판별 시 혼동을 없앰. `AuthContext.jsx`, `axios.js` 인터셉터 모두 이 키로 통일되어 있음.
+- 401 응답 + "토큰만료" 메시지 → 자동으로 refresh 후 원 요청 재시도 (이미 구현됨, 컴포넌트에서 신경 쓸 필요 없음)
+- 백엔드 응답은 항상 다음 구조:
+
+```json
+{
+  "code": 200,
+  "message": "요청에 성공했습니다.",
+  "data": {
+    /* 실제 데이터 */
+  }
+}
+```
+
+→ 프론트에서는 `res.data.data`로 실제 데이터 접근
+
+- 백엔드 요청 어노테이션 컨벤션: `@AuthenticationPrincipal`, `@PathVariable`, `@RequestBody`, `@RequestParam`, `@RequestParam`으로 받는 `MultipartFile`, `@ModelAttribute`
+- 페이징 요청 시 쿼리 파라미터는 `page` (기본값 1)
+- 후기(Review) 관련 요청/응답 필드는 폼 상태 키(`title`/`content`/`rating`)와 백엔드 DTO 키(`reviewTitle`/`reviewContent`/`rating`)가 다르므로, API 함수(`stationApi.js`) 내부에서 반드시 매핑 후 전송
+
+### 후기 API 목록 (`lib/stationApi.js`)
+
+| 함수                     | 메소드 | 엔드포인트                                              |
+| ------------------------ | ------ | ------------------------------------------------------- |
+| `fetchStationReviews`    | GET    | `/stations/{stationNo}` (충전소 상세 + 후기 미리보기용) |
+| `fetchStationReviewList` | GET    | `/stations/{stationNo}/reviews?page=`                   |
+| `createStationReview`    | POST   | `/stations/{stationNo}/reviews`                         |
+| `updateStationReview`    | PATCH  | `/stations/{stationNo}/reviews/{reviewNo}`              |
+
+### 후기(Review) 객체 필드 (실제 응답 기준)
+
+```json
+{
+  "reviewNo": 1,
+  "userId": "user01",
+  "nickname": "홍길동",
+  "changeProfileName": null,
+  "stationNo": "1001",
+  "reviewTitle": "제목",
+  "reviewContent": "내용",
+  "rating": 3,
+  "createDate": "2026-07-03T14:54:36.757",
+  "modifyDate": "2026-07-03T14:54:36.757",
+  "status": "Y",
+  "likeCount": 4,
+  "liked": false
+}
+```
+
+- `userId`, `nickname`은 유니크
+- 본인 글 여부 판별: `review.userId === useAuth().user.userId`
+
+---
+
+## 5. 새 컴포넌트 요청 시 AI에게 제공해야 할 정보 (체크리스트)
+
+```
+- 컴포넌트명 / 배치 위치:
+- 역할:
+- Props (이름 / 타입 / 필수 여부):
+- 내부 상태(state) 필요 여부:
+- 연동할 API 엔드포인트 (있다면 요청/응답 예시 JSON):
+- 페이징 필요 여부:
+- 참고할 기존 컴포넌트: (반드시 실제 코드 첨부. 이름만 언급 금지)
+- 추가적인 명세 (화면 구성표, URL 요청표 등 기획 문서가 있다면 그대로 첨부)
+```
+
+### 예시: 후기 수정하기 (완료된 작업, 참고용)
+
+```
+- 컴포넌트명 / 배치 위치 : ReviewForm 재사용 (features/review), 별도 파일 생성 안 함
+- 역할 : 본인이 작성한 후기에서만 수정 버튼(ReviewItem 내부, list/preview 공통)이 보이고,
+  클릭 시 같은 ReviewForm을 수정 모드로 재사용. 기존 값이 채워진 상태로 진입,
+  완료 시 PATCH 요청 → 성공 시 이전 화면 + 토스트, 실패 시 인라인 에러 표시.
+- 모드 분기 : URL의 reviewId 파라미터 유무로 판단 (있으면 수정 모드)
+- 데이터 전달 : ReviewItem의 수정 버튼 클릭 시 navigate(경로, { state: {...} })로 전달
+  (location.state 없이 진입 시 목록으로 리다이렉트 처리)
+- API : PATCH /api/stations/{stationNo}/reviews/{reviewNo}
+  요청 바디: { reviewTitle, reviewContent, rating }
+  성공 응답: { code: 201, message: "...", data: null }
+  실패 응답(400): { code: 400, message: "...", data: { reviewTitle, reviewContent, rating } }
+- 참고한 기존 컴포넌트 : ReviewForm, ReviewItem, ReviewList, ReviewPreview, AuthContext, stationApi
+```
+
+```
+
+### 예시: 후기 수정하기 (완료된 작업, 참고용)
+
+```
+
+- 컴포넌트명 / 배치 위치 : ReviewForm 재사용 (features/review), 별도 파일 생성 안 함
+- 역할 : 본인이 작성한 후기에서만 수정 버튼(ReviewItem 내부, list/preview 공통)이 보이고,
+  클릭 시 같은 ReviewForm을 수정 모드로 재사용. 기존 값이 채워진 상태로 진입,
+  완료 시 PATCH 요청 → 성공 시 이전 화면 + 토스트, 실패 시 인라인 에러 표시.
+- 모드 분기 : URL의 reviewId 파라미터 유무로 판단 (있으면 수정 모드)
+- 데이터 전달 : ReviewItem의 수정 버튼 클릭 시 navigate(경로, { state: {...} })로 전달
+  (location.state 없이 진입 시 목록으로 리다이렉트 처리)
+- API : PATCH /api/stations/{stationNo}/reviews/{reviewNo}
+  요청 바디: { reviewTitle, reviewContent, rating }
+  성공 응답: { code: 201, message: "...", data: null }
+  실패 응답(400): { code: 400, message: "...", data: { reviewTitle, reviewContent, rating } }
+- 참고한 기존 컴포넌트 : ReviewForm, ReviewItem, ReviewList, ReviewPreview, AuthContext, stationApi
+
+````
+
+---
+
+## 6. 대표 예시 코드 (스타일 참고용)
+
+### Header.jsx (컴포넌트 패턴)
+
+```jsx
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { HeaderContainer, LeftSection, MenuButton } from "./Header.style";
+
+const Header = ({ toggleSidebar }) => {
+  const navigate = useNavigate();
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
+  return (
+    <HeaderContainer>
+      <LeftSection>
+        <MenuButton onClick={toggleSidebar} aria-label="메뉴 열기">
+          ☰
+        </MenuButton>
+      </LeftSection>
+    </HeaderContainer>
+  );
+};
+
+export default Header;
+````
+
+### Header.style.js (스타일 패턴)
+
+```js
+import styled from "styled-components";
+import { theme } from "../../../styles/theme";
+
+export const HeaderContainer = styled.header`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: ${theme.size.headerHeight};
+  background-color: ${theme.color.headerBg};
+  display: flex;
+  align-items: center;
+`;
+```
+
+---
+
+## 7. 참고 (백엔드 응답 예시)
+
+```java
+@GetMapping
+public ResponseEntity<ApiResponse<List<InquiryBoardResponseDto>>> findAll(
+    @RequestParam(name="page", defaultValue = "1") int page){
+    List<InquiryBoardResponseDto> inquirys = inquiryBoardService.findAll(page);
+    return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(inquirys));
+}
+```
+
+### 후기 수정 컨트롤러 (참고)
+
+```java
+// 후기 수정
+@PatchMapping("/{reviewNo}")
+public ResponseEntity<ApiResponse<Void>> updateReview(
+    @PathVariable(value="stationNo") String stationNo,
+    @PathVariable(value="reviewNo") Long reviewNo,
+    @AuthenticationPrincipal CustomUserDetails user,
+    @Valid @RequestBody ReviewSaveDto review){
+    review.setReviewNo(reviewNo);
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .body(ApiResponse.created(reviewService.updateReview(stationNo, user, review)));
+}
+```
+
+---
+
+## 8. 핵심 사항 - 매우 중요!!
+
+새로운 작업을 실시할 때 기존의 파일이 필요한 경우 임의로 작업을 하지 말고 해당 코드를 요청 한 후에 확인 후 작업 실시 - 참고 자료가 필요한 경우 절대적으로 임의판단 하지 않는다!!
+
+- "참고할 기존 컴포넌트"에 이름만 적지 말고 반드시 실제 코드를 첨부할 것
+- 필드명(백엔드 DTO 키 vs 프론트 상태 키)이 다를 수 있으므로 항상 실제 요청/응답 예시로 확인할 것
+- localStorage 키, Context가 제공하는 값 목록 등은 코드 기준으로만 판단 (문서 예시만 보고 추정 금지)
