@@ -39,7 +39,6 @@ public class JwtFilter extends OncePerRequestFilter {
 		if("GET".equals(method) && uri.startsWith("/api/notices/**")) return true;
 		if("GET".equals(method) && uri.startsWith("/api/inquirys")) return true;
 		if("GET".equals(method) && uri.startsWith("/api/stations/**")) return true;
-		if("GET".equals(method) && uri.startsWith("/api/inquirycomments")) return true;
 		return uri.equals("/api/auth/login") || uri.equals("/api/auth/refresh");
 	}
 
@@ -77,9 +76,7 @@ public class JwtFilter extends OncePerRequestFilter {
 								  	  + "\"data\": null}");
 			return;
 		}
-		
 		filterChain.doFilter(request, response);
-		
 	}
 	
 }

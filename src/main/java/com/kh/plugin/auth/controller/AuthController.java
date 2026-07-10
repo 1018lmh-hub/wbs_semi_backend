@@ -27,7 +27,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class AuthController {
 	
-	
 	private final AuthService authService;
 	private final TokenService tokenService;
 	
@@ -44,13 +43,11 @@ public class AuthController {
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(null));
 	}
 	
+	// 토큰 재발급
 	@PostMapping("/refresh")
 	public ResponseEntity<ApiResponse<Map<String, String>>> refresh(@RequestBody Map<String, String> request){
 		String refreshToken = request.get("refreshToken");
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(tokenService.tokenRotation(refreshToken)));
 	}
 	
-	
-
-
 }
