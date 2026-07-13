@@ -27,18 +27,14 @@ public class InquiryCommentService {
 	private final InquiryCommentMapper inquiryCommentMapper;
 	private final InquiryBoardMapper inquiryBoardMapper;
 
-	
-	// 댓글 조회
 	@Transactional
 	public List<InquiryCommentDto> findInquiryComment(Long inquiryNo) {
 		existsByInquiryNo(inquiryNo);
 		return inquiryCommentMapper.findInquiryComment(inquiryNo);
 	}
 	
-	//댓글 작성
 	@Transactional
 	public Void saveInquiryComment(CustomUserDetails user, Long inquiryNo, InquiryCommentRequestDto inquiry) {
-		
 		existsByInquiryNo(inquiryNo);
 		InquiryComment inquiryCommentEntity = InquiryComment.builder().userId(user.getUsername())
 																	  .inquiryNo(inquiryNo)
@@ -48,10 +44,8 @@ public class InquiryCommentService {
 		return null;
 	}
 
-	// 댓글 수정
 	@Transactional
 	public Void updateInquiryComment(CustomUserDetails user, Long inquiryNo, InquiryCommentRequestDto inquiry, Long commentNo) {
-		
 		existsByInquiryNo(inquiryNo);
 		InquiryCommentDto dbComment = findCommentByCommentNo(commentNo);
 		checkWriter(commentNo, user.getUsername(), dbComment.getUserId());
@@ -63,17 +57,14 @@ public class InquiryCommentService {
 		return null;
 	}
 	
-	// 댓글 삭제
 	@Transactional
 	public void deleteInquiryComment(CustomUserDetails user, Long inquiryNo, Long commentNo) {
-		
 		existsByInquiryNo(inquiryNo);	
 		InquiryCommentDto dbComment = findCommentByCommentNo(commentNo);
 		checkWriter(commentNo, user.getUsername(), dbComment.getUserId());
 		inquiryCommentMapper.deleteInquiryComment(commentNo);
 	}
 	
-	// 댓글 번호로 댓글 조회
 	private InquiryCommentDto findCommentByCommentNo(Long commentNo) {
 		InquiryCommentDto dbComment = inquiryCommentMapper.findCommentByCommentNo(commentNo);
 		if(dbComment == null) {
@@ -82,14 +73,12 @@ public class InquiryCommentService {
 		return dbComment;
 	}
 	
-	// 작성자 검증
 	private void checkWriter(Long commentNo, String userId, String writer) {
 		if(!userId.equals(writer)) {
 			throw new IdMismatchException("작성자가 일치하지 않습니다.");
 		}
 	}
 	
-	// 문의글 존재여부 확인	
 	private void existsByInquiryNo(Long inquiryNo) {
 		if(!(inquiryBoardMapper.existsByInquiryNo(inquiryNo))) {
 			throw new BoardNotFoundException ("게시글이 존재하지 않습니다");

@@ -5,5 +5,4 @@ public class InvalidLikeException extends RuntimeException{
 	public InvalidLikeException(String msg) {
 		super(msg);
 	}
-	
 }

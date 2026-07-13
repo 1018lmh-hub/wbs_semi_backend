@@ -17,7 +17,6 @@ public class StationService {
 	private String key;
 	
 	public String getStations() {
-		
 		String url = "https://bigdata.kepco.co.kr/openapi/v1/EVchargeManage.do?addr=서울특별시&apiKey=" + key + "&returnType=json";
 		URI uri = null;
 		try {
@@ -27,7 +26,6 @@ public class StationService {
 		}
 		String apiResponse = new RestTemplate().getForObject(url, String.class);
 		return apiResponse;
-		
 	}
 
 }

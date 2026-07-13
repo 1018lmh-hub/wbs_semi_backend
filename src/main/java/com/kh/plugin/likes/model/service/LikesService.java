@@ -19,7 +19,6 @@ public class LikesService {
 
 	private final LikesMapper likesMapper;
 	
-	// 좋아요 추가
 	@Transactional
 	public Void saveLike(CustomUserDetails user, Long reviewNo) {
 		
@@ -34,7 +33,6 @@ public class LikesService {
 		return null;
 	}
 
-	// 좋아요 취소
 	@Transactional
 	public void deleteLike(CustomUserDetails user, Long reviewNo) {
 		
@@ -46,7 +44,6 @@ public class LikesService {
 		
 	}
 	
-	// 좋아요 가져오기
 	private LikeDto findLike(String userId, Long reviewNo) {
 		return likesMapper.findLike(userId, reviewNo);
 	}

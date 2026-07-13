@@ -23,4 +23,5 @@ public class StationDetailResponse {
 	private Double avgRating;
 	private BookmarksDto bookmark;
 	private PageInfo pageInfo;
+	
 }

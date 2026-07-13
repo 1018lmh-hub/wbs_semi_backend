@@ -31,7 +31,6 @@ public class JwtFilter extends OncePerRequestFilter {
 	private final JwtUtil jwtUtil;
 	private final UserDetailsService userDetailService;
 
-	// 요 안에서 반환하는 경로들은 필터를 아예 안타게해주는 메소드
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
 		String uri = request.getRequestURI();
@@ -45,15 +44,12 @@ public class JwtFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		
 		String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
 		if(authorization == null || !authorization.startsWith("Bearer ")) {
 			filterChain.doFilter(request, response);
 			return;
 		}
-
 		String token = authorization.substring(7);
-		
 		try {
 			Claims claims = jwtUtil.parseJwt(token);
 			String username = claims.getSubject();

@@ -9,5 +9,5 @@ public class PagingRequestValidator {
 		if((pi.getMaxPage() < pi.getCurrentPage()) || pi.getCurrentPage() < 1){
 			throw new InvalidParameterException ("존재하지 않는 페이지 요청입니다");  
 		}
-	};
+	}
 }

@@ -28,57 +28,42 @@ public class NoticeBoardService {
 	private final NoticeBoardMapper noticeBoardMapper;
 	private final Pagination pagination;
 	
-	// 공지사항 게시글 전체조회
 	@Transactional
 	public NoticeBoardResponseAndPageInfo findAll(int page) {
 		PageInfo pi = pagination.getPageInfo(countNotices(), page, 5, 5);
 		PagingRequestValidator.validatePage(pi);
 		List<NoticeBoardResponseDto> notices = noticeBoardMapper.findAll(pi);
-		
-		
-		
 		return new NoticeBoardResponseAndPageInfo(notices, pi);
 	}
 	
-	//공지사항 게시글 수 확인
 	private int countNotices() {
 		return noticeBoardMapper.countNotices();
 	}
 
-	// 공지사항 게시글 상세조회
 	@Transactional
 	public NoticeBoardResponseDto findByNoticeNo(Long noticeNo) {
-		
 		existsByNoticeNo(noticeNo);
 		noticeBoardMapper.increaseCount(noticeNo);		
 		return noticeBoardMapper.findByNoticeNo(noticeNo);
-		
 	}
 	
-	// 게시글 존재여부를 확인하는 메서드
 	private void existsByNoticeNo(Long noticeNo) {
 		if(!(noticeBoardMapper.existsByNoticeNo(noticeNo))) {
 			throw new InvalidParameterException ("존재하지 않는 게시글 요청입니다");
 		}
 	}
-	
 
-	// 공지사항 게시글 저장
 	@Transactional
 	public void saveNotice(SaveNoticeBoardDto board, CustomUserDetails user) {
-		
         NoticeBoard boardEntity = NoticeBoard.builder().userId(user.getUsername())
         											   .noticeTitle(board.getNoticeTitle())
         											   .noticeContent(board.getNoticeContent())
 													   .build();
 		noticeBoardMapper.saveNotice(boardEntity);
-		
 	}
 	
-	// 공지사항 게시글 수정
 	@Transactional
 	public void updateNotice(Long noticeNo, SaveNoticeBoardDto board, CustomUserDetails user) {
-		
 		existsByNoticeNo(noticeNo);
 		checkId(user, noticeNo);
         NoticeBoard boardEntity = NoticeBoard.builder().noticeNo(noticeNo)
@@ -89,22 +74,17 @@ public class NoticeBoardService {
         noticeBoardMapper.updateNotice(boardEntity);
 	}
 	
-	// 아이디 검증 내부 메서드(작성자 일치)
 	private void checkId(CustomUserDetails user, Long noticeNo) {
 		if (!(user.getUsername()).equals((noticeBoardMapper.findByNoticeNo(noticeNo)).getUserId())) {
 			throw new IdMismatchException("작성자와 일치하지 않습니다.");
 		}
 	}
 
-	//공지사항 게시글 삭제
 	@Transactional
 	public void deleteNotice(Long noticeNo, CustomUserDetails user) {
 		existsByNoticeNo(noticeNo);
 		checkId(user, noticeNo);
 		noticeBoardMapper.deleteNotice(noticeNo);
-		
 	}
-
-
 
 }

@@ -13,28 +13,20 @@ import com.kh.plugin.station.model.dto.StationDetailResponse;
 @Mapper
 public interface ReviewMapper {
 
-	// 충전소 상세보기 후기 조회
 	StationDetailResponse getReviews(@Param(value = "stationNo") String stationNo, @Param(value = "user")CustomUserDetails user);
 
-	// 충전소 후기 갯수 확인
 	int countReviews(String stationNo);
 
-	// 후기 전체보기
 	StationDetailResponse findAll(@Param(value = "stationNo")String stationNo, @Param(value = "user")CustomUserDetails user, @Param(value = "pi")PageInfo pi);
 
-	// 후기 전체보기(최신순)
 	StationDetailResponse findAllLatest(@Param(value = "stationNo")String stationNo, @Param(value = "user")CustomUserDetails user, @Param(value = "pi")PageInfo pi);
 	
-	// 후기 작성하기
 	int saveReview(Review reviewEntity);
 
-	// 후기 번호로 후기 가져오기
 	ReviewResponseDto findByReviewNo(Long reviewNo);
 
-	// 후기 수정하기
 	int updateReview(Review reviewEntity);
 
-	// 후기 삭제하기
 	int deleteReview(Long reviewNo);
 
 }

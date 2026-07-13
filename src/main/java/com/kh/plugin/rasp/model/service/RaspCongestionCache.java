@@ -19,19 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 public class RaspCongestionCache {
 
     private final RaspMapper raspMapper;
-
-    private static final CongestionSnapshot EMPTY =
-            new CongestionSnapshot(LocalDateTime.now(), Collections.emptyList());
-
-    private final AtomicReference<CongestionSnapshot> currentSnapshot =
-            new AtomicReference<>(EMPTY);
-    private final AtomicReference<CongestionSnapshot> historySnapshot =
-            new AtomicReference<>(EMPTY);
+    private static final CongestionSnapshot EMPTY = new CongestionSnapshot(LocalDateTime.now(), Collections.emptyList());
+    private final AtomicReference<CongestionSnapshot> currentSnapshot = new AtomicReference<>(EMPTY);
+    private final AtomicReference<CongestionSnapshot> historySnapshot = new AtomicReference<>(EMPTY);
 
     @Scheduled(fixedRate = 10000)
     public void refresh() {
         try {
-            // 이 refresh 사이클의 기준 시각. current/history 둘 다 이 시각을 asOf로 공유.
             LocalDateTime now = LocalDateTime.now();
 
             List<Device> history = raspMapper.findSerial(now);

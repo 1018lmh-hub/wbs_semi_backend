@@ -33,25 +33,21 @@ public class InquiryCommentController {
 
 	private final InquiryCommentService inquiryCommentService;
 	
-	// 댓글 조회
 	@GetMapping
 	public ResponseEntity<ApiResponse<List<InquiryCommentDto>>> findInquiryComment(@PathVariable(value = "inquiryNo") Long inquiryNo){
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(inquiryCommentService.findInquiryComment(inquiryNo)));
 	}
 	
-	// 댓글 작성
 	@PostMapping
 	public ResponseEntity<ApiResponse<Void>> saveInquiryComment(@AuthenticationPrincipal CustomUserDetails user, @PathVariable(value = "inquiryNo") Long inquiryNo, @Valid @RequestBody InquiryCommentRequestDto inquiry){
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(inquiryCommentService.saveInquiryComment(user, inquiryNo, inquiry)));
 	}
 	
-	// 댓글 수정
 	@PatchMapping("/{commentNo}")
 	public ResponseEntity<ApiResponse<Void>> updateInquiryComment(@AuthenticationPrincipal CustomUserDetails user, @PathVariable(value = "inquiryNo") Long inquiryNo, @Valid @RequestBody InquiryCommentRequestDto inquiry, @PathVariable(value = "commentNo") Long commentNo){
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(inquiryCommentService.updateInquiryComment(user, inquiryNo, inquiry, commentNo)));
 	}
 	
-	// 댓글 삭제
 	@DeleteMapping("/{commentNo}")
 	public ResponseEntity<ApiResponse<Void>> deleteInquiryComment(@AuthenticationPrincipal CustomUserDetails user, @PathVariable(value = "inquiryNo") Long inquiryNo, @PathVariable(value = "commentNo") Long commentNo){
 		inquiryCommentService.deleteInquiryComment(user, inquiryNo, commentNo);
