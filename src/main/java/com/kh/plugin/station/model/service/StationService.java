@@ -26,8 +26,6 @@ public class StationService {
 			e.printStackTrace();
 		}
 		String apiResponse = new RestTemplate().getForObject(url, String.class);
-		//log.info("{}", apiResponse);
-//		System.out.println(apiResponse);
 		return apiResponse;
 		
 	}

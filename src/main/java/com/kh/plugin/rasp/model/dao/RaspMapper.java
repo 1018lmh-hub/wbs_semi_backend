@@ -1,11 +1,11 @@
 package com.kh.plugin.rasp.model.dao;
 
+import java.time.LocalDateTime;
 import java.util.List;
-
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-
 import com.kh.plugin.rasp.model.vo.Device;
 
 @Mapper
@@ -38,24 +38,9 @@ public interface RaspMapper {
 			  FROM
 			       RASP_DATA
 			 WHERE
-			       CREATED_AT < SYSTIMESTAMP
+			       CREATED_AT <= #{now}
 			   AND
-			       SYSTIMESTAMP < FINISH_AT               
+			       FINISH_AT >= (#{now} - INTERVAL '14' MINUTE)
 			""")
-	List<Device> findCurrent();
-
-	
-	@Select("""
-			SELECT
-			       LOG_ID
-			     , DEVICE_ID
-			     , CREATED_AT
-			     , FINISH_AT
-			  FROM
-			       RASP_DATA
-			 WHERE
-			       (SYSTIMESTAMP - INTERVAL '14' MINUTE) <= CREATED_AT      
-			""")
-	List<Device> findSerial();
-
+	List<Device> findSerial(LocalDateTime now);
 }
