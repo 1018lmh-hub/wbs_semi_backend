@@ -25,7 +25,6 @@ public class AuthService {
 	private final AuthenticationManager authenticationManager;
 	private final TokenService tokenService;
 
-	// 로그인
 	public LoginResponseDto login(LoginRequestDto lrd) {
 		Authentication auth = null; 
 		try {

@@ -21,10 +21,8 @@ public class BookmarksService {
 
 	private final BookmarksMapper bookmarksMapper;
 	
-	// 북마크(즐겨찾기) 추가
 	@Transactional
 	public Void saveBookmark(CustomUserDetails user, String stationNo) {
-		
 		BookmarksDto bookmark = findBookmark(user.getUsername(), stationNo);
 		if(bookmark != null) {
 			throw new InvalidBookmarkException("이미 즐겨찾기가 된 충전소입니다.");
@@ -34,13 +32,10 @@ public class BookmarksService {
 										  .build();
 		bookmarksMapper.saveBookmark(bookmarkEntity);
 		return null;
-		
 	}
 	
-	// 북마크(즐겨찾기) 취소
 	@Transactional
 	public Void deleteBookmark(CustomUserDetails user, String stationNo) {
-		
 		BookmarksDto bookmark = findBookmark(user.getUsername(), stationNo);
 		if(bookmark == null) {
 			throw new InvalidBookmarkException("잘못된 요청입니다.");
@@ -49,16 +44,13 @@ public class BookmarksService {
 		return null;
 	}
 	
-	// 북마크(즐겨찾기) 조회하기
 	@Transactional
 	public List<BookmarksDto> findBookmarksList(CustomUserDetails user) {
 		return bookmarksMapper.findBookmarksList(user.getUsername());
 	}
 	
-	// user 아이디와 stationNo으로 북마크 땡켜오기
 	private BookmarksDto findBookmark(String userId, String stationNo) {
 		return bookmarksMapper.findBookmark(userId, stationNo);
 	}
-
 
 }

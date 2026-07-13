@@ -24,14 +24,12 @@ public class LikesController {
 	
 	private final LikesService likesService;
 
-	// 좋아요 추가
 	@PostMapping
 	public ResponseEntity<ApiResponse<Void>> saveLike(@AuthenticationPrincipal CustomUserDetails user, @PathVariable(value = "reviewNo") Long reviewNo){
 		likesService.saveLike(user, reviewNo);
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(null));
 	}
 	
-	// 좋아요 취소
 	@DeleteMapping
 	public ResponseEntity<ApiResponse<Void>> deleteLike(@AuthenticationPrincipal CustomUserDetails user, @PathVariable(value = "reviewNo") Long reviewNo){
 		likesService.deleteLike(user, reviewNo);

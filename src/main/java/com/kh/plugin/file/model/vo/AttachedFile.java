@@ -22,7 +22,6 @@ public class AttachedFile {
 		this.file = file;
 		this.valid = (file != null && !file.isEmpty());
 		this.changeName = this.valid ? rename(file.getOriginalFilename()) : null;
-		
 	}
 	
 	public static AttachedFile from(MultipartFile file) {
@@ -30,7 +29,6 @@ public class AttachedFile {
     }
 	
 	private String rename(String originName) {
-		
 		String ext = originName.substring(originName.lastIndexOf("."));
 		List<String> exts = List.of(".jpg", ".jpeg", ".png", ".gif", ".webp", ".avif", ".heic", ".bmp", ".tiff", ".svg");
 		if(!exts.contains(ext.toLowerCase())) {
@@ -39,6 +37,5 @@ public class AttachedFile {
 		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 		int randomNum = (int)(Math.random() * 900) + 100;
 		return "PLU_" + currentTime + "_" + randomNum + ext;
-		
 	}
 }

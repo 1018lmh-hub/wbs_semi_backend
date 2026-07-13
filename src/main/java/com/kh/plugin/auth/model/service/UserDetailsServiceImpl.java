@@ -22,7 +22,6 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	
 	private final AuthMapper mapper;
 	
-	// 아이디로 DB아이디 조회, 비밀번호 일치여부 확인
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		UserDto user = mapper.loadUser(username);

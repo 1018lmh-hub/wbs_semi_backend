@@ -31,34 +31,29 @@ public class ReviewController {
 
 	private final ReviewService reviewService;
 	
-	// 후기 전체조회
 	@GetMapping
 	public ResponseEntity<ApiResponse<StationDetailResponse>> findAll(@RequestParam(value="page", defaultValue = "1") int page, @PathVariable(value="stationNo") String stationNo, @AuthenticationPrincipal CustomUserDetails user){
 		StationDetailResponse reviews = reviewService.findAll(page, stationNo, user);
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(reviews));
 	}
 	
-	// 후기 전체조회(최신순)
 	@GetMapping("/latest")
 	public ResponseEntity<ApiResponse<StationDetailResponse>> findAllLatest(@RequestParam(value="page", defaultValue = "1") int page, @PathVariable(value="stationNo") String stationNo, @AuthenticationPrincipal CustomUserDetails user){
 		StationDetailResponse reviews = reviewService.findAllLatest(page, stationNo, user);
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(reviews));
 	}
 	
-	// 후기 작성
 	@PostMapping
 	public ResponseEntity<ApiResponse<Void>> saveReview(@PathVariable(value="stationNo") String stationNo, @AuthenticationPrincipal CustomUserDetails user, @Valid @RequestBody ReviewSaveDto review){
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(reviewService.saveReview(stationNo, user, review)));
 	}
 	
-	// 후기 수정
 	@PatchMapping("/{reviewNo}")
 	public ResponseEntity<ApiResponse<Void>> updateReview(@PathVariable(value="stationNo") String stationNo, @PathVariable(value="reviewNo") Long reviewNo, @AuthenticationPrincipal CustomUserDetails user, @Valid @RequestBody ReviewSaveDto review){
 		review.setReviewNo(reviewNo);
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(reviewService.updateReview(stationNo, user, review)));
 	}
 	
-	// 후기 삭제
 	@DeleteMapping("/{reviewNo}")
 	public ResponseEntity<ApiResponse<Void>> deleteReview(@PathVariable(value="stationNo") String stationNo, @PathVariable(value="reviewNo") Long reviewNo, @AuthenticationPrincipal CustomUserDetails user){
 		reviewService.deleteReview(stationNo, reviewNo, user);

@@ -10,31 +10,22 @@ import com.kh.plugin.user.model.vo.User;
 @Mapper
 public interface UserMapper {
 
-	// 회원가입
 	int signUp(@Param(value = "user")User userEntity, @Param(value = "profile")Profile profileEntity);
 
-	// 아이디 중복체크
 	int validateDuplicateUserId(String userId);
 
-	// 별명 중복체크
 	int validateDuplicateUserNickname(String nickname);
 
-	// 마이페이지 프로필 가져오기
 	UserDto findProfileByUserId(String username);
 
-	// 회원 정보 수정(별명수정)
 	int updateUserInfo(User user);
 
-	// 유저 아이디로 유저 정보 조회
 	UserDto findUserByUserId(String userId);
 
-	// 비밀번호 변경
 	int updateUserPwd(User userEntity);
 
-	// 회원 탈퇴
 	int deleteUser(UserDto dbUser);
 
-	// 프로필 수정
 	int updateUserProfile(Profile profileEntity);
 
 	int deleteProfile(String username);

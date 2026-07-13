@@ -33,13 +33,7 @@ public class InquiryBoardService {
 		PageInfo pi = pagination.getPageInfo(countInquiry(), page, 5, 5);
 		PagingRequestValidator.validatePage(pi);
 		List<InquiryBoardResponseDto> inquirys = inquiryBoardMapper.findAll(pi);
-		
-		
-		
-		
 		return new InquiryBoardResponseAndPageInfo(inquirys, pi);
-		
-		
 	}
 	
 	private int countInquiry() {
@@ -51,7 +45,6 @@ public class InquiryBoardService {
 		existsByInquiryNo(inquiryNo);
 		inquiryBoardMapper.increaseCount(inquiryNo);		
 		return inquiryBoardMapper.findByInquiryNo(inquiryNo);
-		
 	}
 	
 	private void existsByInquiryNo(Long inquiryNo) {
@@ -62,18 +55,15 @@ public class InquiryBoardService {
 	
 	@Transactional
 	public void saveInquiry(SaveInquiryBoardDto board, CustomUserDetails user) {
-		
         InquiryBoard boardEntity = InquiryBoard.builder().userId(user.getUsername())
         											     .inquiryTitle(board.getInquiryTitle())
         											     .inquiryContent(board.getInquiryContent())
 													     .build();
 		inquiryBoardMapper.saveInquiry(boardEntity);
-		
 	}
 	
 	@Transactional
 	public void updateInquiry(Long inquiryNo, SaveInquiryBoardDto board, CustomUserDetails user) {
-		
 		existsByInquiryNo(inquiryNo);
 		checkId(user, inquiryNo);
         InquiryBoard boardEntity = InquiryBoard.builder().inquiryNo(inquiryNo)
@@ -96,8 +86,6 @@ public class InquiryBoardService {
 		existsByInquiryNo(inquiryNo);
 		checkId(user, inquiryNo);
 		inquiryBoardMapper.deleteInquiry(inquiryNo);
-		
 	}	
-
 
 }

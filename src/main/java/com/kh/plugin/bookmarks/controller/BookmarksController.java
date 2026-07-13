@@ -28,20 +28,17 @@ public class BookmarksController {
 
 	private final BookmarksService bookmarksService;
 	
-	// 북마크 추가
 	@PostMapping("/{stationNo}/bookmarks")
 	public ResponseEntity<ApiResponse<Void>> saveBookmark(@AuthenticationPrincipal CustomUserDetails user, @PathVariable(value = "stationNo") String stationNo){
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(bookmarksService.saveBookmark(user, stationNo)));
 	}
 	
-	// 북마크 취소
 	@DeleteMapping("/{stationNo}/bookmarks")
 	public ResponseEntity<ApiResponse<Void>> deleteBookmark(@AuthenticationPrincipal CustomUserDetails user, @PathVariable(value = "stationNo") String stationNo){
 		bookmarksService.deleteBookmark(user, stationNo);
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.noContent());
 	}
 	
-	// 북마크 검색
 	@GetMapping("/bookmarks")
 	public ResponseEntity<ApiResponse<List<BookmarksDto>>> findBookmarksList(@AuthenticationPrincipal CustomUserDetails user){
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(bookmarksService.findBookmarksList(user)));

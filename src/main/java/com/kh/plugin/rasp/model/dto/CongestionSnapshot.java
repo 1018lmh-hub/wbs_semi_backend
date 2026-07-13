@@ -9,6 +9,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class CongestionSnapshot {
+	
     private final LocalDateTime asOf; 
     private final List<Device> devices;
+    
 }

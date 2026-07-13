@@ -10,4 +10,5 @@ public class Profile {
 	private String userId;
 	private String originProfileName;
 	private String changeProfileName;
+	
 }

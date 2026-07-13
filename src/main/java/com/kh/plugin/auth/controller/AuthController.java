@@ -30,20 +30,17 @@ public class AuthController {
 	private final AuthService authService;
 	private final TokenService tokenService;
 	
-	// 로그인
 	@PostMapping("/login")
 	public ResponseEntity<ApiResponse<LoginResponseDto>> login(@Valid @RequestBody LoginRequestDto lrd){
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(authService.login(lrd)));
 	}
 
-	// 로그아웃
 	@PostMapping("/logout")
 	public ResponseEntity<ApiResponse<Void>> logout(@AuthenticationPrincipal CustomUserDetails user, @RequestBody String refreshToken){
 		tokenService.logout(user.getUsername(), refreshToken);
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(null));
 	}
 	
-	// 토큰 재발급
 	@PostMapping("/refresh")
 	public ResponseEntity<ApiResponse<Map<String, String>>> refresh(@RequestBody Map<String, String> request){
 		String refreshToken = request.get("refreshToken");
