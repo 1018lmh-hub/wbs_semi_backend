@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(IdMismatchException.class)
 	public ResponseEntity<ApiResponse<Void>> handlerIdMismatch(IdMismatchException e){
-		return ResponseEntity.status(400).body(ApiResponse.badRequest(e.getMessage()));
+		return ResponseEntity.status(403).body(ApiResponse.forbidden(e.getMessage()));
 	}
 	
 	@ExceptionHandler(PasswordMismatchException.class)
@@ -75,7 +75,6 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(400).body(ApiResponse.badRequest(e.getMessage()));
 	}
 	
-	
 	@ExceptionHandler(InvalidLikeException.class)
 	public ResponseEntity<ApiResponse<Void>> handlerInvalidLike(InvalidLikeException e){
 		return ResponseEntity.status(400).body(ApiResponse.badRequest(e.getMessage()));
@@ -88,11 +87,17 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(AuthenticationException.class)
 	public ResponseEntity<ApiResponse<Void>> handlerAuthentication(AuthenticationException e){
-		return ResponseEntity.status(401).body(ApiResponse.unauthorized(e.getMessage()));
+		return ResponseEntity.status(401).body(ApiResponse.unauthorized("인증되지 않은 접근입니다."));
 	}
 	
 	@ExceptionHandler(AccessDeniedException.class)
 	public ResponseEntity<ApiResponse<Void>> handlerAccessDenied(AccessDeniedException e){
-		return ResponseEntity.status(403).body(ApiResponse.unauthorized(e.getMessage()));
+		return ResponseEntity.status(403).body(ApiResponse.unauthorized("권한이 없는 접근입니다."));
 	}
+	
+	@ExceptionHandler(UsernameNotFoundException.class)
+	public ResponseEntity<ApiResponse<Void>> handlerUsernameNotFound(UsernameNotFoundException e){
+		return ResponseEntity.status(401).body(ApiResponse.unauthorized("존재하지 않는 아이디입니다."));
+	}
+	
 }

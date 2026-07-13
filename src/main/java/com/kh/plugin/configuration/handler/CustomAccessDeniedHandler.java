@@ -23,8 +23,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 		this.handlerExceptionResolver = handlerExceptionResolver;
 	}
 	
-	
-	
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {

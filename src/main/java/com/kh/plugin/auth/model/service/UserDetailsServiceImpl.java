@@ -5,11 +5,11 @@ import java.util.Collections;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.kh.plugin.auth.model.dao.AuthMapper;
 import com.kh.plugin.auth.model.vo.CustomUserDetails;
+import com.kh.plugin.exception.UsernameNotFoundException;
 import com.kh.plugin.user.model.dto.UserDto;
 
 import lombok.RequiredArgsConstructor;

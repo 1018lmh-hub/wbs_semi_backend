@@ -46,7 +46,7 @@ public class TokenService {
 	
 	// 로그아웃 요청 왔을 때 DB에 있는거 싹 지워주는 메소드
 	public void logout(String userId, String token) {
-		tokenMapper.deleteToken(userId, token);
+		tokenMapper.deleteToken(userId, token.replace("\"", ""));
 	}
 	
 	// 사용자에게 전달받은 RefreshToken이 DB에 존재하면서 만료기간이 지나지 않았는지를 검증하는 메소드
@@ -57,8 +57,9 @@ public class TokenService {
 		}
 		Claims claims = tokenUtil.parseJwt(token.getToken());
 		String userId = claims.getSubject();
+//		log.info("@@@@@@@@ {}", userId);
 		String nickname = (String)claims.get("nickname");
-		CustomUserDetails user = CustomUserDetails.builder().nickname(nickname).username(nickname).build();
+		CustomUserDetails user = CustomUserDetails.builder().nickname(nickname).username(userId).build();
 		Map<String, String> tokens = createTokens(user);
 		saveToken(tokens.get("refreshToken"), userId);
 		return tokens;

@@ -39,7 +39,6 @@ public class JwtFilter extends OncePerRequestFilter {
 		if("GET".equals(method) && uri.startsWith("/api/notices/**")) return true;
 		if("GET".equals(method) && uri.startsWith("/api/inquirys")) return true;
 		if("GET".equals(method) && uri.startsWith("/api/stations/**")) return true;
-		if("GET".equals(method) && uri.startsWith("/api/inquirycomments")) return true;
 		return uri.equals("/api/auth/login") || uri.equals("/api/auth/refresh");
 	}
 
@@ -63,21 +62,21 @@ public class JwtFilter extends OncePerRequestFilter {
 			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		} catch(ExpiredJwtException e) {
-			log.info("토큰의 유효기간 만료");
 			response.setStatus(401);
-			response.setContentType("apllication/json; charset=UTF-8");
-			response.getWriter().write("토큰만료");
+			response.setContentType("application/json; charset=UTF-8");
+			response.getWriter().write("{\"code\": 401,\r\n"
+									  + "\"message\": \"만료된 토큰입니다.\",\r\n"
+									  + "\"data\": null}");
 			return;
 		} catch(JwtException e) {
-			log.info("이 서버의 서비스키로 만든 토큰이 아님");
 			response.setStatus(401);
-			response.setContentType("apllication/json; charset=UTF-8");
-			response.getWriter().write("유효하지 않은 토큰");
+			response.setContentType("application/json; charset=UTF-8");
+			response.getWriter().write("{\"code\": 401,\r\n"
+								  	  + "\"message\": \"유효하지 않은 토큰입니다.\",\r\n"
+								  	  + "\"data\": null}");
 			return;
 		}
-		
 		filterChain.doFilter(request, response);
-		
 	}
 	
 }
