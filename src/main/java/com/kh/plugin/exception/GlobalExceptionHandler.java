@@ -95,4 +95,9 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(403).body(ApiResponse.unauthorized("권한이 없는 접근입니다."));
 	}
 	
+	@ExceptionHandler(UsernameNotFoundException.class)
+	public ResponseEntity<ApiResponse<Void>> handlerUsernameNotFound(UsernameNotFoundException e){
+		return ResponseEntity.status(401).body(ApiResponse.unauthorized("존재하지 않는 아이디입니다."));
+	}
+	
 }

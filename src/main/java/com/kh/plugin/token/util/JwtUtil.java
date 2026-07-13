@@ -39,7 +39,7 @@ public class JwtUtil {
 		return Jwts.builder()
 				   .subject(user.getUsername())
 				   .issuedAt(new Date())
-				   .expiration(Date.from(Instant.now().plus(Duration.ofSeconds(15))))
+				   .expiration(Date.from(Instant.now().plus(Duration.ofMinutes(15))))
 				   .claim("memberName", user.getNickname())
 				   .signWith(key)
 				   .compact();

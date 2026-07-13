@@ -12,10 +12,10 @@ import com.kh.plugin.token.model.vo.RefreshToken;
 public interface TokenMapper {
 
 	@Insert("INSERT INTO TOKEN VALUES(#{userId}, #{token}, #{expiration})")
-	void saveToken(RefreshToken token);
+	int saveToken(RefreshToken token);
 	
 	@Delete("DELETE FROM TOKEN WHERE USER_ID = #{userId} AND TOKEN = #{token}")
-	void deleteToken(@Param(value = "userId")String userId, @Param(value = "token")String token);
+	int deleteToken(@Param(value = "userId")String userId, @Param(value = "token")String token);
 	
 	@Select("SELECT USER_ID, TOKEN, EXPIRATION FROM TOKEN WHERE TOKEN = #{token}")
 	RefreshToken findByToken(String token);
