@@ -4,10 +4,7 @@
 > 위치·상태 정보만 제공하던 기존 지도 서비스에 실제 이용자의 만족도 후기와 충전소 사용 혼잡도 시각화를 더했습니다
 
 <img width="1915" height="945" alt="image" src="https://github.com/user-attachments/assets/08fad005-72f6-45f3-aa73-4b18ba644603" />
-![로그인 기능 시연](업로드된_GIF_URL)
 
- **배포 링크**: [바로가기](배포_URL)
- **시연 영상**: [바로가기](영상_URL)
 
  ---
  ## 기술스택
