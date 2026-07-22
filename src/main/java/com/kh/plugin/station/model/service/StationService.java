@@ -24,7 +24,7 @@ public class StationService {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-		String apiResponse = new RestTemplate().getForObject(url, String.class);
+		String apiResponse = new RestTemplate().getForObject(uri, String.class);
 		return apiResponse;
 	}
 

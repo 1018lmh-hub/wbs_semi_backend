@@ -34,44 +34,37 @@ public class UserController {
 
 	private final UserService userService;
 	
-	// 회원가입
 	@PostMapping
 	public ResponseEntity<ApiResponse<Void>> signUp(@Valid UserSignUpDto user, @RequestParam(name="file", required=false) MultipartFile file){
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(userService.signUp(user, file)));
 	}
 	
-	// 회원정보 조회(profile 조회)
 	@GetMapping
 	public ResponseEntity<ApiResponse<UserDto>> findProfileByUserId(@AuthenticationPrincipal CustomUserDetails user){
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(userService.findProfileByUserId(user)));
 	}
 	
-	// 회원정보 수정
 	@PatchMapping
 	public ResponseEntity<ApiResponse<Void>> updateUserInfo(@AuthenticationPrincipal CustomUserDetails user, @Valid @RequestBody UpdateRequestDto newNickname){
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(userService.updateUserInfo(user, newNickname)));
 	}
 	
-	// 프로필 수정
 	@PatchMapping("/profile")
 	public ResponseEntity<ApiResponse<Void>> updateUserProfile(@AuthenticationPrincipal CustomUserDetails user, @RequestParam(name="file") MultipartFile file){
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(userService.updateUserProfile(user, file)));
 	}
 	
-	// 비밀번호 변경
 	@PatchMapping("/password")
 	public ResponseEntity<ApiResponse<Void>> updateUserPwd(@AuthenticationPrincipal CustomUserDetails user, @Valid @RequestBody UpdatePwdRequestDto newPwd){
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(userService.updateUserPwd(user, newPwd)));
 	}
 	
-	// 회원탈퇴
 	@DeleteMapping
 	public ResponseEntity<ApiResponse<Void>> deleteUser(@AuthenticationPrincipal CustomUserDetails user, @Valid @RequestBody DeleteUserRequestDto deleteUserRequest){
 		userService.deleteUser(user, deleteUserRequest);
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.noContent());
 	}
 
-	// 프로필 삭제
 	@DeleteMapping("/profile")
 	public ResponseEntity<ApiResponse<Void>> deleteProfile(@AuthenticationPrincipal CustomUserDetails user){
 		userService.deleteProfile(user);

@@ -22,19 +22,16 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class JwtUtil {
 	
-	// 토큰을 만드는 기능, 토큰을 검증하는 기능
 	@Value("${jwt.secret}")
 	private String secretKey;
 	private SecretKey key;
 	
 	@PostConstruct
 	public void init() {
-		// log.info("{}", secretKey);
 		byte[] arr = Base64.getDecoder().decode(secretKey);
 		this.key = Keys.hmacShaKeyFor(arr);
 	}
 
-	// AccessToken 생성
 	public String getAccessToken(CustomUserDetails user) {
 		return Jwts.builder()
 				   .subject(user.getUsername())
@@ -45,7 +42,6 @@ public class JwtUtil {
 				   .compact();
 	}
 
-	// RefreshToken 생성
 	public String getRefreshToken(CustomUserDetails user) {
 		return Jwts.builder()
 				   .subject(user.getUsername())
@@ -56,7 +52,6 @@ public class JwtUtil {
 				   .compact();
 	}
 		
-	// 토큰 검증
 	public Claims parseJwt(String token) {
 		return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
 	}

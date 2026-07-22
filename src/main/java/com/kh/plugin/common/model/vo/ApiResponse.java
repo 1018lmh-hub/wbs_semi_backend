@@ -75,7 +75,7 @@ public class ApiResponse<T> {
 			return new ApiResponse<>(500, message, null);
 		}
 		
-		// 커스텀 에러
+		
 		public static <T> ApiResponse<T> fail(int code, String message, T errorDetails) {
 			return new ApiResponse<>(code, message, errorDetails);
 		}	
