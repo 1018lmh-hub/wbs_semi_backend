@@ -20,6 +20,8 @@ import com.kh.plugin.inquiryboard.model.dto.InquiryBoardResponseDto;
 import com.kh.plugin.inquiryboard.model.dto.SaveInquiryBoardDto;
 import com.kh.plugin.inquiryboard.model.service.InquiryBoardService;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +34,8 @@ public class InquiryBoardController {
 	
 	private final InquiryBoardService inquiryBoardService;
 	
+	
+
 	
 	@GetMapping
 	public ResponseEntity<ApiResponse<InquiryBoardResponseAndPageInfo>> findAll(@RequestParam(name="page", defaultValue = "1") int page){

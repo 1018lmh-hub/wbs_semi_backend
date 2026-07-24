@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.plugin.auth.model.vo.CustomUserDetails;
+import com.kh.plugin.common.metric.BoardViewCounter;
 import com.kh.plugin.common.model.dto.PageInfo;
 import com.kh.plugin.common.util.Pagination;
 import com.kh.plugin.common.util.PagingRequestValidator;
@@ -17,6 +18,9 @@ import com.kh.plugin.inquiryboard.model.dto.InquiryBoardResponseDto;
 import com.kh.plugin.inquiryboard.model.dto.SaveInquiryBoardDto;
 import com.kh.plugin.inquiryboard.model.vo.InquiryBoard;
 
+import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.MeterRegistry;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,23 +31,28 @@ public class InquiryBoardService {
 
 	private final InquiryBoardMapper inquiryBoardMapper;
 	private final Pagination pagination;
+    private BoardViewCounter boardViewCounter;
 	
+
+
+    @Timed(value = "board_list_duration")
 	@Transactional
 	public InquiryBoardResponseAndPageInfo findAll(int page) {
-		PageInfo pi = pagination.getPageInfo(countInquiry(), page, 5, 5);
+		PageInfo pi = pagination.getPageInfo(countInquirys(), page, 5, 5);
 		PagingRequestValidator.validatePage(pi);
 		List<InquiryBoardResponseDto> inquirys = inquiryBoardMapper.findAll(pi);
 		return new InquiryBoardResponseAndPageInfo(inquirys, pi);
 	}
 	
-	private int countInquiry() {
-		return inquiryBoardMapper.countInquiry();
+	public int countInquirys() {
+		return inquiryBoardMapper.countInquirys();
 	}
-
+	
 	@Transactional
 	public InquiryBoardResponseDto findByInquiryNo(Long inquiryNo) {
 		existsByInquiryNo(inquiryNo);
-		inquiryBoardMapper.increaseCount(inquiryNo);		
+		inquiryBoardMapper.increaseCount(inquiryNo);
+		boardViewCounter.increment("inquiry");	
 		return inquiryBoardMapper.findByInquiryNo(inquiryNo);
 	}
 	

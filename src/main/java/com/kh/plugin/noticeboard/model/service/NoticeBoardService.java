@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.plugin.auth.model.vo.CustomUserDetails;
+import com.kh.plugin.common.metric.BoardViewCounter;
 import com.kh.plugin.common.model.dto.PageInfo;
 import com.kh.plugin.common.util.Pagination;
 import com.kh.plugin.common.util.PagingRequestValidator;
@@ -17,6 +18,9 @@ import com.kh.plugin.noticeboard.model.dto.NoticeBoardResponseDto;
 import com.kh.plugin.noticeboard.model.dto.SaveNoticeBoardDto;
 import com.kh.plugin.noticeboard.model.vo.NoticeBoard;
 
+import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.MeterRegistry;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,7 +31,11 @@ public class NoticeBoardService {
 	
 	private final NoticeBoardMapper noticeBoardMapper;
 	private final Pagination pagination;
+    private BoardViewCounter boardViewCounter;
 	
+
+    
+	@Timed(value = "board_list_duration")
 	@Transactional
 	public NoticeBoardResponseAndPageInfo findAll(int page) {
 		PageInfo pi = pagination.getPageInfo(countNotices(), page, 5, 5);
@@ -36,14 +44,15 @@ public class NoticeBoardService {
 		return new NoticeBoardResponseAndPageInfo(notices, pi);
 	}
 	
-	private int countNotices() {
+	public int countNotices() {
 		return noticeBoardMapper.countNotices();
 	}
 
 	@Transactional
 	public NoticeBoardResponseDto findByNoticeNo(Long noticeNo) {
 		existsByNoticeNo(noticeNo);
-		noticeBoardMapper.increaseCount(noticeNo);		
+		noticeBoardMapper.increaseCount(noticeNo);	
+		boardViewCounter.increment("notice");
 		return noticeBoardMapper.findByNoticeNo(noticeNo);
 	}
 	
