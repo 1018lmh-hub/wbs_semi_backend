@@ -75,20 +75,31 @@
 ## 주요 기능
 
 ### 1. 충전소 지도 조회
+> 지도위에 전기차 충전소 위치를 제공
+<img width="1916" height="945" alt="image" src="https://github.com/user-attachments/assets/6e572574-19bb-4a5d-a082-b7ee9672db7e" />
 
-- **충전소 지도 조회**: Naver Maps JS API와 한국전력 공공 API를 연동해 실제 충전소 위치·상세 정보를 지도 위에 매핑, 클러스터링 구현
+ - Naver Maps JS API를 이용하여 지도(커스터 마이징)를 기본 배경으로 구성<br/>
+ - 외부 API(한국전력 공공 API)를 연동해 실제 충전소 위치·상세 정보를 지도 위에 매핑(커스터 마이징 마커)<br/>
+ - 사용자가 줌 인/아웃시에 충전소 가독성을 향상을 위한 클러스터링 구현<br/>
   
-  <img width="1916" height="945" alt="image" src="https://github.com/user-attachments/assets/6e572574-19bb-4a5d-a082-b7ee9672db7e" />
+  
 
 ### 2. JWT기반 회원 인증
+> JWT를 이용한 회원의 인증/인가 검증
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/37877be1-77bc-4dbb-9304-6f5aeb50b5ee" />
 
-- **회원 인증**: JWT 기반 로그인/회원가입, Access·Refresh 토큰 재발급(Rotation) 및 axios 인터셉터를 통한 자동 토큰 갱신
-  코드
+ - Access·Refresh 토큰을 발급<br/>
+ - Refresh 토큰을 이용해 Access 토큰 만료시 재발급(Rotation)<br/>
+ - Axios 인터셉터를 통한 자동 토큰 갱신<br/>
+ - JWT filter를 이용해 JWT토큰 검증<br/>
+ - 로그인이 필요한 기능에 대한 Spring SecurityFilterChain를 이용<br/>
+
 
 ### 3. 핵심 MVP
 
-- **후기 CRUD**: 텍스트·별점 기반 후기 CRUD, CUD는 로그인 필수
-  코드
+충전소 상세보기(가용한 충전기 수, 충전기 타입, 현재 충전기 사용여부, 평균 별점 등), 사용자가 이용한 충전소에 대한 후기, 별점 작성 / 다른 사용자가 남긴 후기 조회(페이징 처리, 정렬 처리(좋아요순, 최신)) / 자신이 남긴 후기에 대한 수정/삭제
+
+
 
 ### 4. 추가 기능
 
