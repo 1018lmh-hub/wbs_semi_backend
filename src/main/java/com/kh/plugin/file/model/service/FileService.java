@@ -6,4 +6,5 @@ public interface FileService {
 
 	String store(AttachedFile attachedFile);
 	
+	void delete(String filePath);
 }

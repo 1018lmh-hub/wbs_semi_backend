@@ -34,7 +34,7 @@ public class SecurityConfig {
 	private final JwtFilter jwtFilter;
 	private final AccessDeniedHandler accessDeniedHandler;
 	private final AuthenticationEntryPoint authenticationEntryPoint;
-
+	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		
@@ -73,7 +73,7 @@ public class SecurityConfig {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "http://localhost:5174", "http://localhost"));
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "http://localhost", "http://52.79.122.116"));
 		configuration.setAllowedMethods(Arrays.asList("POST", "PATCH", "DELETE", "GET", "PUT", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
 		configuration.setAllowCredentials(true);
@@ -81,4 +81,5 @@ public class SecurityConfig {
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
+
 }
