@@ -1,10 +1,5 @@
 package com.kh.plugin.user.model.service;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.exception.DuplicatedUserIdException;
-import com.kh.plugin.exception.FileDeleteFailedException;
 import com.kh.plugin.exception.PasswordMismatchException;
 import com.kh.plugin.exception.ProfileFileNotFoundException;
 import com.kh.plugin.file.model.service.FileService;
@@ -44,7 +38,6 @@ public class UserService {
         								.userPwd(encodePassword(user.getUserPwd()))
         								.nickname(validateDuplicateNickname(user.getNickname()))
         								.build();
-		
 		Profile profileEntity = Profile.builder().userId(userEntity.getUserId())
 												 .originProfileName(file != null && !file.isEmpty() ? file.getOriginalFilename() : null)
 												 .changeProfileName(fileService.store(AttachedFile.from(file)))
@@ -70,12 +63,15 @@ public class UserService {
 	@Transactional
 	public Void updateUserProfile(CustomUserDetails user, MultipartFile file) {
 		UserDto dbUser = findUserByUserId(user.getUsername());
+		
+		if(dbUser.getChangeProfileName() != null) {
+			fileService.delete(dbUser.getChangeProfileName());
+		}
 		Profile profileEntity = Profile.builder().userId(user.getUsername())
-				 					   .originProfileName(file != null && !file.isEmpty() ? file.getOriginalFilename() : null)
-				 					   .changeProfileName(fileService.store(AttachedFile.from(file)))
-				 					   .build();
+												 .originProfileName(file != null && !file.isEmpty() ? file.getOriginalFilename() : null)
+												 .changeProfileName(fileService.store(AttachedFile.from(file)))
+												 .build();
 		userMapper.updateUserProfile(profileEntity);
-		deleteProfileFile(dbUser.getChangeProfileName());
 		return null;
 	}
 	
@@ -86,7 +82,7 @@ public class UserService {
 			throw new ProfileFileNotFoundException("프로필 파일이 존재하지 않습니다.");
 		}
 		userMapper.deleteProfile(user.getUsername());
-		deleteProfileFile(dbUser.getChangeProfileName());
+		fileService.delete(dbUser.getChangeProfileName());
 	}
 	
 	@Transactional
@@ -132,18 +128,6 @@ public class UserService {
 	private void checkPassword(String rawPassword, String encodedPassword) {
 		if(!passwordEncoder.matches(rawPassword, encodedPassword)) {
 			throw new PasswordMismatchException("기존 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
-		}
-	}
-
-	private void deleteProfileFile(String profileName) {
-		if(profileName == null) {
-			return;
-		} 
-		Path filePath = Paths.get("uploads", profileName.substring(profileName.lastIndexOf("/") + 1));
-		try {
-			Files.delete(filePath);
-		} catch(IOException e) {
-			throw new FileDeleteFailedException("파일 삭제중 오류가 발생했습니다.");
 		}
 	}
 
