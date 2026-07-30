@@ -2,6 +2,8 @@ package com.kh.plugin.noticeboard.model.service;
 
 import java.util.List;
 
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.ollama.api.OllamaChatOptions;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,8 +21,6 @@ import com.kh.plugin.noticeboard.model.dto.SaveNoticeBoardDto;
 import com.kh.plugin.noticeboard.model.vo.NoticeBoard;
 
 import io.micrometer.core.annotation.Timed;
-import io.micrometer.core.instrument.MeterRegistry;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,7 +53,9 @@ public class NoticeBoardService {
 		existsByNoticeNo(noticeNo);
 		noticeBoardMapper.increaseCount(noticeNo);	
 		boardViewCounter.increment("notice");
-		return noticeBoardMapper.findByNoticeNo(noticeNo);
+		NoticeBoardResponseDto noticeBoard = noticeBoardMapper.findByNoticeNo(noticeNo);
+		
+		return noticeBoard;
 	}
 	
 	private void existsByNoticeNo(Long noticeNo) {
@@ -95,5 +97,7 @@ public class NoticeBoardService {
 		checkId(user, noticeNo);
 		noticeBoardMapper.deleteNotice(noticeNo);
 	}
+	
+
 
 }

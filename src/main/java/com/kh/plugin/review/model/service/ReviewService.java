@@ -1,5 +1,9 @@
 package com.kh.plugin.review.model.service;
 
+import java.util.List;
+
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +29,7 @@ public class ReviewService {
 	
 	private final ReviewMapper reviewMapper;
 	private final Pagination pagination;
+	private final ChatClient chatClient;
 	
 	@Transactional
 	public StationDetailResponse getReviews(String stationNo, CustomUserDetails user) {
@@ -49,9 +54,37 @@ public class ReviewService {
 		PageInfo pi = pagination.getPageInfo(countReviews(stationNo), page, 5, 5);
 		PagingRequestValidator.validatePage(pi);
 		StationDetailResponse reviews = reviewMapper.findAllLatest(stationNo, user, pi);
+		
+//		List <String> reviewContents = new ArrayList<>();;
+//		for(int i=0; i < reviews.getReviews().size(); i++) {
+//			reviewContents.add(reviews.getReviews().get(i).getReviewContent())  ;
+//		}
+//		for (ReviewResponseDto review : reviews.getReviews()) {
+//		    reviewContents.add(review.getReviewContent());
+//		}
+		List<String> reviewContents = reviews.getReviews().stream()
+		        .map(ReviewResponseDto::getReviewContent)
+		        .toList();
+		
+		reviews.setAiSummary(reviewsSummary(reviewContents));
+		
 		reviews.setPageInfo(pi);
 		return reviews;
 	}
+	
+	private String reviewsSummary(List<String> reviewContents) {
+		return chatClient.prompt().options(OllamaChatOptions.builder().temperature(0.3).build()).user(reviewContents).call().content();
+	}
+	
+	ChatOptions options = OllamaOptions.builder()
+	        .temperature(0.3)
+	        .build();
+
+	String result = chatClient.prompt()
+	        .options(options)
+	        .user(joined)
+	        .call()
+	        .content();
 	
 	@Transactional
 	public Void saveReview(String stationNo, CustomUserDetails user, ReviewSaveDto review) {

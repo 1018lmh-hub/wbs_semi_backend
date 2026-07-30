@@ -28,4 +28,5 @@ public class ReviewResponseDto {
 	private String status;
 	private Integer likeCount;
 	private boolean liked;
+	
 }
