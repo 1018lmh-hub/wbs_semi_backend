@@ -24,7 +24,7 @@ public class StationService {
 		try {
 			uri = new URI(url);
 		} catch (URISyntaxException e) {
-			new APINotFoundException("API를 불러오지 못했습니다.");
+			throw new APINotFoundException("API를 불러오지 못했습니다.");
 		}
 		String apiResponse = new RestTemplate().getForObject(uri, String.class);
 		return apiResponse;

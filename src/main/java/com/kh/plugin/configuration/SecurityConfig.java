@@ -49,9 +49,8 @@ public class SecurityConfig {
 					   requests.requestMatchers(HttpMethod.POST, "/api/notices/**", "/api/inquirys/*/inquirycomments").hasRole("ADMIN");
 					   requests.requestMatchers(HttpMethod.PATCH, "/api/notices/**", "/api/inquirys/*/inquirycomments/**").hasRole("ADMIN");
 					   requests.requestMatchers(HttpMethod.DELETE, "/api/notices/**", "/api/inquirys/*/inquirycomments/**").hasRole("ADMIN");
-					   requests.requestMatchers(HttpMethod.GET, "/api/stations/**", "/api/notices/**", "/api/inquirys/**", "/uploads/**", "/api/auth/logout").permitAll();
+					   requests.requestMatchers(HttpMethod.GET, "/api/stations/**", "/api/notices/**", "/api/inquirys/**", "/uploads/**", "/api/auth/logout", "/api/health").permitAll();
 					   requests.requestMatchers(HttpMethod.POST, "/api/users", "/api/auth/login", "/api/auth/refresh", "/api/rasp").permitAll();
-					   requests.requestMatchers(HttpMethod.GET).permitAll();
 				   })
 				   .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				   .exceptionHandling(exception -> exception.accessDeniedHandler(accessDeniedHandler)
@@ -73,7 +72,7 @@ public class SecurityConfig {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "http://localhost", "http://52.79.122.116"));
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "http://localhost", "https://shapa26.cloud", "http://shapa26.cloud"));
 		configuration.setAllowedMethods(Arrays.asList("POST", "PATCH", "DELETE", "GET", "PUT", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
 		configuration.setAllowCredentials(true);

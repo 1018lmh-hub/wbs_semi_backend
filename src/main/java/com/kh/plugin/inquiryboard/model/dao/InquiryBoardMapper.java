@@ -13,7 +13,7 @@ public interface InquiryBoardMapper {
 
 	List<InquiryBoardResponseDto> findAll(PageInfo pi);
 
-	int countInquiry();
+	int countInquirys();
 
 	boolean existsByInquiryNo(Long inquiryNo);
 

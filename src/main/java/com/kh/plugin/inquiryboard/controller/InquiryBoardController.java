@@ -1,5 +1,4 @@
 package com.kh.plugin.inquiryboard.controller;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.common.model.vo.ApiResponse;
 import com.kh.plugin.inquiryboard.model.dto.InquiryBoardResponseAndPageInfo;
@@ -20,10 +18,11 @@ import com.kh.plugin.inquiryboard.model.dto.InquiryBoardResponseDto;
 import com.kh.plugin.inquiryboard.model.dto.SaveInquiryBoardDto;
 import com.kh.plugin.inquiryboard.model.service.InquiryBoardService;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 @Slf4j
 @RestController
 @RequestMapping("/api/inquirys")
@@ -31,8 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 public class InquiryBoardController {
 	
 	private final InquiryBoardService inquiryBoardService;
-	
-	
+
 	@GetMapping
 	public ResponseEntity<ApiResponse<InquiryBoardResponseAndPageInfo>> findAll(@RequestParam(name="page", defaultValue = "1") int page){
 		InquiryBoardResponseAndPageInfo pagingInquirys = inquiryBoardService.findAll(page);
@@ -62,5 +60,4 @@ public class InquiryBoardController {
 		inquiryBoardService.deleteInquiry(inquiryNo, user);
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.noContent());
 	}
-
 }
