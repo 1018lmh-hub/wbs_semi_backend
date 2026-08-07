@@ -31,7 +31,7 @@ public class InquiryBoardService {
 
 	private final InquiryBoardMapper inquiryBoardMapper;
 	private final Pagination pagination;
-    private BoardViewCounter boardViewCounter;
+    private final BoardViewCounter boardViewCounter;
 	
 
 

@@ -23,6 +23,6 @@ public class StationDetailResponse {
 	private Double avgRating;
 	private BookmarksDto bookmark;
 	private PageInfo pageInfo;
-	private String aiSummary;
+//	private String aiSummary;
 	
 }

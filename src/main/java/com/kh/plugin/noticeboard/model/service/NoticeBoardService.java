@@ -31,7 +31,7 @@ public class NoticeBoardService {
 	
 	private final NoticeBoardMapper noticeBoardMapper;
 	private final Pagination pagination;
-    private BoardViewCounter boardViewCounter;
+    private final BoardViewCounter boardViewCounter;
 	
 
     
