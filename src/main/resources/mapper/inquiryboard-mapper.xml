@@ -37,7 +37,7 @@
 		OFFSET #{offset} ROWS FETCH NEXT #{boardLimit} ROWS ONLY
 	</select>
 	
-	<select id="countInquiry"
+	<select id="countInquirys"
 			resultType="Integer">
 		SELECT
 		       COUNT(*)

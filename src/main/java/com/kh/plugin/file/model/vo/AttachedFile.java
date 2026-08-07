@@ -8,6 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.plugin.exception.InvalidFileFormatException;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Value;
 
 @Value
