@@ -19,15 +19,26 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/health")
 @RequiredArgsConstructor
 public class HealthController {
+<<<<<<< HEAD
 	
 	private final HealthService healthServcie;
 	
+=======
+
+	private final HealthService healthServcie;
+
+>>>>>>> 098102bc5d23ff71171614e865d30959a58bf51c
 	@GetMapping
 	public ResponseEntity<ApiResponse<Map<String, String>>> checkHealth(/*@RequestBody String request*/){
 		Map<String, String> response = healthServcie.checkHealth();  
 		return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.success(response));
 	}
+<<<<<<< HEAD
 	
 	
 
 }
+=======
+
+}
+>>>>>>> 098102bc5d23ff71171614e865d30959a58bf51c

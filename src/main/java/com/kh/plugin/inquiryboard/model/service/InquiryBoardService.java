@@ -19,8 +19,11 @@ import com.kh.plugin.inquiryboard.model.dto.SaveInquiryBoardDto;
 import com.kh.plugin.inquiryboard.model.vo.InquiryBoard;
 
 import io.micrometer.core.annotation.Timed;
+<<<<<<< HEAD
 import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.annotation.PostConstruct;
+=======
+>>>>>>> 098102bc5d23ff71171614e865d30959a58bf51c
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,11 +34,17 @@ public class InquiryBoardService {
 
 	private final InquiryBoardMapper inquiryBoardMapper;
 	private final Pagination pagination;
+<<<<<<< HEAD
     private final BoardViewCounter boardViewCounter;
 	
 
 
     @Timed(value = "board_list_duration")
+=======
+	private final BoardViewCounter boardViewCounter;
+	
+	@Timed(value = "board_list_duration")
+>>>>>>> 098102bc5d23ff71171614e865d30959a58bf51c
 	@Transactional
 	public InquiryBoardResponseAndPageInfo findAll(int page) {
 		PageInfo pi = pagination.getPageInfo(countInquirys(), page, 5, 5);
@@ -52,7 +61,11 @@ public class InquiryBoardService {
 	public InquiryBoardResponseDto findByInquiryNo(Long inquiryNo) {
 		existsByInquiryNo(inquiryNo);
 		inquiryBoardMapper.increaseCount(inquiryNo);
+<<<<<<< HEAD
 		boardViewCounter.increment("inquiry");	
+=======
+		boardViewCounter.increment("inquiry");			
+>>>>>>> 098102bc5d23ff71171614e865d30959a58bf51c
 		return inquiryBoardMapper.findByInquiryNo(inquiryNo);
 	}
 	

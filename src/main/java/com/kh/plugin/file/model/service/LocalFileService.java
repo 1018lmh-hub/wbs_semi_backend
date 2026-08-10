@@ -16,9 +16,7 @@ import com.kh.plugin.user.model.dao.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
-@Service
-public class LocalFileService implements FileService{
+public class LocalFileService{
 
 	private final Path fileLocation;
 	
@@ -26,7 +24,6 @@ public class LocalFileService implements FileService{
 		this.fileLocation = Paths.get("uploads").toAbsolutePath().normalize();
 	}
 	
-	@Override 
 	public String store(AttachedFile attachedFile) {
 		
 		if(!attachedFile.isValid()) {

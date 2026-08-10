@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
 	}
 	
 	@ExceptionHandler(FileDeleteFailedException.class)
-	public ResponseEntity<ApiResponse<Void>> handlerFileDeleteFailedException(FileDeleteFailedException e){
+	public ResponseEntity<ApiResponse<Void>> handlerFileDeleteFailed(FileDeleteFailedException e){
 		return ResponseEntity.status(500).body(ApiResponse.badRequest(e.getMessage()));
 	}
 	
@@ -98,6 +98,16 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(UsernameNotFoundException.class)
 	public ResponseEntity<ApiResponse<Void>> handlerUsernameNotFound(UsernameNotFoundException e){
 		return ResponseEntity.status(401).body(ApiResponse.unauthorized("존재하지 않는 아이디입니다."));
+	}
+	
+	@ExceptionHandler(APINotFoundException.class)
+	public ResponseEntity<ApiResponse<Void>> handlerAPINotFound(APINotFoundException e){
+		return ResponseEntity.status(500).body(ApiResponse.internalServerError(e.getMessage()));
+	}
+	
+	@ExceptionHandler(FileUploadFailedException.class)
+	public ResponseEntity<ApiResponse<Void>> handlerFileUploadFailed(FileUploadFailedException e){
+		return ResponseEntity.status(500).body(ApiResponse.badRequest(e.getMessage()));
 	}
 	
 }

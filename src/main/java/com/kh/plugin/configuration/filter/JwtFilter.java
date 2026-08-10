@@ -35,9 +35,9 @@ public class JwtFilter extends OncePerRequestFilter {
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
 		String uri = request.getRequestURI();
 		String method = request.getMethod();
-		if("GET".equals(method) && uri.startsWith("/api/notices/**")) return true;
-		if("GET".equals(method) && uri.startsWith("/api/inquirys")) return true;
-		if("GET".equals(method) && uri.startsWith("/api/stations/**")) return true;
+		if("GET".equals(method) && uri.startsWith("/api/notices/*")) return true;
+		if("GET".equals(method) && uri.startsWith("/api/inquirys/*")) return true;
+		if("GET".equals(method) && uri.startsWith("/api/stations/") && !uri.equals("/api/stations/bookmarks")) return true;
 		return uri.equals("/api/auth/login") || uri.equals("/api/auth/refresh");
 	}
 

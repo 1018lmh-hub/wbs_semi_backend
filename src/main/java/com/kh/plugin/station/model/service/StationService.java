@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.kh.plugin.exception.APINotFoundException;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -22,7 +24,7 @@ public class StationService {
 		try {
 			uri = new URI(url);
 		} catch (URISyntaxException e) {
-			e.printStackTrace();
+			throw new APINotFoundException("API를 불러오지 못했습니다.");
 		}
 		String apiResponse = new RestTemplate().getForObject(uri, String.class);
 		return apiResponse;
