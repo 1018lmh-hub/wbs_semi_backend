@@ -92,7 +92,7 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(AccessDeniedException.class)
 	public ResponseEntity<ApiResponse<Void>> handlerAccessDenied(AccessDeniedException e){
-		return ResponseEntity.status(403).body(ApiResponse.unauthorized("권한이 없는 접근입니다."));
+		return ResponseEntity.status(403).body(ApiResponse.forbidden("권한이 없는 접근입니다."));
 	}
 	
 	@ExceptionHandler(UsernameNotFoundException.class)

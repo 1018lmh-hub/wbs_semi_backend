@@ -10,7 +10,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.plugin.auth.model.vo.CustomUserDetails;
+import com.kh.plugin.common.model.vo.ApiResponse;
 import com.kh.plugin.token.util.JwtUtil;
 
 import io.jsonwebtoken.Claims;
@@ -30,6 +32,7 @@ public class JwtFilter extends OncePerRequestFilter {
 	
 	private final JwtUtil jwtUtil;
 	private final UserDetailsService userDetailService;
+	private final ObjectMapper objectMapper;
 
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
@@ -58,21 +61,19 @@ public class JwtFilter extends OncePerRequestFilter {
 			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		} catch(ExpiredJwtException e) {
-			response.setStatus(401);
-			response.setContentType("application/json; charset=UTF-8");
-			response.getWriter().write("{\"code\": 401,\r\n"
-									  + "\"message\": \"만료된 토큰입니다.\",\r\n"
-									  + "\"data\": null}");
-			return;
+			writeError(response, "TOKEN_EXPIRED", "만료된 토큰입니다.");
+        	return;
 		} catch(JwtException e) {
-			response.setStatus(401);
-			response.setContentType("application/json; charset=UTF-8");
-			response.getWriter().write("{\"code\": 401,\r\n"
-								  	  + "\"message\": \"유효하지 않은 토큰입니다.\",\r\n"
-								  	  + "\"data\": null}");
-			return;
+			writeError(response, "TOKEN_INVALID", "유효하지 않은 토큰입니다.");
+       		return;
 		}
 		filterChain.doFilter(request, response);
 	}
+
+		private void writeError(HttpServletResponse response, String errorCode, String message) throws IOException {
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			response.setContentType("application/json; charset=UTF-8");
+			objectMapper.writeValue(response.getWriter(), ApiResponse.unauthorizedWithCode(errorCode, message));
+		}
 	
 }

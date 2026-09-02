@@ -1,14 +1,13 @@
 package com.kh.plugin.common.model.vo;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class ApiResponse<T> {
 
 	private int code;
 	private String message;
+	private String errorCode;
 	private T data;
 		
 		public static <T> ApiResponse<T> success(T data){
@@ -78,6 +77,21 @@ public class ApiResponse<T> {
 		
 		public static <T> ApiResponse<T> fail(int code, String message, T errorDetails) {
 			return new ApiResponse<>(code, message, errorDetails);
-		}	
+		}
+		
+		public ApiResponse(int code, String message, T data) {
+        this(code, message, null, data);
+  		}
+
+   		public ApiResponse(int code, String message, String errorCode, T data) {
+			this.code = code;
+			this.message = message;
+			this.errorCode = errorCode;
+			this.data = data;
+   		 }
+
+		public static <T> ApiResponse<T> unauthorizedWithCode(String errorCode, String message) {
+        	return new ApiResponse<>(401, message, errorCode, null);
+    	}
 	
 }
