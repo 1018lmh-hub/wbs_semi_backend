@@ -20,8 +20,5 @@ public class BoardViewCounter {
                .register(registry)
                .increment();
     }
-<<<<<<< HEAD
-=======
-    
->>>>>>> 098102bc5d23ff71171614e865d30959a58bf51c
+
 }

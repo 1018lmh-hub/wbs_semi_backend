@@ -2,8 +2,6 @@ package com.kh.plugin.noticeboard.model.service;
 
 import java.util.List;
 
-import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.ollama.api.OllamaChatOptions;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,15 +29,8 @@ public class NoticeBoardService {
 	
 	private final NoticeBoardMapper noticeBoardMapper;
 	private final Pagination pagination;
-<<<<<<< HEAD
-    private final BoardViewCounter boardViewCounter;
-	
-
-    
-=======
 	private final BoardViewCounter boardViewCounter;
-	
->>>>>>> 098102bc5d23ff71171614e865d30959a58bf51c
+
 	@Timed(value = "board_list_duration")
 	@Transactional
 	public NoticeBoardResponseAndPageInfo findAll(int page) {
@@ -58,13 +49,9 @@ public class NoticeBoardService {
 		existsByNoticeNo(noticeNo);
 		noticeBoardMapper.increaseCount(noticeNo);	
 		boardViewCounter.increment("notice");
-<<<<<<< HEAD
 		NoticeBoardResponseDto noticeBoard = noticeBoardMapper.findByNoticeNo(noticeNo);
-		
 		return noticeBoard;
-=======
-		return noticeBoardMapper.findByNoticeNo(noticeNo);
->>>>>>> 098102bc5d23ff71171614e865d30959a58bf51c
+
 	}
 	
 	private void existsByNoticeNo(Long noticeNo) {
@@ -106,7 +93,5 @@ public class NoticeBoardService {
 		checkId(user, noticeNo);
 		noticeBoardMapper.deleteNotice(noticeNo);
 	}
-	
-
 
 }

@@ -1,4 +1,5 @@
 package com.kh.plugin.inquiryboard.controller;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,6 +24,7 @@ import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/inquirys")
@@ -30,14 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 public class InquiryBoardController {
 	
 	private final InquiryBoardService inquiryBoardService;
-<<<<<<< HEAD
-	
-	
 
-	
-=======
-
->>>>>>> 098102bc5d23ff71171614e865d30959a58bf51c
 	@GetMapping
 	public ResponseEntity<ApiResponse<InquiryBoardResponseAndPageInfo>> findAll(@RequestParam(name="page", defaultValue = "1") int page){
 		InquiryBoardResponseAndPageInfo pagingInquirys = inquiryBoardService.findAll(page);

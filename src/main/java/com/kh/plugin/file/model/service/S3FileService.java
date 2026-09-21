@@ -25,14 +25,18 @@ public class S3FileService implements FileService {
 	
 	private final S3Client s3Client;
 	
-	@Value("${cloud.s3.bucket}")
+	@Value("${cloud.s3.bucket:local-dev-bucket}")
 	private String bucketName;
-	@Value("${cloud.region.static}")
+	@Value("${cloud.region.static:ap-northeast-2}")
 	private String region;
 	
 	@Override
 	public String store(AttachedFile attachedFile) {
-		
+
+		if (!attachedFile.isValid()) {
+			return null;
+		}
+
 		String fileName = attachedFile.getChangeName();
 		PutObjectRequest request = PutObjectRequest.builder().bucket(bucketName)
 														     .key(fileName)

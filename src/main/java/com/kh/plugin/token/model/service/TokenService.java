@@ -42,7 +42,7 @@ public class TokenService {
 	}
 	
 	public void logout(String userId, String token) {
-		tokenMapper.deleteToken(userId, token.replace("\"", ""));
+		tokenMapper.deleteToken(userId, token);
 	}
 	
 	public Map<String, String> tokenRotation(String refreshToken){
