@@ -3,6 +3,7 @@ package com.kh.plugin.token.model.service;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.plugin.auth.model.vo.CustomUserDetails;
 import com.kh.plugin.exception.CustomAuthenticationException;
@@ -45,6 +46,7 @@ public class TokenService {
 		tokenMapper.deleteToken(userId, token);
 	}
 	
+	@Transactional
 	public Map<String, String> tokenRotation(String refreshToken){
 		RefreshToken token = tokenMapper.findByToken(refreshToken);
 		if(token == null || token.getExpiration() < System.currentTimeMillis()) {
@@ -54,6 +56,7 @@ public class TokenService {
 		String userId = claims.getSubject();
 		String nickname = (String)claims.get("nickname");
 		CustomUserDetails user = CustomUserDetails.builder().nickname(nickname).username(userId).build();
+		tokenMapper.deleteToken(userId, refreshToken);
 		Map<String, String> tokens = createTokens(user);
 		saveToken(tokens.get("refreshToken"), userId);
 		return tokens;
